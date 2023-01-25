@@ -1,8 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, Text, StatusBar } from 'react-native'
+import {
+  StyleSheet,
+  ImageBackground,
+  View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
+} from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import Button from 'components/Button'
 import { colors } from 'theme'
@@ -18,6 +26,9 @@ const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
   const [recordings, setRecordings] = React.useState([])
   const dispatch = useDispatch()
+  const image = {
+    uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
+  }
 
   async function startRecording() {
     try {
@@ -83,18 +94,33 @@ const Details = ({ route, navigation }) => {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
-      <Button
-        title={recording ? 'Stop Recording' : 'Start Recording'}
-        onPress={recording ? stopRecording : startRecording}
-      />
-      <Button
-        title="Go Back"
-        color="white"
-        backgroundColor={colors.pink}
-        onPress={navigation.goBack}
-      />
-      <Text>Your text is {translatedText}</Text>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        <View style={styles.theySaid}>
+          <Text style={styles.theySaidTag}>They said:</Text>
+          <Text style={styles.yourTranslation}>{translatedText}</Text>
+        </View>
+        <StatusBar barStyle="light-content" />
+        <View>
+          <TouchableOpacity
+            style={recording ? styles.recordButtonOff : styles.recordButtonOn}
+            title={recording ? 'STOP' : 'RECORD'}
+            onPress={recording ? stopRecording : startRecording}
+          >
+            <MaterialCommunityIcons
+              name={recording ? 'microphone-off' : 'microphone'}
+              size={35}
+              color={colors.white}
+            />
+          </TouchableOpacity>
+          <Text
+            title="Go Back"
+            color="white"
+            style={styles.tempBackButton}
+            backgroundColor={colors.pink}
+            onPress={navigation.goBack}
+          />
+        </View>
+      </ImageBackground>
     </View>
   )
 }
@@ -114,16 +140,58 @@ Details.defaultProps = {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  recordButtonOn: {
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: colors.primary,
+    color: colors.white,
+  },
+  recordButtonOff: {
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: colors.pink,
+    color: colors.white,
+  },
   root: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: colors.lightGrayPurple,
+  },
+  tempBackButton: {
+    fontSize: 2,
+  },
+  theySaid: {
+    height: '60%',
+    width: '100%',
+    backgroundColor: colors.primary,
+    padding: 20,
+  },
+  theySaidTag: {
+    textTransform: 'uppercase',
+    color: colors.white,
   },
   title: {
     fontSize: 24,
-    marginBottom: 20,
+    marginBottom: 40,
+  },
+  yourTranslation: {
+    marginTop: 20,
+    color: colors.white,
+    fontSize: 38,
+    fontFamily: 'Cochin',
   },
 })
 
