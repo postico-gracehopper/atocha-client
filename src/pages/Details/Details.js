@@ -1,32 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
-import Button from 'components/Button'
+import { StyleSheet, View, StatusBar } from 'react-native'
 import { Audio } from 'expo-av'
-import { colors } from 'theme'
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.lightGrayPurple,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-})
+import Button from 'components/Button'
+import { colors } from 'theme'
 
 const Details = ({ route, navigation }) => {
   const from = route?.params?.from
+  // MV the above seems navigation-based but isn't used?
 
   const [recording, setRecording] = React.useState()
+  const [recordings, setRecordings] = React.useState([])
 
   async function startRecording() {
     try {
-      console.log('Requesting permissions..')
+      console.log('Requesting permission from the phone..')
       await Audio.requestPermissionsAsync()
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
@@ -44,6 +33,14 @@ const Details = ({ route, navigation }) => {
     }
   }
 
+  function getDurationFormatted(millis) {
+    const minutes = millis / 1000 / 60
+    const minutesDisplay = Math.floor(minutes)
+    const seconds = Math.round((minutes - minutesDisplay) * 60)
+    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds
+    return `${minutesDisplay}:${secondsDisplay}`
+  }
+
   async function stopRecording() {
     console.log('Stopping recording..')
     setRecording(undefined)
@@ -52,6 +49,16 @@ const Details = ({ route, navigation }) => {
       allowsRecordingIOS: false,
     })
     const uri = recording.getURI()
+
+    let updatedRecordings = [...recordings]
+
+    const { sound, status } = await recording.createNewLoadedSoundAsync()
+    updatedRecordings.push({
+      sound: sound,
+      duration: getDurationFormatted(status.durationMillis),
+      file: recording.getURI(),
+    })
+    setRecordings(updatedRecordings)
     console.log('Recording stopped and stored at', uri)
   }
 
@@ -85,5 +92,19 @@ Details.defaultProps = {
   route: { params: { from: '' } },
   navigation: { goBack: () => null },
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.lightGrayPurple,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+})
 
 export default Details
