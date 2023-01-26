@@ -16,9 +16,14 @@ export const SocketHandler = async (uri) => {
     console.log('connected to server! (client side)')
 
     socket.emit('audio', audio)
+
     // on('data', (chunk) => {
     //   console.log(chunk)
     //   socket.emit('audio', chunk)
     // })
+  })
+
+  socket.on('answer', (answer) => {
+    //update slice's translatedtext
   })
 }
