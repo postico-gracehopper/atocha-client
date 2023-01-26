@@ -22,6 +22,7 @@
     "expo-asset": "~8.7.0",
     "expo-av": "~13.0.2",
     "expo-cli": "^4.13.0",
+    "expo-file-system": "^15.1.1",
     "expo-font": "~11.0.1",
     "expo-updates": "~0.15.6",
     "ffmpeg": "^0.0.4",
@@ -43,7 +44,8 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "socket.io-client": "^4.5.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

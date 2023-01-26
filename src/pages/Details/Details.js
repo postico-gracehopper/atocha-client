@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Button from 'components/Button'
 import { colors } from 'theme'
 import { submitRecordingAsync } from '../../slices/recordingSlice'
+import { SocketHandler } from './SocketHandler'
 
 const Details = ({ route, navigation }) => {
   const from = route?.params?.from
@@ -67,16 +68,19 @@ const Details = ({ route, navigation }) => {
     })
 
     const uri = recording.getURI()
+    console.log('stop recording entered')
 
-    let updatedRecordings = [...recordings]
+    const response = SocketHandler(uri)
 
-    const { sound, status } = await recording.createNewLoadedSoundAsync()
-    updatedRecordings.push({
-      sound: sound,
-      duration: getDurationFormatted(status.durationMillis),
-      file: recording.getURI(),
-    })
-    setRecordings(updatedRecordings)
+    // let updatedRecordings = [...recordings]
+
+    // const { sound, status } = await recording.createNewLoadedSoundAsync()
+    // updatedRecordings.push({
+    //   sound: sound,
+    //   duration: getDurationFormatted(status.durationMillis),
+    //   file: recording.getURI(),
+    // })
+    // setRecordings(updatedRecordings)
 
     try {
       dispatch(submitRecordingAsync(uri))
