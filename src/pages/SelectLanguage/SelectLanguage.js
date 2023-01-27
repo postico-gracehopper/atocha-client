@@ -1,8 +1,9 @@
 import { useState, useEffect, React } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
-import { colors } from 'theme'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+
+import languages from './languageList'
 import {
   setInputLanguage,
   setOutputLanguage,
@@ -40,9 +41,13 @@ export default function SelectLanguage() {
         style={styles.picker}
         onValueChange={onInputValueChange}
       >
-        <Picker.Item label="English" value="english" />
-        <Picker.Item label="French" value="french" />
-        <Picker.Item label="Spanish" value="spanish" />
+        {languages.map(({ languageName, languageCode }) => (
+          <Picker.Item
+            key={languageCode}
+            label={languageName}
+            value={languageCode}
+          />
+        ))}
       </Picker>
       <Text>Please select an output language:</Text>
       <Picker
@@ -50,9 +55,13 @@ export default function SelectLanguage() {
         style={styles.picker}
         onValueChange={onOutputValueChange}
       >
-        <Picker.Item label="English" value="english" />
-        <Picker.Item label="French" value="french" />
-        <Picker.Item label="Spanish" value="spanish" />
+        {languages.map(({ languageName, languageCode }) => (
+          <Picker.Item
+            key={languageCode}
+            label={languageName}
+            value={languageCode}
+          />
+        ))}
       </Picker>
     </View>
   )
