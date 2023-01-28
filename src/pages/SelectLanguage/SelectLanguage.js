@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { useDispatch } from 'react-redux'
 
+import colors from '../../theme/colors'
 import languages from './languageList'
 import {
   setInputLanguage,
@@ -35,11 +36,14 @@ export default function SelectLanguage() {
 
   return (
     <View style={styles.container}>
-      <Text>Please select an input language:</Text>
+      <Text style={styles.chooseText}>I'd like...</Text>
       <Picker
         selectedValue={chosenInput}
         style={styles.picker}
         onValueChange={onInputValueChange}
+        itemStyle={{
+          color: colors.white,
+        }}
       >
         {languages.map(({ languageName, languageCode }) => (
           <Picker.Item
@@ -49,11 +53,14 @@ export default function SelectLanguage() {
           />
         ))}
       </Picker>
-      <Text>Please select an output language:</Text>
+      <Text style={styles.chooseText}>Translated into...</Text>
       <Picker
         selectedValue={chosenOutput}
         style={styles.picker}
         onValueChange={onOutputValueChange}
+        itemStyle={{
+          color: colors.white,
+        }}
       >
         {languages.map(({ languageName, languageCode }) => (
           <Picker.Item
@@ -72,8 +79,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.primary,
+    paddingTop: 50,
+    paddingBottom: 50,
   },
   picker: {
-    width: 200,
+    width: 400,
+  },
+  chooseText: {
+    color: colors.white,
+    fontSize: 32,
+    fontFamily: 'Cochin',
   },
 })
