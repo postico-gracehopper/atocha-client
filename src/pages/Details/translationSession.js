@@ -3,10 +3,13 @@ import { io } from 'socket.io-client'
 
 export default function translationSession({ uri, langSource, langTarget }) {
   return new Promise((resolve, reject) => {
-    try {
-      readAsStringAsync(uri, {
-        encoding: EncodingType.Base64,
-      }).then((audioBase64) => {
+    readAsStringAsync(uri, {
+      encoding: EncodingType.Base64,
+    })
+      .catch((err) => {
+        reject(new Error(`could not read recording uri: ${uri}, error: ${err}`))
+      })
+      .then((audioBase64) => {
         const socket = io('http://127.0.0.1:3000') // !@# need some ternary for TEST / LOCAL / PRODUCTION
         socket.on('connect', () => {
           socket.emit('audio', {
@@ -18,10 +21,9 @@ export default function translationSession({ uri, langSource, langTarget }) {
         })
         socket.on('final-translation', (finalTranslation) => {
           resolve(finalTranslation)
+          socket.disconnect()
         })
+        socket.on('err', (err) => reject(err))
       })
-    } catch (err) {
-      reject(err)
-    }
   })
 }
