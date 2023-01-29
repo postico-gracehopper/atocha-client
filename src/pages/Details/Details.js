@@ -15,7 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Button from 'components/Button'
 import { colors } from 'theme'
 import { submitRecordingAsync } from '../../slices/recordingSlice'
-import { SocketHandler } from './SocketHandler'
+import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
   const from = route?.params?.from
@@ -67,10 +67,20 @@ const Details = ({ route, navigation }) => {
       allowsRecordingIOS: false,
     })
 
-    const uri = recording.getURI()
+    const uri = await recording.getURI()
     console.log('stop recording entered')
 
-    const response = SocketHandler(uri)
+    translationSession({
+      uri,
+      langSource: 'en-US',
+      langTarget: 'es-ES',
+    })
+      .then((textFromGoogle) => {
+        console.log(textFromGoogle)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
 
     // let updatedRecordings = [...recordings]
 
@@ -82,14 +92,14 @@ const Details = ({ route, navigation }) => {
     // })
     // setRecordings(updatedRecordings)
 
-    try {
-      dispatch(submitRecordingAsync(uri))
-    } catch (err) {
-      console.error('Failed to send recording (POST where??)', err)
-      err.innerText = err.response
-        ? err.response.data.message
-        : 'Request Timed Out'
-    }
+    // try {
+    //   dispatch(submitRecordingAsync(uri))
+    // } catch (err) {
+    //   console.error('Failed to send recording (POST where??)', err)
+    //   err.innerText = err.response
+    //     ? err.response.data.message
+    //     : 'Request Timed Out'
+    // }
 
     // console.log('Recording stopped and stored at', uri)
     // console.log('UpdatedRecordings isss', updatedRecordings)

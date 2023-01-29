@@ -1,13 +1,13 @@
 import { readAsStringAsync, EncodingType } from 'expo-file-system'
 import { io } from 'socket.io-client'
 
-export default function translationHandler({ uri, langSource, langTarget }) {
+export default function translationSession({ uri, langSource, langTarget }) {
   return new Promise((resolve, reject) => {
     try {
       readAsStringAsync(uri, {
         encoding: EncodingType.Base64,
       }).then((audioBase64) => {
-        const socket = io('http://127.0.0.1:3000') // need some ternary for TEST / LOCAL / PRODUCTION
+        const socket = io('http://127.0.0.1:3000') // !@# need some ternary for TEST / LOCAL / PRODUCTION
         socket.on('connect', () => {
           socket.emit('audio', {
             langSource,
