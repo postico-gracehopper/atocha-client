@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet, Text, View, StatusBar,
-} from 'react-native'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
 
@@ -30,6 +28,22 @@ const Home = ({ navigation }) => (
       backgroundColor={colors.lightPurple}
       onPress={() => {
         navigation.navigate('Details', { from: 'Home' })
+      }}
+    />
+    <Button
+      title="Go to Login"
+      color="white"
+      backgroundColor={colors.lightPurple}
+      onPress={() => {
+        navigation.navigate('Login', { from: 'Home' })
+      }}
+    />
+    <Button
+      title="Select Language"
+      color="white"
+      backgroundColor={colors.lightPurple}
+      onPress={() => {
+        navigation.navigate('SelectLanguage', { from: 'Home' })
       }}
     />
   </View>

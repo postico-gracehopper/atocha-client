@@ -4,6 +4,8 @@ import { colors } from 'theme'
 import Home from 'pages/Home'
 import Profile from 'pages/Profile'
 import Details from 'pages/Details'
+import SelectLanguage from '../../pages/SelectLanguage'
+import Login from 'pages/Login'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
 
@@ -46,6 +48,22 @@ export const HomeNavigator = () => (
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         headerTitle: () => <HeaderTitle />,
       })}
+    />
+    <Stack.Screen
+      name="Login"
+      component={Login}
+      options={({ navigation }) => ({
+        title: 'Home',
+        headerLeft: () => <HeaderLeft navigation={navigation} />,
+        headerTitle: () => <HeaderTitle />,
+      })}
+    />
+    <Stack.Screen
+      name="SelectLanguage"
+      component={SelectLanguage}
+      options={{
+        title: 'SelectLanguage',
+      }}
     />
   </Stack.Navigator>
 )
