@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -10,6 +11,7 @@ import {
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import Button from 'components/Button'
@@ -41,6 +43,7 @@ const Details = ({ route, navigation }) => {
       })
 
       console.log('Starting recording..')
+      // eslint-disable-next-line no-shadow
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY,
       )

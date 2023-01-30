@@ -31,8 +31,6 @@ const recordingSlice = createSlice({
   },
 })
 
-export const selectCurrentText = (state) => {
-  return state.recording.currentText
-}
+export const selectCurrentText = (state) => state.recording.currentText
 
 export default recordingSlice.reducer
