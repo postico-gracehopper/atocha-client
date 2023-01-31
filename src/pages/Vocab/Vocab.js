@@ -6,17 +6,16 @@ import axios from 'axios'
 const dummyData =
   'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.'
 
-export default function Home() {
+export default function Vocab() {
   const currInput = useSelector((state) => state.targetLanguage.input)
   const currOutput = useSelector((state) => state.targetLanguage.output)
   const [result, setResult] = useState()
 
   async function onSubmit(event) {
     event.preventDefault()
+
     // First, generate the vocab list given the recent conversation and output language.
     try {
-      console.log('Currinput issss', currInput)
-      console.log('CurrOutput issss', currOutput)
       const response = await axios({
         method: 'post',
         url: 'http://localhost:3000/api/generateVocab',
@@ -41,8 +40,10 @@ export default function Home() {
 
   return (
     <View>
-      <Button onPress={onSubmit} title="Press me" />
+      {/* <Button onPress={onSubmit} title="Press me" /> */}
+      <Button title="Press me" />
       <View>
+        <Text onPress={onSubmit}>Testing</Text>
         <Text style={styles.vocabList}>{result}</Text>
       </View>
     </View>
