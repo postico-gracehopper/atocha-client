@@ -27,6 +27,8 @@ const Details = ({ route, navigation }) => {
   const isTranslationFinal = useSelector(
     (state) => state.recording.isTranslationFinal,
   )
+  const langSource = useSelector((state) => state.targetLanguage.input)
+  const langTarget = useSelector((state) => state.targetLanguage.output)
 
   const dispatch = useDispatch()
   const image = {
@@ -68,8 +70,8 @@ const Details = ({ route, navigation }) => {
 
     translationSession({
       uri,
-      langSource: 'en-US',
-      langTarget: 'es-ES',
+      langSource: langSource,
+      langTarget: langTarget,
       dispatch,
     })
       .then((textFromGoogle) => {
