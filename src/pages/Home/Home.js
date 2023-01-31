@@ -46,6 +46,14 @@ const Home = ({ navigation }) => (
         navigation.navigate('SelectLanguage', { from: 'Home' })
       }}
     />
+    <Button
+      title="Vocab"
+      color="white"
+      backgroundColor={colors.lightPurple}
+      onPress={() => {
+        navigation.navigate('Vocab', { from: 'Home' })
+      }}
+    />
   </View>
 )
 
