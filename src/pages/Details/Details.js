@@ -11,29 +11,31 @@ import {
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import Button from 'components/Button'
 import { colors } from 'theme'
-import { submitRecordingAsync } from '../../slices/recordingSlice'
+import {
+  setCurrentText,
+  setIsTranslationFinal,
+} from '../../slices/recordingSlice'
 import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
-  const from = route?.params?.from
-  // MV the above seems navigation-based but isn't used?
-  const translatedText = useSelector((state) => state.recording.currentText)
-  // MV it wasn't working with useSelector(selectCurrentText) so I'm trying this,
-  // as it worked when the prior didn't in Postico Ski Shop
-
   const [recording, setRecording] = React.useState()
-  const [recordings, setRecordings] = React.useState([])
+
+  const translatedText = useSelector((state) => state.recording.currentText)
+  const isTranslationFinal = useSelector(
+    (state) => state.recording.isTranslationFinal,
+  )
+
   const dispatch = useDispatch()
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
   }
 
   async function startRecording() {
+    dispatch(setCurrentText(''))
+    dispatch(setIsTranslationFinal(false))
     try {
       console.log('Requesting permission from the phone..')
       await Audio.requestPermissionsAsync()
@@ -43,7 +45,6 @@ const Details = ({ route, navigation }) => {
       })
 
       console.log('Starting recording..')
-      // eslint-disable-next-line no-shadow
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY,
       )
@@ -52,14 +53,6 @@ const Details = ({ route, navigation }) => {
     } catch (err) {
       console.error('Failed to start recording', err)
     }
-  }
-
-  function getDurationFormatted(millis) {
-    const minutes = millis / 1000 / 60
-    const minutesDisplay = Math.floor(minutes)
-    const seconds = Math.round((minutes - minutesDisplay) * 60)
-    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds
-    return `${minutesDisplay}:${secondsDisplay}`
   }
 
   async function stopRecording() {
@@ -77,36 +70,14 @@ const Details = ({ route, navigation }) => {
       uri,
       langSource: 'en-US',
       langTarget: 'es-ES',
+      dispatch,
     })
       .then((textFromGoogle) => {
-        console.log(textFromGoogle)
+        console.log('text from google: ', textFromGoogle)
       })
       .catch((err) => {
         console.error(err)
       })
-
-    // let updatedRecordings = [...recordings]
-
-    // const { sound, status } = await recording.createNewLoadedSoundAsync()
-    // updatedRecordings.push({
-    //   sound: sound,
-    //   duration: getDurationFormatted(status.durationMillis),
-    //   file: recording.getURI(),
-    // })
-    // setRecordings(updatedRecordings)
-
-    // try {
-    //   dispatch(submitRecordingAsync(uri))
-    // } catch (err) {
-    //   console.error('Failed to send recording (POST where??)', err)
-    //   err.innerText = err.response
-    //     ? err.response.data.message
-    //     : 'Request Timed Out'
-    // }
-
-    // console.log('Recording stopped and stored at', uri)
-    // console.log('UpdatedRecordings isss', updatedRecordings)
-    // console.log('Most recent file is here:', recording.getURI())
   }
 
   return (
@@ -114,7 +85,11 @@ const Details = ({ route, navigation }) => {
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.theySaid}>
           <Text style={styles.theySaidTag}>They said:</Text>
-          <Text style={styles.yourTranslation}>{translatedText}</Text>
+          {isTranslationFinal ? (
+            <Text style={styles.finalTranslation}>{translatedText}</Text>
+          ) : (
+            <Text style={styles.partialTranslation}>{translatedText}</Text>
+          )}
         </View>
         <StatusBar barStyle="light-content" />
         <View>
@@ -199,15 +174,22 @@ const styles = StyleSheet.create({
   theySaidTag: {
     textTransform: 'uppercase',
     color: colors.white,
+    fontSize: 20,
   },
   title: {
     fontSize: 24,
     marginBottom: 40,
   },
-  yourTranslation: {
+  partialTranslation: {
+    marginTop: 20,
+    color: colors.gray,
+    fontSize: 30,
+    fontFamily: 'Cochin',
+  },
+  finalTranslation: {
     marginTop: 20,
     color: colors.white,
-    fontSize: 38,
+    fontSize: 30,
     fontFamily: 'Cochin',
   },
 })

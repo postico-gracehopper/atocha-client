@@ -1,7 +1,11 @@
 import { readAsStringAsync, EncodingType } from 'expo-file-system'
 import { io } from 'socket.io-client'
+import {
+  setCurrentText,
+  setIsTranslationFinal,
+} from '../../slices/recordingSlice'
 
-export default function translationSession({ uri, langSource, langTarget }) {
+const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
   return new Promise((resolve, reject) => {
     readAsStringAsync(uri, {
       encoding: EncodingType.Base64,
@@ -19,7 +23,12 @@ export default function translationSession({ uri, langSource, langTarget }) {
             fileFormat: 'm4a',
           })
         })
+        socket.on('partial-translation', (partialTranslation) => {
+          dispatch(setCurrentText(partialTranslation.translation))
+        })
         socket.on('final-translation', (finalTranslation) => {
+          dispatch(setCurrentText(finalTranslation.translation))
+          dispatch(setIsTranslationFinal(true))
           resolve(finalTranslation)
           socket.disconnect()
         })
@@ -27,3 +36,5 @@ export default function translationSession({ uri, langSource, langTarget }) {
       })
   })
 }
+
+export default translationSession
