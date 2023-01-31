@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
   ImageBackground,
@@ -9,26 +9,27 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
+import PropTypes from 'prop-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { colors } from 'theme'
+
 import {
   setCurrentText,
   setIsTranslationFinal,
-} from '../../slices/recordingSlice'
+} from '../../slices/translationSlice'
 import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
 
-  const translatedText = useSelector((state) => state.recording.currentText)
+  const translatedText = useSelector((state) => state.translation.currentText)
   const isTranslationFinal = useSelector(
-    (state) => state.recording.isTranslationFinal,
+    (state) => state.translation.isTranslationFinal,
   )
-  const langSource = useSelector((state) => state.languageSelector.input)
-  const langTarget = useSelector((state) => state.languageSelector.output)
+  const langSource = useSelector((state) => state.languagePicker.input)
+  const langTarget = useSelector((state) => state.languagePicker.output)
 
   const dispatch = useDispatch()
   const image = {

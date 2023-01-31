@@ -8,11 +8,11 @@ import languages from './languageList'
 import {
   setInputLanguage,
   setOutputLanguage,
-} from '../../slices/languageSelectorSlice'
+} from '../../slices/languagePickerSlice'
 
 export default function SelectLanguage() {
-  const chosenInput = useSelector((state) => state.languageSelector.input)
-  const chosenOutput = useSelector((state) => state.languageSelector.output)
+  const chosenInput = useSelector((state) => state.languagePicker.input)
+  const chosenOutput = useSelector((state) => state.languagePicker.output)
 
   const dispatch = useDispatch()
 

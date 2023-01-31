@@ -5,13 +5,13 @@ import {
 } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import appReducer from 'slices/app.slice'
-import recordingReducer from 'slices/recordingSlice'
-import languageSelectorReducer from 'slices/languageSelectorSlice'
+import translationReducer from 'slices/translationSlice'
+import languagePickerReducer from 'slices/languagePickerSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
-  recording: recordingReducer,
-  languageSelector: languageSelectorReducer,
+  translation: translationReducer,
+  languagePicker: languagePickerReducer,
   // add more reducers
 })
 

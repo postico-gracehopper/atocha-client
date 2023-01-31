@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 import {
   setCurrentText,
   setIsTranslationFinal,
-} from '../../slices/recordingSlice'
+} from '../../slices/translationSlice'
 
 const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
   return new Promise((resolve, reject) => {
