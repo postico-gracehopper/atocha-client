@@ -27,8 +27,8 @@ const Details = ({ route, navigation }) => {
   const isTranslationFinal = useSelector(
     (state) => state.recording.isTranslationFinal,
   )
-  const langSource = useSelector((state) => state.targetLanguage.input)
-  const langTarget = useSelector((state) => state.targetLanguage.output)
+  const langSource = useSelector((state) => state.languageSelector.input)
+  const langTarget = useSelector((state) => state.languageSelector.output)
 
   const dispatch = useDispatch()
   const image = {

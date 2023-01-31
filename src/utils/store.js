@@ -6,12 +6,12 @@ import {
 import logger from 'redux-logger'
 import appReducer from 'slices/app.slice'
 import recordingReducer from 'slices/recordingSlice'
-import targetLanguageReducer from 'slices/targetLanguageSlice'
+import languageSelectorReducer from 'slices/languageSelectorSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
   recording: recordingReducer,
-  targetLanguage: targetLanguageReducer,
+  languageSelector: languageSelectorReducer,
   // add more reducers
 })
 

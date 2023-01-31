@@ -6,8 +6,8 @@ const initialState = {
   output: 'es-MX',
 }
 
-const targetLanguageSlice = createSlice({
-  name: 'targetLanguage',
+const languageSelectorSlice = createSlice({
+  name: 'languageSelector',
   initialState,
   reducers: {
     setInputLanguage: (state, action) => {
@@ -20,6 +20,6 @@ const targetLanguageSlice = createSlice({
 })
 
 export const { setInputLanguage, setOutputLanguage } =
-  targetLanguageSlice.actions
+  languageSelectorSlice.actions
 
-export default targetLanguageSlice.reducer
+export default languageSelectorSlice.reducer
