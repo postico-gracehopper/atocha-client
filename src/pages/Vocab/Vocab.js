@@ -3,8 +3,11 @@ import { View, Button, Text, ActivityIndicator, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 
+import colors from '../../theme/colors'
+import languages from '../SelectLanguage/languageList'
+
 const dummyData =
-  'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.'
+  'One of the best places to be is around the Canal and Republique. Restaurants, bakeries, bars, cafes, and cute shops are all around. And no major tourist destinations means that the crowds are not as thick.'
 
 const Loading = () => {
   return (
@@ -21,6 +24,10 @@ export default function Vocab() {
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
+  const outputLangText = languages.find(
+    (language) => language.languageCode === currOutput,
+  ).languageName
+
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
@@ -32,6 +39,7 @@ export default function Vocab() {
         data: {
           inputLang: currInput,
           outputLang: currOutput,
+          conversation: dummyData,
         },
       })
       const { data } = response
@@ -55,8 +63,15 @@ export default function Vocab() {
         <Loading />
       ) : (
         <View>
-          {result ? <Text>{result}</Text> : <Text>No result yet</Text>}
-          <Button title="Submit" onPress={onSubmit} />
+          {result ? (
+            <Text style={styles.vocabList}>{result}</Text>
+          ) : (
+            <Text>
+              No vocabulary words yet. Click below and we'll suggest some{' '}
+              {outputLangText} words based on your recent conversation!
+            </Text>
+          )}
+          <Button title="Suggest vocabulary" onPress={onSubmit} />
         </View>
       )}
     </View>
@@ -64,6 +79,14 @@ export default function Vocab() {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    resizeMode: 'stretch',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -79,6 +102,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   vocabList: {
-    padding: 20,
+    fontFamily: 'Cochin',
+    fontSize: 24,
+    lineHeight: 28,
+    color: colors.primary,
+    textAlign: 'center',
   },
 })
