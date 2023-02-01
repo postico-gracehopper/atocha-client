@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
+import Logout from '../Login/Logout'
+import { getAuth } from 'firebase/auth'
 
 const styles = StyleSheet.create({
   root: {
@@ -16,38 +18,52 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  greeting: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
 })
 
-const Home = ({ navigation }) => (
-  <View style={styles.root}>
-    <StatusBar barStyle="light-content" />
-    <Text style={styles.title}>Home</Text>
-    <Button
-      title="Go to Details"
-      color="white"
-      backgroundColor={colors.lightPurple}
-      onPress={() => {
-        navigation.navigate('Details', { from: 'Home' })
-      }}
-    />
-    <Button
-      title="Go to Login"
-      color="white"
-      backgroundColor={colors.lightPurple}
-      onPress={() => {
-        navigation.navigate('Login', { from: 'Home' })
-      }}
-    />
-    <Button
-      title="Select Language"
-      color="white"
-      backgroundColor={colors.lightPurple}
-      onPress={() => {
-        navigation.navigate('SelectLanguage', { from: 'Home' })
-      }}
-    />
-  </View>
-)
+const Home = ({ navigation }) => {
+  const auth = getAuth()
+  const user = auth.currentUser
+  return (
+    <View style={styles.root}>
+      <StatusBar barStyle="light-content" />
+      <Text>
+        {user !== null ? (
+          <Text style={styles.greeting}>{`Welcome ${user.email}!`}</Text>
+        ) : null}
+      </Text>
+      <Text style={styles.title}>Home</Text>
+      <Button
+        title="Go to Details"
+        color="white"
+        backgroundColor={colors.lightPurple}
+        onPress={() => {
+          navigation.navigate('Details', { from: 'Home' })
+        }}
+      />
+      <Button
+        title="Go to Login"
+        color="white"
+        backgroundColor={colors.lightPurple}
+        onPress={() => {
+          navigation.navigate('Login', { from: 'Home' })
+        }}
+      />
+      <Button
+        title="Select Language"
+        color="white"
+        backgroundColor={colors.lightPurple}
+        onPress={() => {
+          navigation.navigate('SelectLanguage', { from: 'Home' })
+        }}
+      />
+      <Logout />
+    </View>
+  )
+}
 
 Home.propTypes = {
   navigation: PropTypes.shape({
