@@ -38,40 +38,44 @@ export default function SelectLanguage() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.chooseText}>I'd like...</Text>
-      <Picker
-        selectedValue={currInput}
-        style={styles.picker}
-        onValueChange={onInputValueChange}
-        itemStyle={{
-          color: colors.white,
-        }}
-      >
-        {languages.map(({ languageName, languageCode }) => (
-          <Picker.Item
-            key={languageCode}
-            label={languageName}
-            value={languageCode}
-          />
-        ))}
-      </Picker>
-      <Text style={styles.chooseText}>Translated into...</Text>
-      <Picker
-        selectedValue={chosenOutput}
-        style={styles.picker}
-        onValueChange={onOutputValueChange}
-        itemStyle={{
-          color: colors.white,
-        }}
-      >
-        {languages.map(({ languageName, languageCode }) => (
-          <Picker.Item
-            key={languageCode}
-            label={languageName}
-            value={languageCode}
-          />
-        ))}
-      </Picker>
+      <View style={styles.languageContainer}>
+        <Text style={styles.chooseText}>I'd like...</Text>
+        <Picker
+          selectedValue={currInput}
+          style={styles.picker}
+          onValueChange={onInputValueChange}
+          itemStyle={{
+            color: colors.white,
+          }}
+        >
+          {languages.map(({ languageName, languageCode }) => (
+            <Picker.Item
+              key={languageCode}
+              label={languageName}
+              value={languageCode}
+            />
+          ))}
+        </Picker>
+      </View>
+      <View style={styles.languageContainer}>
+        <Text style={styles.chooseText}>Translated into...</Text>
+        <Picker
+          selectedValue={chosenOutput}
+          style={styles.picker}
+          onValueChange={onOutputValueChange}
+          itemStyle={{
+            color: colors.white,
+          }}
+        >
+          {languages.map(({ languageName, languageCode }) => (
+            <Picker.Item
+              key={languageCode}
+              label={languageName}
+              value={languageCode}
+            />
+          ))}
+        </Picker>
+      </View>
     </View>
   )
 }
@@ -84,6 +88,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingTop: 50,
     paddingBottom: 50,
+  },
+  languageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.primary,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   picker: {
     width: 400,
