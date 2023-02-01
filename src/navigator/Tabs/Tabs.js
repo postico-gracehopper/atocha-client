@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import FontIcon from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { colors } from 'theme'
 
 // MV stack navigators - we don't need these for now,
@@ -29,7 +29,7 @@ const TabNavigator = () => (
         switch (route.name) {
           case 'Details':
             return (
-              <FontIcon
+              <FontAwesome5
                 name="home"
                 color={focused ? colors.brightPrimary : colors.fadedPrimary}
                 size={20}
@@ -38,7 +38,7 @@ const TabNavigator = () => (
             )
           case 'Language':
             return (
-              <FontIcon
+              <FontAwesome5
                 name="user"
                 color={focused ? colors.brightPrimary : colors.fadedPrimary}
                 size={20}
@@ -47,8 +47,8 @@ const TabNavigator = () => (
             )
           case 'Vocab':
             return (
-              <FontIcon
-                name="user"
+              <FontAwesome5
+                name="book-open"
                 color={focused ? colors.brightPrimary : colors.fadedPrimary}
                 size={20}
                 solid
@@ -61,7 +61,7 @@ const TabNavigator = () => (
     })}
   >
     <Tab.Screen name="Details" component={Details} />
-    <Tab.Screen name="Language" component={SelectLanguage} />
+    {/* <Tab.Screen name="Language" component={SelectLanguage} /> */}
     <Tab.Screen name="Vocab" component={Vocab} />
   </Tab.Navigator>
 )
