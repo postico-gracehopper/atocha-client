@@ -20,6 +20,9 @@ export const fontAssets = [
   {
     openSans_bold_italic: require('../../assets/fonts/OpenSans-BoldItalic.ttf'),
   },
+  {
+    arsilon: require('../../assets/fonts/Arsilon.ttf'),
+  },
 ].map((x) => Font.loadAsync(x))
 
 const fonts = {
