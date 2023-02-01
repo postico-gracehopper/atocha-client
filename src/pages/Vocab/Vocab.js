@@ -48,9 +48,6 @@ export default function Vocab() {
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
-    console.log('Input lang iss', inputLangText)
-    console.log('Output lang iss', outputLangText)
-    console.log('Current message iss', currentMessage)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
@@ -63,7 +60,6 @@ export default function Vocab() {
         },
       })
       const { data } = response
-      console.log('data issss', data)
       if (response.status !== 200) {
         throw (
           data.error ||
