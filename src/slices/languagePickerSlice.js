@@ -1,13 +1,13 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 
+// TODO test all the language pairs with Google
 const initialState = {
-  input: 'Spanish',
-  output: 'English',
+  input: 'en-US',
+  output: 'es-MX',
 }
 
-const targetLanguageSlice = createSlice({
-  name: 'targetLanguage',
+const languagePickerSlice = createSlice({
+  name: 'languagePicker',
   initialState,
   reducers: {
     setInputLanguage: (state, action) => {
@@ -20,5 +20,6 @@ const targetLanguageSlice = createSlice({
 })
 
 export const { setInputLanguage, setOutputLanguage } =
-  targetLanguageSlice.actions
-export default targetLanguageSlice.reducer
+  languagePickerSlice.actions
+
+export default languagePickerSlice.reducer

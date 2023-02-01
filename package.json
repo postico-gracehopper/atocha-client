@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^16.7.0",
+    "@expo/vector-icons": "^13.0.0",
     "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-native-picker/picker": "^2.4.8",
     "@react-navigation/bottom-tabs": "^5.11.2",
