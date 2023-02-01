@@ -1,4 +1,4 @@
-import { useState, useEffect, React } from 'react'
+import { React } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,32 +8,20 @@ import languages from './languageList'
 import {
   setInputLanguage,
   setOutputLanguage,
-} from '../../slices/targetLanguageSlice'
+} from '../../slices/languagePickerSlice'
 
 export default function SelectLanguage() {
-  const currInput = useSelector((state) => state.targetLanguage.input)
-  const currOutput = useSelector((state) => state.targetLanguage.output)
-  const [chosenInput, setChosenInput] = useState(currInput)
-  const [chosenOutput, setChosenOutput] = useState(currOutput)
+  const chosenInput = useSelector((state) => state.languagePicker.input)
+  const chosenOutput = useSelector((state) => state.languagePicker.output)
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(setInputLanguage(chosenInput))
-  }, [chosenInput])
-
-  useEffect(() => {
-    dispatch(setOutputLanguage(chosenOutput))
-  }, [chosenOutput])
-
   const onInputValueChange = (itemValue) => {
-    setChosenInput(itemValue)
-    dispatch(setInputLanguage(chosenInput))
+    dispatch(setInputLanguage(itemValue))
   }
 
   const onOutputValueChange = (itemValue) => {
-    setChosenOutput(itemValue)
-    dispatch(setOutputLanguage(chosenOutput))
+    dispatch(setOutputLanguage(itemValue))
   }
 
   return (
@@ -41,7 +29,7 @@ export default function SelectLanguage() {
       <View style={styles.languageContainer}>
         <Text style={styles.chooseText}>I'd like...</Text>
         <Picker
-          selectedValue={currInput}
+          selectedValue={chosenInput}
           style={styles.picker}
           onValueChange={onInputValueChange}
           itemStyle={{

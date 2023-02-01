@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
   ImageBackground,
@@ -9,26 +9,33 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
+import PropTypes from 'prop-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { colors } from 'theme'
+import LanguagePicker from '../../components/LanguagePicker'
+
 import {
   setCurrentText,
   setIsTranslationFinal,
-} from '../../slices/recordingSlice'
+} from '../../slices/translationSlice'
+import {
+  setInputLanguage,
+  setOutputLanguage,
+} from '../../slices/languagePickerSlice'
+
 import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
 
-  const translatedText = useSelector((state) => state.recording.currentText)
+  const translatedText = useSelector((state) => state.translation.currentText)
   const isTranslationFinal = useSelector(
-    (state) => state.recording.isTranslationFinal,
+    (state) => state.translation.isTranslationFinal,
   )
-  const langSource = useSelector((state) => state.targetLanguage.input)
-  const langTarget = useSelector((state) => state.targetLanguage.output)
+  const langSource = useSelector((state) => state.languagePicker.input)
+  const langTarget = useSelector((state) => state.languagePicker.output)
 
   const dispatch = useDispatch()
   const image = {
@@ -82,6 +89,14 @@ const Details = ({ route, navigation }) => {
       })
   }
 
+  const onInputValueChange = (itemValue) => {
+    dispatch(setInputLanguage(itemValue))
+  }
+
+  const onOutputValueChange = (itemValue) => {
+    dispatch(setOutputLanguage(itemValue))
+  }
+
   return (
     <View style={styles.root}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -94,7 +109,12 @@ const Details = ({ route, navigation }) => {
           )}
         </View>
         <StatusBar barStyle="light-content" />
-        <View>
+        <View style={styles.controlContainer}>
+          <LanguagePicker
+            chosenLanguage={langSource}
+            onValueChange={onInputValueChange}
+            text="Translate from:"
+          />
           <TouchableOpacity
             style={recording ? styles.recordButtonOff : styles.recordButtonOn}
             title={recording ? 'STOP' : 'RECORD'}
@@ -106,12 +126,11 @@ const Details = ({ route, navigation }) => {
               color={colors.white}
             />
           </TouchableOpacity>
-          <Text
-            title="Go Back"
-            color="white"
-            style={styles.tempBackButton}
-            backgroundColor={colors.pink}
-            onPress={navigation.goBack}
+
+          <LanguagePicker
+            chosenLanguage={langTarget}
+            onValueChange={onOutputValueChange}
+            text="Translate to:"
           />
         </View>
       </ImageBackground>
@@ -145,6 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    marginTop: 20,
     borderRadius: 100,
     backgroundColor: colors.primary,
     color: colors.white,
@@ -155,6 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    marginTop: 20,
     borderRadius: 100,
     backgroundColor: colors.pink,
     color: colors.white,
@@ -163,6 +184,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: colors.lightGrayPurple,
+  },
+  controlContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tempBackButton: {
     fontSize: 2,
@@ -193,6 +220,12 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 30,
     fontFamily: 'Cochin',
+  },
+  translateText: {
+    flex: 1,
+    textTransform: 'uppercase',
+    color: colors.white,
+    fontSize: 15,
   },
 })
 
