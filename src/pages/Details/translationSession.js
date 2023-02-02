@@ -1,8 +1,10 @@
 import { readAsStringAsync, EncodingType } from 'expo-file-system'
 import { io } from 'socket.io-client'
 import {
-  setCurrentText,
+  setTranslatedText,
+  setTranscribedText,
   setIsTranslationFinal,
+  setIsTranscriptionFinal,
 } from '../../slices/translationSlice'
 
 const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
@@ -24,13 +26,31 @@ const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
           })
         })
         socket.on('partial-translation', (partialTranslation) => {
-          dispatch(setCurrentText(partialTranslation.translation))
+          dispatch(setTranslatedText(partialTranslation.translation))
         })
         socket.on('final-translation', (finalTranslation) => {
-          dispatch(setCurrentText(finalTranslation.translation))
+          dispatch(setTranslatedText(finalTranslation.translation))
           dispatch(setIsTranslationFinal(true))
-          resolve(finalTranslation)
+        })
+        socket.on('partial-transcription', (partialTranscription) => {
+          dispatch(setTranscribedText(partialTranscription))
+        })
+        socket.on('final-transcription', (finalTranscription) => {
+          if (finalTranscription === '')
+            dispatch(setTranscribedText('Please record again...'))
+          else dispatch(setTranscribedText(finalTranscription))
+
+          dispatch(setIsTranscriptionFinal(true))
+        })
+        socket.on('session-complete', () => {
+          console.log('Session complete, disconnecting socket...')
           socket.disconnect()
+          resolve('session complete')
+        })
+        socket.on('error', () => {
+          console.log('Session **error**, disconnecting socket...')
+          socket.disconnect()
+          reject('error during translation')
         })
         socket.on('err', (err) => reject(err))
       })
