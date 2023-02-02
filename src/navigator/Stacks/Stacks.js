@@ -5,10 +5,10 @@ import Home from 'pages/Home'
 import Profile from 'pages/Profile'
 import Details from 'pages/Details'
 import SelectLanguage from '../../pages/SelectLanguage'
-import Login from 'pages/Login'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
-
+import Login2 from 'pages/AuthPages'
+import SignUp from '../../pages/AuthPages/SignUp'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -49,7 +49,7 @@ export const HomeNavigator = () => (
         headerTitle: () => <HeaderTitle />,
       })}
     />
-    <Stack.Screen
+    {/* <Stack.Screen
       name="Login"
       component={Login}
       options={({ navigation }) => ({
@@ -57,12 +57,26 @@ export const HomeNavigator = () => (
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         headerTitle: () => <HeaderTitle />,
       })}
-    />
+    /> */}
     <Stack.Screen
       name="SelectLanguage"
       component={SelectLanguage}
       options={{
         title: 'SelectLanguage',
+      }}
+    />
+    <Stack.Screen
+      name="Login2"
+      component={Login2}
+      options={{
+        title: 'Login2',
+      }}
+    />
+    <Stack.Screen
+      name="SignUp"
+      component={SignUp}
+      options={{
+        title: 'SignUp',
       }}
     />
   </Stack.Navigator>

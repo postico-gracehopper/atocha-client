@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
-import Logout from '../Login/Logout'
+import Logout from '../AuthPages/Logout'
 import { getAuth } from 'firebase/auth'
 
 const styles = StyleSheet.create({
@@ -45,11 +45,19 @@ const Home = ({ navigation }) => {
         }}
       />
       <Button
-        title="Go to Login"
+        title="Login"
         color="white"
         backgroundColor={colors.lightPurple}
         onPress={() => {
-          navigation.navigate('Login', { from: 'Home' })
+          navigation.navigate('Login2', { from: 'Home' })
+        }}
+      />
+      <Button
+        title="Sign Up"
+        color="white"
+        backgroundColor={colors.lightPurple}
+        onPress={() => {
+          navigation.navigate('SignUp', { from: 'Home' })
         }}
       />
       <Button

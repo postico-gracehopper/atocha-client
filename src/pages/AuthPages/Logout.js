@@ -1,22 +1,11 @@
 import { getAuth, signOut } from 'firebase/auth'
 import { useState, useEffect } from 'react'
-import Login from './Login'
-import { createStackNavigator } from '@react-navigation/stack'
 import { Button } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const Logout = () => {
   const auth = getAuth()
-  const [logOut, setLogout] = useState(false)
-
-  const Stack = createStackNavigator()
-
-  useEffect(() => {
-    if (logOut) {
-      ;<>
-        <Stack.Screen name="Login" component={Login} />
-      </>
-    }
-  }, [logOut])
+  const navigation = useNavigation()
 
   return (
     <Button
@@ -26,6 +15,9 @@ const Logout = () => {
           .signOut()
           .then(() => {
             console.log('Sign-out successful')
+          })
+          .then(() => {
+            navigation.navigate('Login2')
           })
           .catch((error) => {
             console.log('Error signing out', error)
