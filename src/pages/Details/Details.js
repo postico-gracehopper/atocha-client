@@ -7,7 +7,7 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity,
+  TouchableOpacity, //TODO update to Pressable
 } from 'react-native'
 import { Audio } from 'expo-av'
 import PropTypes from 'prop-types'
@@ -15,10 +15,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { colors } from 'theme'
 import LanguagePicker from '../../components/LanguagePicker'
+import TextTranscriber from '../../components/TextTranscriber'
 
 import {
-  setCurrentText,
+  setTranslatedText,
+  setTranscribedText,
   setIsTranslationFinal,
+  setIsTranscriptionFinal,
 } from '../../slices/translationSlice'
 import {
   setInputLanguage,
@@ -30,10 +33,19 @@ import translationSession from './translationSession'
 const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
 
-  const translatedText = useSelector((state) => state.translation.currentText)
+  const translatedText = useSelector(
+    (state) => state.translation.translatedText,
+  )
+  const transcribedText = useSelector(
+    (state) => state.translation.transcribedText,
+  )
   const isTranslationFinal = useSelector(
     (state) => state.translation.isTranslationFinal,
   )
+  const isTranscriptionFinal = useSelector(
+    (state) => state.translation.isTranscriptionFinal,
+  )
+
   const langSource = useSelector((state) => state.languagePicker.input)
   const langTarget = useSelector((state) => state.languagePicker.output)
 
@@ -43,7 +55,9 @@ const Details = ({ route, navigation }) => {
   }
 
   async function startRecording() {
-    dispatch(setCurrentText(''))
+    dispatch(setTranscribedText(''))
+    dispatch(setIsTranscriptionFinal(false))
+    dispatch(setTranslatedText(''))
     dispatch(setIsTranslationFinal(false))
     try {
       console.log('Requesting permission from the phone..')
@@ -97,11 +111,37 @@ const Details = ({ route, navigation }) => {
     dispatch(setOutputLanguage(itemValue))
   }
 
+  const text = 'feliz cumpleaños para mi.'
+
   return (
     <View style={styles.root}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.theySaid}>
-          <Text style={styles.theySaidTag}>They said:</Text>
+          <View style={styles.headerContainer}>
+            <Text style={styles.theySaidTag}>You said:</Text>
+            <TextTranscriber
+              text={transcribedText}
+              language={langSource}
+              color={colors.white}
+              disabled={!isTranscriptionFinal}
+            />
+          </View>
+          {isTranscriptionFinal ? (
+            <Text style={styles.finalTranslation}>{transcribedText}</Text>
+          ) : (
+            <Text style={styles.partialTranslation}>{transcribedText}</Text>
+          )}
+        </View>
+        <View style={styles.theySaid}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.theySaidTag}>Translated:</Text>
+            <TextTranscriber
+              text={translatedText}
+              language={langTarget}
+              color={colors.white}
+              disabled={!isTranslationFinal}
+            />
+          </View>
           {isTranslationFinal ? (
             <Text style={styles.finalTranslation}>{translatedText}</Text>
           ) : (
@@ -158,6 +198,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'space-between',
+  },
   recordButtonOn: {
     width: 100,
     height: 100,
@@ -195,7 +240,7 @@ const styles = StyleSheet.create({
     fontSize: 2,
   },
   theySaid: {
-    height: '60%',
+    height: '30%',
     width: '100%',
     backgroundColor: colors.primary,
     padding: 20,
