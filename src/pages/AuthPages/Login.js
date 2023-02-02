@@ -1,155 +1,109 @@
-import React, { useState, useEffect } from 'react'
-import { useAuth } from '../../../context/authContext'
-import { db, provider, auth } from '../../../firebase'
-import { serverTimestamp, doc, setDoc } from 'firebase/firestore'
-import { getAuth, signInWithPopup } from 'firebase/auth'
-import { TextInput } from 'react-native-gesture-handler'
-import { Button, View, Text } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
-import Home from '../Home/Home'
-import Details from '../Details/Details'
-import Profile from '../Profile/Profile'
+import React, { useState } from 'react'
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { useNavigation } from '@react-navigation/native'
+import colors from '../../theme/colors'
 
 const Login = () => {
-  const [signIn, setSignIn] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [error, setError] = useState(null)
 
-  const { currentUser, login, signup } = useAuth()
-  const myauth = getAuth()
+  const navigation = useNavigation()
 
-  const Stack = createStackNavigator()
-
-  useEffect(() => {
-    //attemping to display home page when a user logs in
-    if (currentUser !== null) {
-      ;<>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Details" component={Details} />
-        <Stack.Screen name="Settings" component={Profile} />
-      </>
-    }
-  }, [currentUser])
-
-  const handleClick = () => {
-    setSignIn(!signIn)
-  }
-
-  const handleLogin = async () => {
-    if (signIn) {
-      try {
-        await login(email, password)
-      } catch (error) {
-        setError('Incorrect Email or Password')
+  const handleLogin = () => {
+    const auth = getAuth()
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+      })
+      .then(() => {
+        navigation.navigate('Details')
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
         console.log(error)
-      }
-    }
+      })
   }
 
-  const handleKeypress = (e) => {
-    if (e.key === 'Enter') {
-      handleLogin()
-    }
+  const image = {
+    uri: 'https://media.istockphoto.com/id/480360610/photo/overview-of-amsterdam.jpg?s=612x612&w=0&k=20&c=tFcO0gMQLasIkG6nmtG8aw3OW6fe9F-0VQRO7_hk2xM=',
   }
-
-  const saveToDb = async () => {
-    const user = myauth.currentUser
-    const updateDb = async () => {
-      await setDoc(
-        doc(db, 'User', user.uid),
-        {
-          email,
-          firstName,
-          lastName,
-          created: serverTimestamp(),
-        },
-        { merge: true },
-      )
-    }
-    await updateDb().catch(console.error)
-  }
-
-  const handleSignUp = async () => {
-    if (!signIn) {
-      try {
-        await signup(email, password)
-      } catch (error) {
-        if (password.length < 6) {
-          setError('Password Needs to be at least 6 characters')
-        } else if (error) {
-          setError('Email already in use')
-        } else {
-          setError('Please Fill In All Fields')
-        }
-      }
-    }
-  }
-
   return (
-    <View>
-      <Text>Get Started</Text>
-      <Button title="Sign-In" onPress={!signIn ? handleClick : null} />
-      <Button title="Sign-Up" onPress={signIn ? handleClick : null} />
-      <View>
-        {signIn ? (
-          <View>
-            <TextInput
-              placeholder="email"
-              value={email}
-              onChangeText={(e) => setEmail(e)}
-              onKeyPress={handleKeypress}
-            />
-            <TextInput
-              placeholder="Password"
-              value={password}
-              onChangeText={(e) => setPassword(e)}
-              onKeyPress={handleKeypress}
-              secureTextEntry={true}
-            />
-            <Button title="Sign In" onPress={handleLogin} />
-          </View>
-        ) : (
-          <View>
-            <TextInput
-              placeholder="First Name"
-              value={firstName}
-              onChangeText={(e) => setFirstName(e)}
-              onKeyPress={handleKeypress}
-            />
-            <TextInput
-              placeholder="Last Name"
-              value={lastName}
-              onChangeText={(e) => setLastName(e)}
-              onKeyPress={handleKeypress}
-            />
-            <TextInput
-              placeholder="email"
-              value={email}
-              onChangeText={(e) => setEmail(e)}
-              onKeyPress={handleKeypress}
-            />
-            <TextInput
-              placeholder="Password"
-              value={password}
-              onChangeText={(e) => setPassword(e)}
-              onKeyPress={handleKeypress}
-              secureTextEntry={true}
-            />
-            <Button
-              title="Sign Up"
-              onPress={async () => {
-                await handleSignUp()
-                saveToDb()
-              }}
-            />
-          </View>
-        )}
-      </View>
+    <View style={styles.root}>
+      <ImageBackground resizeMode="cover" style={styles.image} source={image}>
+        <View style={styles.page}>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Email"
+            keyboardType="email-address"
+            placeholderTextColor="#403e41"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Password"
+            placeholderTextColor="#403e41"
+            secureTextEntry={true}
+          />
+          <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+            <Text style={{ color: 'white' }}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  loginBtn: {
+    width: '80%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+    color: 'white',
+    backgroundColor: colors.primary,
+  },
+  input: {
+    backgroundColor: 'white',
+    width: '80%',
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    height: 30,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+    color: colors.primary,
+  },
+  page: {
+    width: 200,
+    alignItems: 'center',
+    marginTop: 200,
+  },
+  image: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  root: {
+    flex: 1,
+    backgroundColor: colors.lightGrayPurple,
+  },
+})
 
 export default Login

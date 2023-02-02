@@ -17,7 +17,7 @@ const Logout = () => {
             console.log('Sign-out successful')
           })
           .then(() => {
-            navigation.navigate('Login2')
+            navigation.navigate('Login')
           })
           .catch((error) => {
             console.log('Error signing out', error)

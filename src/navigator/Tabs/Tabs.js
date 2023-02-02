@@ -1,34 +1,64 @@
 import React from 'react'
 import { View } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import FontIcon from 'react-native-vector-icons/FontAwesome5'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { colors } from 'theme'
 
-// stack navigators
-import { HomeNavigator, ProfileNavigator } from '../Stacks'
+// MV stack navigators - we don't need these for now,
+// but I'm retaining the code as a base if we'd like
+// to use this navigation format for history, etc.
+// Previously, this took you to "Home" with the four violet
+// buttons or the same under "Profile."
+// import { HomeNavigator, ProfileNavigator } from '../Stacks'
 
-const Tab = createBottomTabNavigator()
+import Details from '../../pages/Details'
+import SelectLanguage from '../../pages/SelectLanguage'
+import Vocab from '../../pages/Vocab'
+
+const Tab = createMaterialBottomTabNavigator()
 
 const TabNavigator = () => (
   <Tab.Navigator
+    initialRouteName="Details"
+    activeColor={colors.white}
+    inactiveColor={colors.fadedPrimary}
+    barStyle={{ backgroundColor: colors.primary }}
     screenOptions={({ route }) => ({
       // eslint-disable-next-line react/prop-types
       tabBarIcon: ({ focused }) => {
         switch (route.name) {
-          case 'Home':
+          case 'Details':
             return (
-              <FontIcon
+              <FontAwesome5
                 name="home"
-                color={focused ? colors.lightPurple : colors.gray}
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
                 size={20}
                 solid
               />
             )
-          case 'Profile':
+          case 'Language':
             return (
-              <FontIcon
+              <FontAwesome5
                 name="user"
-                color={focused ? colors.lightPurple : colors.gray}
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
+                size={20}
+                solid
+              />
+            )
+          case 'Vocab':
+            return (
+              <FontAwesome5
+                name="book-open"
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
+                size={20}
+                solid
+              />
+            )
+          case 'Logout':
+            return (
+              <FontAwesome5
+                name="logout"
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
                 size={20}
                 solid
               />
@@ -38,22 +68,10 @@ const TabNavigator = () => (
         }
       },
     })}
-    tabBarOptions={{
-      activeTintColor: colors.lightPurple,
-      inactiveTintColor: colors.gray,
-      style: {
-        // backgroundColor: 'white',
-        // borderTopColor: 'gray',
-        // borderTopWidth: 1,
-        // paddingBottom: 5,
-        // paddingTop: 5,
-      },
-    }}
-    initialRouteName="Home"
-    swipeEnabled={false}
   >
-    <Tab.Screen name="Home" component={HomeNavigator} />
-    <Tab.Screen name="Profile" component={ProfileNavigator} />
+    <Tab.Screen name="Details" component={Details} />
+    {/* <Tab.Screen name="Language" component={SelectLanguage} /> */}
+    <Tab.Screen name="Vocab" component={Vocab} />
   </Tab.Navigator>
 )
 

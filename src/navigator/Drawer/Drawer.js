@@ -1,28 +1,21 @@
-import React from 'react'
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer'
-import DrawerMenu from './DrawerMenu'
-import TabNavigator from '../Tabs'
-
+import * as React from 'react'
+import { Button, View } from 'react-native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { NavigationContainer } from '@react-navigation/native'
+import Login from '../../pages/AuthPages'
+import SignUp from '../../pages/AuthPages/SignUp'
+import Details from '../../pages/Details'
+import Logout from '../../pages/AuthPages/Logout'
+import TabNavigator from '../Tabs/Tabs'
 const Drawer = createDrawerNavigator()
 
-const DrawerMenuContainer = (props) => {
-  const { state, ...rest } = props
-  const newState = { ...state }
-  newState.routes = newState.routes.filter((item) => item.name !== 'Home')
+export default function App() {
   return (
-    <DrawerContentScrollView {...props}>
-      <DrawerMenu {...props} />
-      <DrawerItemList state={newState} {...rest} />
-    </DrawerContentScrollView>
+    <Drawer.Navigator initialRouteName="Details">
+      <Drawer.Screen name="Home" component={TabNavigator} />
+      <Drawer.Screen name="Login" component={Login} />
+      <Drawer.Screen name="SignUp" component={SignUp} />
+      <Drawer.Screen name="Logout" component={Logout} />
+    </Drawer.Navigator>
   )
 }
-
-export default () => (
-  <Drawer.Navigator initialRouteName="Home" drawerContent={DrawerMenuContainer}>
-    <Drawer.Screen name="Home" component={TabNavigator} />
-  </Drawer.Navigator>
-)

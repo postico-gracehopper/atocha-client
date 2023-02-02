@@ -1,3 +1,3 @@
-import Login2 from './Login2'
+import Login from './Login'
 
-export default Login2
+export default Login
