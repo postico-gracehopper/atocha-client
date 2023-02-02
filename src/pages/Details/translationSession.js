@@ -47,7 +47,7 @@ const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
           socket.disconnect()
           resolve('session complete')
         })
-        socket.on('session-error', () => {
+        socket.on('error', () => {
           console.log('Session **error**, disconnecting socket...')
           socket.disconnect()
           reject('error during translation')
