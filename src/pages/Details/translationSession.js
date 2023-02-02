@@ -33,18 +33,13 @@ const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
           dispatch(setIsTranslationFinal(true))
         })
         socket.on('partial-transcription', (partialTranscription) => {
-          console.log(
-            '🚀 ~ file: translationSession.js:36 ~ socket.on ~ partialTranscription',
-            partialTranscription,
-          )
           dispatch(setTranscribedText(partialTranscription))
         })
         socket.on('final-transcription', (finalTranscription) => {
-          console.log(
-            '🚀 ~ file: translationSession.js:41 ~ socket.on ~ finalTranscription',
-            finalTranscription,
-          )
-          dispatch(setTranscribedText(finalTranscription))
+          if (finalTranscription === '')
+            dispatch(setTranscribedText('Please record again...'))
+          else dispatch(setTranscribedText(finalTranscription))
+
           dispatch(setIsTranscriptionFinal(true))
         })
         socket.on('session-complete', () => {
