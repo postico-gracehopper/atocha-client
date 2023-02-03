@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authenticate } from 'slices/app.slice'
 
 import DrawerNavigator from './Drawer'
+import TabNavigator from './Tabs/Tabs'
 
 const Navigator = () => {
   const { checked, loggedIn } = useSelector((state) => state.app)
