@@ -46,20 +46,23 @@ export default function Vocab() {
 
   const currentMessage = useSelector((state) => state.translation.currentText)
 
-  const inputLangText = languages.find(
-    (language) => language.languageCode === currInput,
-  ).languageName
+  let nonEnglishCode = ''
+  let displayLang = ''
 
-  const outputLangText = languages.find(
-    (language) => language.languageCode === currOutput,
-  ).languageName
-
-  let nonEnglishLang = ''
-
-  if (inputLangText == 'English') {
-    nonEnglishLang = outputLangText
+  // MV note: Below I've coded in the ability to use both
+  // input and output languages in both the OpenAI vocab list generation
+  // AND the translation call to Google. Right now, we're only translating
+  // non-English words to English, but this lets us change that in the future.
+  if (currInput == 'en-US') {
+    nonEnglishCode = currOutput.split('-')[0]
+    displayLang = languages.find(
+      (language) => language.languageCode === currOutput,
+    ).languageName
   } else {
-    nonEnglishLang = inputLangText
+    nonEnglishCode = currInput.split('-')[0]
+    displayLang = languages.find(
+      (language) => language.languageCode === currInput,
+    ).languageName
   }
 
   useEffect(() => {
@@ -71,13 +74,14 @@ export default function Vocab() {
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
+    console.log('non English lang isss', nonEnglishCode)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
         method: 'post',
         url: 'http://localhost:3000/api/generateVocab',
         data: {
-          targetLang: nonEnglishLang,
+          inputLang: displayLang,
           conversation: recentConversation,
         },
       })
@@ -102,7 +106,9 @@ export default function Vocab() {
         method: 'post',
         url: 'http://localhost:3000/api/translateString',
         data: {
-          targetLang: inputLangText,
+          targetLang: 'en',
+          // targetLang: nonEnglishCode,
+          // Replace the above if you want non-English definitions in the future.
           text: wordArray,
         },
       })
@@ -158,7 +164,7 @@ export default function Vocab() {
                       {currentMessage === null
                         ? "Once you've recorded some conversation, we'll be able to suggest vocabulary for you."
                         : "Click below and we'll suggest some " +
-                          nonEnglishLang +
+                          displayLang +
                           ' words based on your recent conversation.'}
                     </Text>
                     {currentMessage !== null && (
