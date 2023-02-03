@@ -6,6 +6,13 @@ import colors from '../theme/colors'
 import languages from '../pages/SelectLanguage/languageList'
 
 const LanguagePicker = ({ chosenLanguage, onValueChange, text }) => {
+  const handleLanguageFiltering = () => {
+    if (chosenLanguage === 'en-US')
+      return languages.filter((language) => language.languageCode === 'en-US')
+    else
+      return languages.filter((language) => language.languageCode !== 'en-US')
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.translateText}>{text}</Text>
@@ -15,13 +22,15 @@ const LanguagePicker = ({ chosenLanguage, onValueChange, text }) => {
         onValueChange={onValueChange}
         itemStyle={styles.onePickerItem}
       >
-        {languages.map(({ languageName, languageCode }) => (
-          <Picker.Item
-            key={languageCode}
-            label={languageName}
-            value={languageCode}
-          />
-        ))}
+        {handleLanguageFiltering(languages).map(
+          ({ languageName, languageCode }) => (
+            <Picker.Item
+              key={languageCode}
+              label={languageName}
+              value={languageCode}
+            />
+          ),
+        )}
       </Picker>
     </View>
   )
