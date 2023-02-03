@@ -54,6 +54,14 @@ export default function Vocab() {
     (language) => language.languageCode === currOutput,
   ).languageName
 
+  let nonEnglishLang = ''
+
+  if (inputLangText == 'English') {
+    nonEnglishLang = outputLangText
+  } else {
+    nonEnglishLang = inputLangText
+  }
+
   useEffect(() => {
     if (result) {
       getDefinitions(result.split(/[\s,]+/))
@@ -69,8 +77,7 @@ export default function Vocab() {
         method: 'post',
         url: 'http://localhost:3000/api/generateVocab',
         data: {
-          inputLang: inputLangText,
-          outputLang: outputLangText,
+          targetLang: nonEnglishLang,
           conversation: recentConversation,
         },
       })
@@ -151,7 +158,7 @@ export default function Vocab() {
                       {currentMessage === null
                         ? "Once you've recorded some conversation, we'll be able to suggest vocabulary for you."
                         : "Click below and we'll suggest some " +
-                          inputLangText +
+                          nonEnglishLang +
                           ' words based on your recent conversation.'}
                     </Text>
                     {currentMessage !== null && (
