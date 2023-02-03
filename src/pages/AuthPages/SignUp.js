@@ -28,8 +28,6 @@ const SignUp = () => {
   const auth = getAuth()
   const navigation = useNavigation()
 
-  //const user = auth.currentUser
-
   const saveToDb = async (uid) => {
     const updateDb = async () => {
       await setDoc(
@@ -44,15 +42,6 @@ const SignUp = () => {
     }
     await updateDb().catch(console.error)
   }
-
-  //   function writeUserData(userId, userName, email) {
-  //     const db = getDatabase()
-  //     set(ref(db, '/User', userId), {
-  //       userName: userName,
-  //       email: email,
-  //     })
-  //     console.log('database updated')
-  //   }
 
   const updateUserName = () => {
     updateProfile(auth.currentUser, {
@@ -77,14 +66,12 @@ const SignUp = () => {
         navigation.navigate('Details')
       })
       .catch((error) => {
-        console.log(error)
-        // if (error.code == 'auth/invalid-email') {
-        //   setError('Please enter a valid email')
-        // } else if (error.code == 'auth/user-not-found') {
-        //   setError('User not found')
-        // } else if (error.code == 'auth/wrong-password') {
-        //   setError('Incorrect password')
-        // }
+        setError(error.code.split('/')[1].split('-').join(' '))
+        if (error.code.includes('internal-error')) {
+          setError('Please fill out all fields!')
+        } else if (error.code.includes('weak-password')) {
+          setError('password must be at least 6 characters!')
+        }
       })
   }
 
@@ -132,6 +119,7 @@ const SignUp = () => {
           >
             <Text style={{ color: 'white' }}>Sign Up</Text>
           </TouchableOpacity>
+          {error !== null ? <Text style={styles.error}>{error}</Text> : null}
         </View>
       </ImageBackground>
     </View>
@@ -183,6 +171,12 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.lightGrayPurple,
+  },
+  error: {
+    marginTop: 10,
+    borderRadius: 20,
+    color: colors.primary,
+    fontSize: 16,
   },
 })
 
