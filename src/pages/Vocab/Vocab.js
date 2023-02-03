@@ -120,7 +120,7 @@ export default function Vocab() {
                 <View style={styles.container}>
                   {result &&
                     result
-                      .replace(/,/g, '')
+                      .replace(/[,.]/g, '')
                       .toLowerCase()
                       .split(' ')
                       .map((word, index) => (
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Baskerville',
     fontStyle: 'italic',
     letterSpacing: 1,
-    fontSize: 22,
+    fontSize: 24,
     color: colors.white,
     textAlign: 'center',
   },
