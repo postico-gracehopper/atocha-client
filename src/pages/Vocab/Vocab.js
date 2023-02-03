@@ -16,6 +16,8 @@ import languages from '../SelectLanguage/languageList'
 const dummyData =
   'One of the best places to be is around the Canal and Republique. Restaurants, bakeries, bars, cafes, and cute shops are all around. And no major tourist destinations means that the crowds are not as thick.'
 
+const dummyWordArray = ['restaurant', 'boulangerie', 'cafe', 'republique']
+
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
@@ -56,7 +58,7 @@ export default function Vocab() {
         data: {
           inputLang: inputLangText,
           outputLang: outputLangText,
-          conversation: currentMessage,
+          conversation: dummyData,
         },
       })
       const { data } = response
@@ -67,7 +69,32 @@ export default function Vocab() {
         )
       }
       setResult(data.result)
+      await getDefinitions(dummyWordArray)
       setIsLoading(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function getDefinitions(wordArray) {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:3000/api/translateString',
+        data: {
+          targetLang: inputLangText,
+          text: wordArray,
+        },
+      })
+      const translatedStrings = response
+      console.log('Translated strings are', translatedStrings)
+      return translatedStrings
+      if (response.status !== 200) {
+        throw (
+          data.error ||
+          new Error(`Request failed with status ${response.status}`)
+        )
+      }
     } catch (error) {
       console.error(error)
     }
@@ -84,7 +111,20 @@ export default function Vocab() {
             <>
               {result ? (
                 <View style={styles.container}>
-                  <Text style={styles.vocabList}>{result}</Text>
+                  {result &&
+                    result
+                      .replace(/,/g, '')
+                      .toLowerCase()
+                      .split(' ')
+                      .map((word, index) => (
+                        <View key={index} style={styles.wordContainer}>
+                          <Text style={styles.vocabList}>{`${word}`}</Text>
+                          <Text style={styles.vocabDefinition}>
+                            {/* {translatedStrings[index]} */}
+                            Your definition here.
+                          </Text>
+                        </View>
+                      ))}
                   <Pressable style={styles.vocabPressable} onPress={onSubmit}>
                     <Text style={styles.vocabPressableText}>
                       Get a fresh list
@@ -204,5 +244,15 @@ const styles = StyleSheet.create({
     lineHeight: 42,
     color: colors.white,
     textAlign: 'center',
+  },
+  vocabDefinition: {
+    fontFamily: 'Baskerville-SemiBold',
+    fontSize: 12,
+    lineHeight: 12,
+    color: colors.white,
+    textAlign: 'center',
+  },
+  wordContainer: {
+    marginBottom: 16,
   },
 })
