@@ -250,8 +250,9 @@ const styles = StyleSheet.create({
   },
   theySaidTag: {
     textTransform: 'uppercase',
-    color: colors.white,
+    color: colors.brightPrimary,
     fontSize: 20,
+    marginTop: 35,
   },
   title: {
     fontSize: 24,
