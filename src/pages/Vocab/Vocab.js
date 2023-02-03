@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { uri } from '../../../constants'
 
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
@@ -30,6 +31,7 @@ const Loading = () => {
 export default function Vocab() {
   const currInput = useSelector((state) => state.languagePicker.input)
   const currOutput = useSelector((state) => state.languagePicker.output)
+  const [selectedWords, setSelectedWords] = useState([])
   const recentConversation = useSelector(
     (state) => state.translation.translatedText,
   )
@@ -75,11 +77,12 @@ export default function Vocab() {
     event.preventDefault()
     setIsLoading(true)
     console.log('non English lang isss', nonEnglishCode)
+    console.log('Uri isss', uri)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/api/generateVocab',
+        url: `${uri}/api/generateVocab`,
         data: {
           inputLang: displayLang,
           conversation: recentConversation,
@@ -104,7 +107,7 @@ export default function Vocab() {
       console.log('Working with this word array: ', wordArray)
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/api/translateString',
+        url: `${uri}/api/translateString`,
         data: {
           targetLang: 'en',
           // targetLang: nonEnglishCode,
@@ -144,10 +147,25 @@ export default function Vocab() {
                       .split(' ')
                       .map((word, index) => (
                         <View key={index} style={styles.wordContainer}>
-                          <Text style={styles.vocabList}>{`${word}`}</Text>
-                          <Text style={styles.vocabDefinition}>
-                            {translatedStrings[index]}
-                          </Text>
+                          <Pressable
+                            onPress={() => {
+                              const selected = selectedWords.includes(index)
+                              setSelectedWords(
+                                selected
+                                  ? selectedWords.filter((i) => i !== index)
+                                  : [...selectedWords, index],
+                              )
+                              console.log(`saved ${word}`)
+                            }}
+                          >
+                            <Text style={styles.vocabList}>
+                              {selectedWords.includes(index) ? '★  ' : '☆  '}
+                              {word}
+                            </Text>
+                            <Text style={styles.vocabDefinition}>
+                              {translatedStrings[index]}
+                            </Text>
+                          </Pressable>
                         </View>
                       ))}
                   <Pressable style={styles.vocabPressable} onPress={onSubmit}>
@@ -196,7 +214,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     zIndex: 1,
   },
   image: {
@@ -265,8 +283,8 @@ const styles = StyleSheet.create({
   },
   vocabList: {
     fontFamily: 'Baskerville-SemiBold',
-    fontSize: 34,
-    lineHeight: 40,
+    fontSize: 28,
+    lineHeight: 30,
     color: colors.white,
     textAlign: 'center',
   },
