@@ -28,7 +28,7 @@ import {
   setOutputLanguage,
   swapSelectedLanguages,
 } from '../../slices/languagePickerSlice'
-
+import { getAuth } from 'firebase/auth'
 import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
@@ -118,6 +118,10 @@ const Details = ({ route, navigation }) => {
   const handleLanguageSwap = () => {
     dispatch(swapSelectedLanguages())
   }
+
+  const user = getAuth()
+  const current = user.currentUser
+  console.log('HERE', current)
 
   return (
     <View style={styles.root}>
