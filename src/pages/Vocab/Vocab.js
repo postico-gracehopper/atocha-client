@@ -93,8 +93,9 @@ export default function Vocab() {
           text: wordArray,
         },
       })
-      console.log('Translated strings are', response.data)
-      setTranslatedStrings(response.data)
+      setTranslatedStrings(
+        response.data.map((word) => word.toLowerCase().replace(/\./gi, '')),
+      )
       if (response.status !== 200) {
         throw (
           data.error ||
