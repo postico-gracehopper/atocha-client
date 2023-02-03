@@ -8,6 +8,7 @@ import {
   Text,
   StatusBar,
   TouchableOpacity, //TODO update to Pressable
+  Pressable,
 } from 'react-native'
 import { Audio } from 'expo-av'
 import PropTypes from 'prop-types'
@@ -32,6 +33,7 @@ import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
+  const [isRecording, setIsRecording] = React.useState(false)
 
   const translatedText = useSelector(
     (state) => state.translation.translatedText,
@@ -55,6 +57,7 @@ const Details = ({ route, navigation }) => {
   }
 
   async function startRecording() {
+    setIsRecording(true)
     dispatch(setTranscribedText(''))
     dispatch(setIsTranscriptionFinal(false))
     dispatch(setTranslatedText(''))
@@ -80,6 +83,7 @@ const Details = ({ route, navigation }) => {
 
   async function stopRecording() {
     console.log('Stopping recording..')
+    setIsRecording(false)
     setRecording(undefined)
     await recording.stopAndUnloadAsync()
     await Audio.setAudioModeAsync({
@@ -155,18 +159,17 @@ const Details = ({ route, navigation }) => {
             onValueChange={onInputValueChange}
             text="Translate from:"
           />
-          <TouchableOpacity
-            style={recording ? styles.recordButtonOff : styles.recordButtonOn}
-            title={recording ? 'STOP' : 'RECORD'}
+          <Pressable
+            style={isRecording ? styles.recordButtonOff : styles.recordButtonOn}
+            title={isRecording ? 'STOP' : 'RECORD'}
             onPress={recording ? stopRecording : startRecording}
           >
             <MaterialCommunityIcons
-              name={recording ? 'microphone-off' : 'microphone'}
+              name={isRecording ? 'microphone-off' : 'microphone'}
               size={35}
               color={colors.white}
             />
-          </TouchableOpacity>
-
+          </Pressable>
           <LanguagePicker
             chosenLanguage={langTarget}
             onValueChange={onOutputValueChange}
