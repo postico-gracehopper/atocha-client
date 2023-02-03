@@ -14,6 +14,7 @@ import { uri } from '../../../constants'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 
+const sessionVocab = []
 const dummyData =
   'One of the best places to be is around the Canal and Republique. Restaurants, bakeries, bars, cafes, and cute shops are all around. And no major tourist destinations means that the crowds are not as thick.'
 
@@ -69,7 +70,8 @@ export default function Vocab() {
 
   useEffect(() => {
     if (result) {
-      getDefinitions(result.split(/[\s,]+/))
+      // getDefinitions(result.split(/[\s,]+/))
+      getDefinitions(result)
     }
   }, [result])
 
@@ -95,7 +97,15 @@ export default function Vocab() {
           new Error(`Request failed with status ${response.status}`)
         )
       }
-      setResult(data.result)
+      setResult(
+        data.result
+          .toLowerCase()
+          .replace(/[,.]/g, '')
+          .trim()
+          .split(' ')
+          .filter((el) => el !== ''),
+      )
+      console.log('Data dot result was', data.result)
       setIsLoading(false)
     } catch (error) {
       console.error(error)
@@ -104,7 +114,7 @@ export default function Vocab() {
 
   async function getDefinitions(wordArray) {
     try {
-      console.log('Working with this word array: ', wordArray)
+      console.log('getDefinitions is using this "result": ', wordArray)
       const response = await axios({
         method: 'post',
         url: `${uri}/api/translateString`,
@@ -141,33 +151,37 @@ export default function Vocab() {
               {result ? (
                 <View style={styles.container}>
                   {result &&
-                    result
-                      .replace(/[,.]/g, '')
-                      .toLowerCase()
-                      .split(' ')
-                      .map((word, index) => (
-                        <View key={index} style={styles.wordContainer}>
-                          <Pressable
-                            onPress={() => {
-                              const selected = selectedWords.includes(index)
-                              setSelectedWords(
-                                selected
-                                  ? selectedWords.filter((i) => i !== index)
-                                  : [...selectedWords, index],
-                              )
-                              console.log(`saved ${word}`)
-                            }}
-                          >
-                            <Text style={styles.vocabList}>
-                              {selectedWords.includes(index) ? '★  ' : '☆  '}
-                              {word}
-                            </Text>
-                            <Text style={styles.vocabDefinition}>
-                              {translatedStrings[index]}
-                            </Text>
-                          </Pressable>
-                        </View>
-                      ))}
+                    result.map((word, index) => (
+                      <View key={index} style={styles.wordContainer}>
+                        <Pressable
+                          onPress={() => {
+                            const selected = selectedWords.includes(index)
+                            setSelectedWords(
+                              selected
+                                ? selectedWords.filter((i) => i !== index)
+                                : [...selectedWords, index],
+                            )
+                            sessionVocab.push(word)
+                            console.log('Session vocab is', sessionVocab)
+                            console.log(
+                              'Translated strings are',
+                              translatedStrings,
+                            )
+                          }}
+                        >
+                          <Text style={styles.vocabList}>
+                            {selectedWords.includes(index) ? (
+                              <Text style={styles.selectedVocab}>★ {word}</Text>
+                            ) : (
+                              <Text>☆ {word}</Text>
+                            )}
+                          </Text>
+                          <Text style={styles.vocabDefinition}>
+                            {translatedStrings[index]}
+                          </Text>
+                        </Pressable>
+                      </View>
+                    ))}
                   <Pressable style={styles.vocabPressable} onPress={onSubmit}>
                     <Text style={styles.vocabPressableText}>
                       Get a fresh list
@@ -214,7 +228,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
+    alignItems: 'flex-start',
     zIndex: 1,
   },
   image: {
@@ -259,6 +273,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  selectedVocab: {
+    color: colors.brightPrimary,
+  },
   transparentOverlay: {
     backgroundColor: 'black',
     opacity: 0.7,
@@ -283,8 +300,8 @@ const styles = StyleSheet.create({
   },
   vocabList: {
     fontFamily: 'Baskerville-SemiBold',
-    fontSize: 28,
-    lineHeight: 30,
+    fontSize: 32,
+    lineHeight: 42,
     color: colors.white,
     textAlign: 'center',
   },
