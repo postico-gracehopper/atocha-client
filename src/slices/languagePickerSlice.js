@@ -4,6 +4,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   input: 'en-US',
   output: 'es-MX',
+  inputString: 'English',
+  outputString: 'Spanish',
 }
 
 const languagePickerSlice = createSlice({
@@ -16,13 +18,24 @@ const languagePickerSlice = createSlice({
     setOutputLanguage: (state, action) => {
       state.output = action.payload
     },
+    setInputLanguageString: (state, action) => {
+      state.inputString = action.payload
+    },
+    setOutputLanguageString: (state, action) => {
+      state.outputString = action.payload
+    },
     swapSelectedLanguages: (state, action) => {
       ;[state.input, state.output] = [state.output, state.input]
     },
   },
 })
 
-export const { setInputLanguage, setOutputLanguage, swapSelectedLanguages } =
-  languagePickerSlice.actions
+export const {
+  setInputLanguage,
+  setOutputLanguage,
+  swapSelectedLanguages,
+  setInputLanguageString,
+  setOutputLanguageString,
+} = languagePickerSlice.actions
 
 export default languagePickerSlice.reducer
