@@ -16,10 +16,13 @@ const languagePickerSlice = createSlice({
     setOutputLanguage: (state, action) => {
       state.output = action.payload
     },
+    swapSelectedLanguages: (state, action) => {
+      ;[state.input, state.output] = [state.output, state.input]
+    },
   },
 })
 
-export const { setInputLanguage, setOutputLanguage } =
+export const { setInputLanguage, setOutputLanguage, swapSelectedLanguages } =
   languagePickerSlice.actions
 
 export default languagePickerSlice.reducer

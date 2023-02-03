@@ -7,7 +7,6 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity, //TODO update to Pressable
   Pressable,
 } from 'react-native'
 import { Audio } from 'expo-av'
@@ -27,6 +26,7 @@ import {
 import {
   setInputLanguage,
   setOutputLanguage,
+  swapSelectedLanguages,
 } from '../../slices/languagePickerSlice'
 
 import translationSession from './translationSession'
@@ -115,7 +115,9 @@ const Details = ({ route, navigation }) => {
     dispatch(setOutputLanguage(itemValue))
   }
 
-  const text = 'feliz cumpleaños para mi.'
+  const handleLanguageSwap = () => {
+    dispatch(swapSelectedLanguages())
+  }
 
   return (
     <View style={styles.root}>
@@ -176,6 +178,13 @@ const Details = ({ route, navigation }) => {
             text="Translate to:"
           />
         </View>
+        <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
+          <MaterialCommunityIcons
+            name="swap-horizontal-bold"
+            size={35}
+            color={colors.white}
+          />
+        </Pressable>
       </ImageBackground>
     </View>
   )
@@ -243,16 +252,17 @@ const styles = StyleSheet.create({
     fontSize: 2,
   },
   theySaid: {
-    height: '30%',
+    // height: '30%',
     width: '100%',
+    flex: 1,
     backgroundColor: colors.primary,
     padding: 20,
+    paddingTop: 60,
   },
   theySaidTag: {
     textTransform: 'uppercase',
-    color: colors.brightPrimary,
+    color: colors.white,
     fontSize: 20,
-    marginTop: 35,
   },
   title: {
     fontSize: 24,
