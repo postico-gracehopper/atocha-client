@@ -9,7 +9,7 @@ import Vocab from '../../pages/Vocab'
 import Login from 'pages/Login'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
-import Login from 'pages/AuthPages'
+import Login from '../../pages/AuthPages'
 import SignUp from '../../pages/AuthPages/SignUp'
 // ------------------------------------
 // Constants
@@ -63,6 +63,13 @@ export const HomeNavigator = () => (
       component={Vocab}
       options={{
         title: 'Vocab',
+      }}
+    />
+    <Stack.Screen
+      name="Login"
+      component={Login}
+      options={{
+        title: 'Login',
       }}
     />
   </Stack.Navigator>

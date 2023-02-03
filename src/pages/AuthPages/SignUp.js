@@ -92,6 +92,7 @@ const SignUp = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
+        <Text style={styles.title}>Atocha</Text>
         <View style={styles.page}>
           <TextInput
             style={styles.input}
@@ -119,7 +120,7 @@ const SignUp = () => {
             secureTextEntry
           />
           <TouchableOpacity
-            style={styles.loginBtn}
+            style={styles.signOutBtn}
             onPress={async () => {
               await onSignUpPress()
               saveToDb()
@@ -136,8 +137,14 @@ const SignUp = () => {
 }
 
 const styles = StyleSheet.create({
-  loginBtn: {
-    width: 200,
+  title: {
+    marginTop: 40,
+    fontFamily: 'arsilon',
+    color: colors.primary,
+    fontSize: 80,
+  },
+  signOutBtn: {
+    width: 150,
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
@@ -161,8 +168,11 @@ const styles = StyleSheet.create({
   },
   page: {
     width: 200,
+    height: 350,
     alignItems: 'center',
-    marginTop: 200,
+    marginTop: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    borderRadius: 25,
   },
   image: {
     flex: 1,
