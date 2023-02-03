@@ -10,15 +10,31 @@ import {
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { uri } from '../../../constants'
+import { getAuth } from 'firebase/auth'
+import { db } from '../../../firebase'
 
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 
-const sessionVocab = []
-const dummyData =
-  'One of the best places to be is around the Canal and Republique. Restaurants, bakeries, bars, cafes, and cute shops are all around. And no major tourist destinations means that the crowds are not as thick.'
+const sessionVocab = {}
 
-const dummyWordArray = ['restaurant', 'boulangerie', 'cafe', 'republique']
+const user = getAuth()
+const currentUser = user.currentUser
+
+async function addVocabToFirebase(user, vocabulary) {
+  try {
+    await db
+      .collection('users')
+      .doc(user)
+      // Change "set" below to "update" once we d
+      .set({
+        savedVocab: { ...vocabulary },
+      })
+    console.log('Vocab added to Firebase successfully')
+  } catch (error) {
+    console.error('Error adding vocab to Firebase: ', error)
+  }
+}
 
 const Loading = () => {
   return (
@@ -74,6 +90,11 @@ export default function Vocab() {
       getDefinitions(result)
     }
   }, [result])
+
+  async function onSaveStars(event) {
+    event.preventDefault()
+    await addVocabToFirebase(currentUser.uid, sessionVocab)
+  }
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -161,7 +182,7 @@ export default function Vocab() {
                                 ? selectedWords.filter((i) => i !== index)
                                 : [...selectedWords, index],
                             )
-                            sessionVocab.push(word)
+                            sessionVocab[word] = translatedStrings[index]
                             console.log('Session vocab is', sessionVocab)
                             console.log(
                               'Translated strings are',
@@ -186,6 +207,12 @@ export default function Vocab() {
                     <Text style={styles.vocabPressableText}>
                       Get a fresh list
                     </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.vocabPressable}
+                    onPress={onSaveStars}
+                  >
+                    <Text style={styles.vocabPressableText}>Save my stars</Text>
                   </Pressable>
                 </View>
               ) : (
