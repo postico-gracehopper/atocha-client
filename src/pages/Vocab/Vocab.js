@@ -30,6 +30,12 @@ const Loading = () => {
 export default function Vocab() {
   const currInput = useSelector((state) => state.languagePicker.input)
   const currOutput = useSelector((state) => state.languagePicker.output)
+  const recentConversation = useSelector(
+    (state) => state.translation.translatedText,
+  )
+  // MV to-do: Conversation should take in the last 3 recording transcriptions from history,
+  // not just the current "translatedText" (aka the most recent recording transcription).
+
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [translatedStrings, setTranslatedStrings] = useState([])
@@ -65,7 +71,7 @@ export default function Vocab() {
         data: {
           inputLang: inputLangText,
           outputLang: outputLangText,
-          conversation: dummyData,
+          conversation: recentConversation,
         },
       })
       const { data } = response
