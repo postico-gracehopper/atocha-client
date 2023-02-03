@@ -32,6 +32,7 @@ export default function Vocab() {
   const currOutput = useSelector((state) => state.languagePicker.output)
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [translatedStrings, setTranslatedStrings] = useState([])
 
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
@@ -86,9 +87,8 @@ export default function Vocab() {
           text: wordArray,
         },
       })
-      const translatedStrings = response
-      console.log('Translated strings are', translatedStrings)
-      return translatedStrings
+      console.log('Translated strings are', response.data)
+      setTranslatedStrings(response.data)
       if (response.status !== 200) {
         throw (
           data.error ||
@@ -120,8 +120,7 @@ export default function Vocab() {
                         <View key={index} style={styles.wordContainer}>
                           <Text style={styles.vocabList}>{`${word}`}</Text>
                           <Text style={styles.vocabDefinition}>
-                            {/* {translatedStrings[index]} */}
-                            Your definition here.
+                            {translatedStrings[index]}
                           </Text>
                         </View>
                       ))}
