@@ -15,6 +15,7 @@ import colors from '../../theme/colors'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
 
   const navigation = useNavigation()
 
@@ -28,9 +29,13 @@ const Login = () => {
         navigation.navigate('Details')
       })
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(error)
+        if (error.code == 'auth/invalid-email') {
+          setError('Please enter a valid email')
+        } else if (error.code == 'auth/user-not-found') {
+          setError('User not found')
+        } else if (error.code == 'auth/wrong-password') {
+          setError('Incorrect password')
+        }
       })
   }
 
@@ -40,6 +45,7 @@ const Login = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
+        <Text style={styles.title}>Atocha</Text>
         <View style={styles.page}>
           <TextInput
             style={styles.input}
@@ -61,6 +67,7 @@ const Login = () => {
           <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
             <Text style={{ color: 'white' }}>Login</Text>
           </TouchableOpacity>
+          {error !== null ? <Text style={styles.error}>{error}</Text> : null}
         </View>
       </ImageBackground>
     </View>
@@ -68,13 +75,20 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    marginTop: 40,
+    fontFamily: 'arsilon',
+    color: colors.primary,
+    fontSize: 80,
+  },
   loginBtn: {
     width: '80%',
     borderRadius: 25,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 30,
+    marginBotton: 20,
     color: 'white',
     backgroundColor: colors.primary,
   },
@@ -93,8 +107,11 @@ const styles = StyleSheet.create({
   },
   page: {
     width: 200,
+    height: 240,
     alignItems: 'center',
-    marginTop: 200,
+    marginTop: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    borderRadius: 25,
   },
   image: {
     flex: 1,
@@ -103,6 +120,12 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.lightGrayPurple,
+  },
+  error: {
+    marginTop: 10,
+    borderRadius: 20,
+    color: colors.primary,
+    fontSize: 16,
   },
 })
 

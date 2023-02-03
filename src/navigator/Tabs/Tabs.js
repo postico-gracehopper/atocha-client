@@ -14,6 +14,7 @@ import { colors } from 'theme'
 import Details from '../../pages/Details'
 import SelectLanguage from '../../pages/SelectLanguage'
 import Vocab from '../../pages/Vocab'
+import History from '../../pages/History'
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -45,6 +46,15 @@ const TabNavigator = () => (
                 solid
               />
             )
+          case 'History':
+            return (
+              <FontAwesome5
+                name="history"
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
+                size={20}
+                solid
+              />
+            )
           case 'Vocab':
             return (
               <FontAwesome5
@@ -69,6 +79,7 @@ const TabNavigator = () => (
       },
     })}
   >
+    <Tab.Screen name="History" component={History} />
     <Tab.Screen name="Details" component={Details} />
     {/* <Tab.Screen name="Language" component={SelectLanguage} /> */}
     <Tab.Screen name="Vocab" component={Vocab} />
