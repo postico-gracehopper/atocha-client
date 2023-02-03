@@ -9,7 +9,8 @@ import Vocab from '../../pages/Vocab'
 import Login from 'pages/Login'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
-
+import Login from 'pages/AuthPages'
+import SignUp from '../../pages/AuthPages/SignUp'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -44,15 +45,6 @@ export const HomeNavigator = () => (
     <Stack.Screen
       name="Details"
       component={Details}
-      options={({ navigation }) => ({
-        title: 'Home',
-        headerLeft: () => <HeaderLeft navigation={navigation} />,
-        headerTitle: () => <HeaderTitle />,
-      })}
-    />
-    <Stack.Screen
-      name="Login"
-      component={Login}
       options={({ navigation }) => ({
         title: 'Home',
         headerLeft: () => <HeaderLeft navigation={navigation} />,

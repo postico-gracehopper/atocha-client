@@ -54,6 +54,15 @@ const TabNavigator = () => (
                 solid
               />
             )
+          case 'Logout':
+            return (
+              <FontAwesome5
+                name="logout"
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
+                size={20}
+                solid
+              />
+            )
           default:
             return <View />
         }

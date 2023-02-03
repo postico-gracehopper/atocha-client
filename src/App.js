@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Provider } from 'react-redux'
 import store from 'utils/store'
 import 'utils/ignore'
-
+import { AuthProvider } from '../context/authContext'
 // assets
 import { imageAssets } from 'theme/images'
 import { fontAssets } from 'theme/fonts'
@@ -23,9 +23,11 @@ const App = () => {
   }, [])
 
   return didLoad ? (
-    <Provider store={store}>
-      <Navigator />
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
+    </AuthProvider>
   ) : (
     <View />
   )

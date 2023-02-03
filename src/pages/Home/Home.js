@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import Button from 'components/Button'
 import { colors } from 'theme'
+import Logout from '../AuthPages/Logout'
+import { getAuth } from 'firebase/auth'
 
 const styles = StyleSheet.create({
   root: {
@@ -14,6 +16,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+    marginBottom: 20,
+  },
+  greeting: {
+    fontSize: 20,
     marginBottom: 20,
   },
 })
