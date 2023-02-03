@@ -1,4 +1,4 @@
-import { useState, React } from 'react'
+import { useState, useEffect, React } from 'react'
 import {
   View,
   Pressable,
@@ -48,6 +48,12 @@ export default function Vocab() {
     (language) => language.languageCode === currOutput,
   ).languageName
 
+  useEffect(() => {
+    if (result) {
+      getDefinitions(result.split(/[\s,]+/))
+    }
+  }, [result])
+
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
@@ -70,7 +76,6 @@ export default function Vocab() {
         )
       }
       setResult(data.result)
-      await getDefinitions(dummyWordArray)
       setIsLoading(false)
     } catch (error) {
       console.error(error)
@@ -79,6 +84,7 @@ export default function Vocab() {
 
   async function getDefinitions(wordArray) {
     try {
+      console.log('Working with this word array: ', wordArray)
       const response = await axios({
         method: 'post',
         url: 'http://localhost:3000/api/translateString',
