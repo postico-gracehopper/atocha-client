@@ -7,7 +7,7 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity, //TODO update to Pressable
+  Pressable,
 } from 'react-native'
 import { Audio } from 'expo-av'
 import PropTypes from 'prop-types'
@@ -26,12 +26,14 @@ import {
 import {
   setInputLanguage,
   setOutputLanguage,
+  swapSelectedLanguages,
 } from '../../slices/languagePickerSlice'
 
 import translationSession from './translationSession'
 
 const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
+  const [isRecording, setIsRecording] = React.useState(false)
 
   const translatedText = useSelector(
     (state) => state.translation.translatedText,
@@ -55,6 +57,7 @@ const Details = ({ route, navigation }) => {
   }
 
   async function startRecording() {
+    setIsRecording(true)
     dispatch(setTranscribedText(''))
     dispatch(setIsTranscriptionFinal(false))
     dispatch(setTranslatedText(''))
@@ -80,6 +83,7 @@ const Details = ({ route, navigation }) => {
 
   async function stopRecording() {
     console.log('Stopping recording..')
+    setIsRecording(false)
     setRecording(undefined)
     await recording.stopAndUnloadAsync()
     await Audio.setAudioModeAsync({
@@ -111,7 +115,9 @@ const Details = ({ route, navigation }) => {
     dispatch(setOutputLanguage(itemValue))
   }
 
-  const text = 'feliz cumpleaños para mi.'
+  const handleLanguageSwap = () => {
+    dispatch(swapSelectedLanguages())
+  }
 
   return (
     <View style={styles.root}>
@@ -155,24 +161,30 @@ const Details = ({ route, navigation }) => {
             onValueChange={onInputValueChange}
             text="Translate from:"
           />
-          <TouchableOpacity
-            style={recording ? styles.recordButtonOff : styles.recordButtonOn}
-            title={recording ? 'STOP' : 'RECORD'}
+          <Pressable
+            style={isRecording ? styles.recordButtonOff : styles.recordButtonOn}
+            title={isRecording ? 'STOP' : 'RECORD'}
             onPress={recording ? stopRecording : startRecording}
           >
             <MaterialCommunityIcons
-              name={recording ? 'microphone-off' : 'microphone'}
+              name={isRecording ? 'microphone-off' : 'microphone'}
               size={35}
               color={colors.white}
             />
-          </TouchableOpacity>
-
+          </Pressable>
           <LanguagePicker
             chosenLanguage={langTarget}
             onValueChange={onOutputValueChange}
             text="Translate to:"
           />
         </View>
+        <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
+          <MaterialCommunityIcons
+            name="swap-horizontal-bold"
+            size={35}
+            color={colors.white}
+          />
+        </Pressable>
       </ImageBackground>
     </View>
   )
@@ -240,16 +252,17 @@ const styles = StyleSheet.create({
     fontSize: 2,
   },
   theySaid: {
-    height: '30%',
+    // height: '30%',
     width: '100%',
+    flex: 1,
     backgroundColor: colors.primary,
     padding: 20,
+    paddingTop: 60,
   },
   theySaidTag: {
     textTransform: 'uppercase',
-    color: colors.brightPrimary,
+    color: colors.white,
     fontSize: 20,
-    marginTop: 35,
   },
   title: {
     fontSize: 24,
