@@ -24,18 +24,16 @@ const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [userName, setUserName] = useState('')
-
+  const [error, setError] = useState(null)
   const auth = getAuth()
   const navigation = useNavigation()
-  const { currentUser } = useAuth()
 
-  const user = auth.currentUser
+  //const user = auth.currentUser
 
-  const saveToDb = async () => {
-    const userId = user.uid
+  const saveToDb = async (uid) => {
     const updateDb = async () => {
       await setDoc(
-        doc(db, 'User', userId),
+        doc(db, 'User', uid),
         {
           email,
           userName,
@@ -57,12 +55,11 @@ const SignUp = () => {
   //   }
 
   const updateUserName = () => {
-    updateProfile(user, {
+    updateProfile(auth.currentUser, {
       displayName: userName,
     })
       .then(() => {
         console.log('Profile updated')
-        console.log(user.displayName)
       })
       .catch((error) => {
         console.log(error)
@@ -73,15 +70,21 @@ const SignUp = () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user
+        saveToDb(user.uid)
         console.log('SUCCESS', user)
       })
       .then(() => {
         navigation.navigate('Details')
       })
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
         console.log(error)
+        // if (error.code == 'auth/invalid-email') {
+        //   setError('Please enter a valid email')
+        // } else if (error.code == 'auth/user-not-found') {
+        //   setError('User not found')
+        // } else if (error.code == 'auth/wrong-password') {
+        //   setError('Incorrect password')
+        // }
       })
   }
 
@@ -123,7 +126,6 @@ const SignUp = () => {
             style={styles.signOutBtn}
             onPress={async () => {
               await onSignUpPress()
-              saveToDb()
               //writeUserData(userId, userName, email)
               updateUserName()
             }}

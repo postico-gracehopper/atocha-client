@@ -1,4 +1,4 @@
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut, signInAnonymously } from 'firebase/auth'
 import { useState, useEffect } from 'react'
 import { Button, View, ImageBackground, StyleSheet, Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -13,6 +13,17 @@ const Logout = () => {
     uri: 'https://media4.giphy.com/media/zZQe7wglGKCEE/giphy.gif',
   }
 
+  const anonymousSignIn = () => {
+    console.log('IN ANONYMOUS SIGN IN')
+    signInAnonymously(auth)
+      .then(() => {})
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(error)
+      })
+  }
+
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
@@ -25,6 +36,9 @@ const Logout = () => {
                 .signOut()
                 .then(() => {
                   console.log('Sign-out successful')
+                })
+                .then(() => {
+                  anonymousSignIn()
                 })
                 .then(() => {
                   navigation.navigate('Login')

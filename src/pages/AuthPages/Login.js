@@ -84,10 +84,11 @@ const styles = StyleSheet.create({
   loginBtn: {
     width: '80%',
     borderRadius: 25,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 30,
+    marginBotton: 20,
     color: 'white',
     backgroundColor: colors.primary,
   },
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
   },
   page: {
     width: 200,
+    height: 240,
     alignItems: 'center',
     marginTop: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.75)',

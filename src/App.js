@@ -9,6 +9,9 @@ import { imageAssets } from 'theme/images'
 import { fontAssets } from 'theme/fonts'
 import Navigator from './navigator'
 
+import { useDispatch } from 'react-redux'
+import { getAuth, signInAnonymously } from 'firebase/auth'
+
 const App = () => {
   const [didLoad, setDidLoad] = useState(false)
 
@@ -18,7 +21,26 @@ const App = () => {
     setDidLoad(true)
   }
 
+  const user = getAuth()
+  const current = user.currentUser
+  const loggedIn = current !== null ? true : false
+
+  const anonymousSignIn = () => {
+    if (!loggedIn) {
+      const auth = getAuth()
+      console.log('IN ANONYMOUS SIGN IN')
+      signInAnonymously(auth)
+        .then(() => {})
+        .catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+          console.log(error)
+        })
+    }
+  }
+
   useEffect(() => {
+    anonymousSignIn()
     handleLoadAssets()
   }, [])
 
