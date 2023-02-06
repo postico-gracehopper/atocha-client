@@ -1,11 +1,10 @@
 /* eslint-disable no-use-before-define */
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
   ImageBackground,
   View,
-  Text,
   StatusBar,
   Pressable,
 } from 'react-native'
@@ -14,18 +13,15 @@ import PropTypes from 'prop-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { colors } from 'theme'
-import {
-  LanguagePicker,
-  TextEntry,
-  TextOutput,
-  ListeningView,
-} from '../../components/'
+import { LanguagePicker, ResetButton } from '../../components/'
 
 import {
   setTranslatedText,
   setTranscribedText,
   setIsTranslationFinal,
   setIsTranscriptionFinal,
+  setSourceLanguageOutput,
+  setTargetLanguageOutput,
 } from '../../slices/translationSlice'
 import {
   setInputLanguage,
@@ -38,29 +34,21 @@ import {
 import languages from '../SelectLanguage/languageList'
 
 import translationSession from './translationSession'
+import textTranslationSession from './textTranslationSession'
+import TranslationViewPort from './TranslationViewPort'
 
 const image = {
   // move this someplace else
   uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
 }
 
-const Details = ({ route, navigation }) => {
-  // remove props?
+const Details = () => {
   const [recording, setRecording] = React.useState()
   const [isRecording, setIsRecording] = React.useState(false)
-  const [showInput, setShowInput] = React.useState(true)
+  const [viewMode, setViewMode] = React.useState('text-input')
 
-  const translatedText = useSelector(
-    (state) => state.translation.translatedText,
-  )
   const transcribedText = useSelector(
     (state) => state.translation.transcribedText,
-  )
-  const isTranslationFinal = useSelector(
-    (state) => state.translation.isTranslationFinal,
-  )
-  const isTranscriptionFinal = useSelector(
-    (state) => state.translation.isTranscriptionFinal,
   )
 
   const langSource = useSelector((state) => state.languagePicker.input)
@@ -75,11 +63,11 @@ const Details = ({ route, navigation }) => {
   const dispatch = useDispatch()
 
   async function startRecording() {
-    setShowInput(false)
+    setViewMode('audio-input')
     setIsRecording(true)
     dispatch(setTranscribedText(''))
-    dispatch(setIsTranscriptionFinal(false))
     dispatch(setTranslatedText(''))
+    dispatch(setIsTranscriptionFinal(false))
     dispatch(setIsTranslationFinal(false))
     try {
       console.log('Requesting permission from the phone..')
@@ -102,8 +90,11 @@ const Details = ({ route, navigation }) => {
 
   async function stopRecording() {
     console.log('Stopping recording..')
+    setViewMode('translation-output')
     setIsRecording(false)
     setRecording(undefined)
+    dispatch(setSourceLanguageOutput(langSourceName))
+    dispatch(setTargetLanguageOutput(langTargetName))
     await recording.stopAndUnloadAsync()
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -146,15 +137,43 @@ const Details = ({ route, navigation }) => {
     dispatch(swapSelectedLanguages())
   }
 
-  const handleTextSubmit = () => {
+  const handleTextSubmit = async () => {
     console.log('text submitted')
+    dispatch(setIsTranscriptionFinal(true))
+    dispatch(setSourceLanguageOutput(langSourceName))
+    dispatch(setTargetLanguageOutput(langTargetName))
+    textTranslationSession({
+      transcribedText,
+      langSource,
+      langTarget,
+      dispatch,
+    })
+      .then((textFromGoogle) => {
+        console.log('text from google: ', textFromGoogle)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+    setViewMode('translation-output')
+  }
+
+  const handleReset = async () => {
+    setViewMode('text-input')
+    setIsRecording(false)
+    setRecording(undefined)
+    dispatch(setTranscribedText(''))
+    dispatch(setTranslatedText(''))
+    dispatch(setIsTranscriptionFinal(false))
+    dispatch(setIsTranslationFinal(false))
+    dispatch(setSourceLanguageOutput(''))
+    dispatch(setTargetLanguageOutput(''))
   }
 
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
-      {/*can we put this in the parent? */}
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        <View style={styles.transparentOverlay} />
         <View style={styles.languagePickerContainer}>
           <LanguagePicker
             styles={styles}
@@ -174,45 +193,33 @@ const Details = ({ route, navigation }) => {
             onValueChange={onOutputValueChange}
           />
         </View>
-        {showInput ? (
-          <TextEntry styles={styles} onSubmitEditing={handleTextSubmit} />
-        ) : null}
-        {isRecording && !transcribedText ? (
-          <View style={styles.listeningViewContainer}>
-            <Text style={styles.listeningViewText}>Listening...</Text>
-          </View>
-        ) : null}
-        {!isRecording && transcribedText ? (
-          <>
-            <TextOutput
-              styles={styles}
-              langCode={langSource}
-              langName={langSourceName}
-              text={transcribedText}
-              isFinal={isTranscriptionFinal}
-            />
-            <TextOutput
-              styles={styles}
-              langCode={langTarget}
-              langName={langTargetName}
-              text={translatedText}
-              isFinal={isTranslationFinal}
-            />
-          </>
-        ) : null}
-
+        <TranslationViewPort
+          styles={styles}
+          viewMode={viewMode}
+          recording={recording}
+          isRecording={isRecording}
+          handleReset={handleReset}
+          handleTextSubmit={handleTextSubmit}
+        />
         <View style={styles.controlContainer}>
-          <Pressable
-            style={isRecording ? styles.recordButtonOff : styles.recordButtonOn}
-            title={isRecording ? 'STOP' : 'RECORD'}
-            onPress={recording ? stopRecording : startRecording}
-          >
-            <MaterialCommunityIcons
-              name={'microphone'}
-              size={45}
-              color={colors.primary}
-            />
-          </Pressable>
+          <View style={styles.resetButton}>
+            <ResetButton styles={styles} handleReset={handleReset} />
+          </View>
+          <View style={styles.recordButtonContainer}>
+            <Pressable
+              style={
+                isRecording ? styles.recordButtonOff : styles.recordButtonOn
+              }
+              title={isRecording ? 'STOP' : 'RECORD'}
+              onPress={recording ? stopRecording : startRecording}
+            >
+              <MaterialCommunityIcons
+                name={'microphone'}
+                size={45}
+                color={colors.primary}
+              />
+            </Pressable>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -244,17 +251,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  transparentOverlay: {
+    backgroundColor: 'rgba(47,00,24,0.8)',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   languagePickerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(47,00,24,0.8)',
     width: '100%',
     paddingTop: 40,
     paddingBottom: 20,
-  },
-  pickerContainer: {
-    alignItems: 'center',
   },
   picker: {
     width: 170,
@@ -266,22 +277,19 @@ const styles = StyleSheet.create({
     fontStyle: 'bold',
   },
   textInputContainer: {
-    flex: 2,
+    flex: 5,
     width: '100%',
-    backgroundColor: 'rgba(47,00,24,0.8)',
     paddingLeft: 20,
     fontFamily: 'Cochin',
   },
   textOutputContainer: {
-    flex: 2,
+    flex: 5,
     width: '100%',
-    backgroundColor: 'rgba(47,00,24,0.8)',
     paddingLeft: 20,
   },
   listeningViewContainer: {
-    flex: 4,
+    flex: 5,
     width: '100%',
-    backgroundColor: 'rgba(47,00,24,0.8)',
     paddingLeft: 20,
   },
   listeningViewText: {
@@ -301,44 +309,52 @@ const styles = StyleSheet.create({
   textOutputTag: {
     textTransform: 'uppercase',
     color: colors.white,
-    fontSize: 20,
+    fontSize: 15,
     paddingRight: 10,
     fontFamily: 'Cochin',
   },
   controlContainer: {
-    flex: 1,
+    flex: 2,
+    width: '100%',
+  },
+  recordButtonContainer: {
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(47,00,24,0.8)',
-    width: '100%',
+    alignContent: 'center',
   },
   recordButtonOn: {
     width: 100,
     height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 100,
     backgroundColor: colors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   recordButtonOff: {
     width: 100,
     height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 100,
     backgroundColor: colors.pink,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  resetButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 15,
   },
   partialText: {
-    marginTop: 20,
+    marginTop: 5,
     color: colors.gray,
-    fontSize: 30,
+    fontSize: 25,
     fontFamily: 'Cochin',
   },
   finalText: {
-    marginTop: 20,
+    marginTop: 5,
     color: colors.white,
-    fontSize: 30,
+    fontSize: 25,
     fontFamily: 'Cochin',
   },
 })

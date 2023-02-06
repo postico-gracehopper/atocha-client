@@ -6,7 +6,7 @@ import colors from '../theme/colors'
 
 const TextOutput = ({ styles, langCode, langName, text, isFinal }) => {
   return (
-    <View style={styles.textOutputContainer}>
+    <>
       <View style={styles.headerContainer}>
         <Text style={styles.textOutputTag}>{langName}</Text>
         <TextTranscriber
@@ -21,7 +21,7 @@ const TextOutput = ({ styles, langCode, langName, text, isFinal }) => {
       ) : (
         <Text style={styles.partialText}>{text}</Text>
       )}
-    </View>
+    </>
   )
 }
 

@@ -15,7 +15,7 @@ const LanguagePicker = ({ styles, chosenLanguage, onValueChange, text }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       <Picker
         selectedValue={chosenLanguage}
         style={styles.picker}
