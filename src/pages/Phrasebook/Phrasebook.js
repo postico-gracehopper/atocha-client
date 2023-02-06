@@ -1,19 +1,17 @@
 import { useState, useEffect, React } from 'react'
 import {
   View,
-  Pressable,
   Text,
   ActivityIndicator,
   StyleSheet,
   ImageBackground,
 } from 'react-native'
 import { useSelector } from 'react-redux'
-import axios from 'axios'
+import { getAuth } from 'firebase/auth'
 
-import { uri } from '../../../constants'
-import { useAuth } from '../../../context/authContext'
 import colors from '../../theme/colors'
-import languages from '../SelectLanguage/languageList'
+import { db } from '../../../firebase'
+import GetVocab from './GetVocab'
 
 const Loading = () => {
   return (
@@ -25,11 +23,17 @@ const Loading = () => {
 }
 
 export default function Phrasebook() {
-  const recentConversation = useSelector(
-    (state) => state.translation.translatedText,
-  )
-
+  const user = getAuth()
+  const currentUser = user.currentUser
   const [isLoading, setIsLoading] = useState(false)
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     getVocab(currentUser)
+  //   } else {
+  //     console.log("Nobody's logged innn")
+  //   }
+  // }, [])
 
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
@@ -48,6 +52,7 @@ export default function Phrasebook() {
             <>
               <View style={styles.container}>
                 <Text style={styles.notYet}>Phrasebook</Text>
+                <GetVocab />
               </View>
             </>
           )}
