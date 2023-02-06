@@ -40,7 +40,7 @@ export default function TextTranscriber({ text, language, color, disabled }) {
     <Pressable onPress={playing ? handleStop : handlePlay} disabled={disabled}>
       <MaterialCommunityIcons
         name={playing ? 'stop' : 'play'}
-        size={36}
+        size={24}
         color={color}
       />
     </Pressable>

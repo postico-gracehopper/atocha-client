@@ -6,6 +6,8 @@ const initialState = {
   transcribedText: null,
   isTranslationFinal: false,
   isTranscriptionFinal: false,
+  sourceLanguageOutput: '',
+  targetLanguageOutput: '',
 }
 
 const translationSlice = createSlice({
@@ -24,6 +26,12 @@ const translationSlice = createSlice({
     setIsTranscriptionFinal: (state, action) => {
       state.isTranscriptionFinal = action.payload
     },
+    setSourceLanguageOutput: (state, action) => {
+      state.sourceLanguageOutput = action.payload
+    },
+    setTargetLanguageOutput: (state, action) => {
+      state.targetLanguageOutput = action.payload
+    },
   },
 })
 
@@ -41,6 +49,8 @@ export const {
   setTranscribedText,
   setIsTranslationFinal,
   setIsTranscriptionFinal,
+  setSourceLanguageOutput,
+  setTargetLanguageOutput,
 } = translationSlice.actions
 
 export default translationSlice.reducer
