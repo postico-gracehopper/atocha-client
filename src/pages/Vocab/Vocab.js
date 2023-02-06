@@ -9,24 +9,27 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-import { uri } from '../../../constants'
-import { getAuth } from 'firebase/auth'
-import { db } from '../../../firebase'
 
+import { uri } from '../../../constants'
+// import { getAuth } from 'firebase/auth'
+import { useAuth } from '../../../context/authContext'
+import { db } from '../../../firebase'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 
 const sessionVocab = {}
 
-const user = getAuth()
-const currentUser = user.currentUser
+const currentUser = useAuth()
 
 async function addVocabToFirebase(user, vocabulary) {
   try {
+    if (!currentUser) {
+      console.log('No user is signed in.')
+      return null
+    }
     await db
-      .collection('users')
-      .doc(user)
-      // Change "set" below to "update" once we d
+      .doc(`users/${user}`)
+      // Change "set" below to "update" once the field exists in Firebase
       .set({
         savedVocab: { ...vocabulary },
       })
@@ -93,7 +96,12 @@ export default function Vocab() {
 
   async function onSaveStars(event) {
     event.preventDefault()
-    await addVocabToFirebase(currentUser.uid, sessionVocab)
+    if (currentUser) {
+      const uid = currentUser.uid
+      await addVocabToFirebase(uid, sessionVocab)
+    } else {
+      console.error('No user is signed in.')
+    }
   }
 
   async function onSubmit(event) {
