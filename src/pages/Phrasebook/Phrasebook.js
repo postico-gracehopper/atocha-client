@@ -36,7 +36,7 @@ export default function Phrasebook() {
   // }, [])
 
   const image = {
-    uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
+    uri: 'https://images.unsplash.com/photo-1573455494057-12684d151bf4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1862&q=80',
   }
 
   const currentMessage = useSelector((state) => state.translation.currentText)
@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    marginTop: 20,
+    // justifyContent: 'center',
+    // alignItems: 'flex-start',
     zIndex: 1,
   },
   image: {
@@ -89,6 +90,8 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   notYet: {
+    marginTop: 50,
+    marginBottom: 30,
     paddingTop: 40,
     paddingLeft: 10,
     fontSize: 80,

@@ -1,5 +1,5 @@
 import { useState, useEffect, React } from 'react'
-import { View, Pressable, Text, StyleSheet } from 'react-native'
+import { View, Pressable, Text, StyleSheet, ScrollView } from 'react-native'
 import colors from '../../theme/colors'
 import { getAuth } from 'firebase/auth'
 import { db } from '../../../firebase'
@@ -37,42 +37,39 @@ const GetVocab = () => {
   }, [])
 
   return (
-    <View>
-      {vocabWords.map((word) => (
-        <View key={word.id} style={styles.wordContainer}>
-          <Text style={styles.vocabWord}>{word.vocabWord}</Text>
-          <Text style={styles.definition}>{word.definition}</Text>
-        </View>
-      ))}
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        {vocabWords.map((word) => (
+          <View key={word.id} style={styles.wordContainer}>
+            <Text style={styles.vocabWord}>{word.vocabWord}</Text>
+            <Text style={styles.definition}>{word.definition}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   )
 }
 const styles = StyleSheet.create({
-  vocabPressable: {
-    marginTop: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    backgroundColor: colors.brightPrimary,
+  container: {
+    flex: 0.9,
   },
-  vocabPressableText: {
-    fontSize: 22,
-    fontFamily: 'Baskerville',
+  scrollView: {
+    flex: 1,
   },
   wordContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 10,
+    margin: 8,
   },
   vocabWord: {
-    fontSize: 18,
+    fontSize: 24,
     color: 'white',
   },
   definition: {
-    fontSize: 18,
-    color: 'red',
+    fontSize: 24,
+    fontStyle: 'italic',
+    fontWeight: '700',
+    color: colors.brightPrimary,
   },
 })
 
