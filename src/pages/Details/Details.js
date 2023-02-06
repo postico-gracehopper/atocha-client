@@ -30,10 +30,12 @@ import {
 } from '../../slices/languagePickerSlice'
 import { getAuth } from 'firebase/auth'
 import translationSession from './translationSession'
+import { useAuth } from '../../../context/authContext'
 
 const Details = ({ route, navigation }) => {
   const [recording, setRecording] = React.useState()
   const [isRecording, setIsRecording] = React.useState(false)
+  const { currentUser } = useAuth()
 
   const translatedText = useSelector(
     (state) => state.translation.translatedText,
@@ -63,26 +65,21 @@ const Details = ({ route, navigation }) => {
     dispatch(setTranslatedText(''))
     dispatch(setIsTranslationFinal(false))
     try {
-      console.log('Requesting permission from the phone..')
       await Audio.requestPermissionsAsync()
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       })
-
-      console.log('Starting recording..')
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY,
       )
       setRecording(recording)
-      console.log('Recording started')
     } catch (err) {
       console.error('Failed to start recording', err)
     }
   }
 
   async function stopRecording() {
-    console.log('Stopping recording..')
     setIsRecording(false)
     setRecording(undefined)
     await recording.stopAndUnloadAsync()
@@ -91,13 +88,12 @@ const Details = ({ route, navigation }) => {
     })
 
     const uri = await recording.getURI()
-    console.log('stop recording entered')
-
     translationSession({
       uri,
       langSource: langSource,
       langTarget: langTarget,
       dispatch,
+      userUID: currentUser.uid,
     })
       .then((textFromGoogle) => {
         console.log('text from google: ', textFromGoogle)
@@ -118,10 +114,6 @@ const Details = ({ route, navigation }) => {
   const handleLanguageSwap = () => {
     dispatch(swapSelectedLanguages())
   }
-
-  const user = getAuth()
-  const current = user.currentUser
-  console.log('HERE', current)
 
   return (
     <View style={styles.root}>
