@@ -6,8 +6,17 @@ import {
   setIsTranslationFinal,
   setIsTranscriptionFinal,
 } from '../../slices/translationSlice'
+import writeToAtochaFile from '../../filesystem/writeToAtochaFile'
 
-const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
+const translationSession = ({
+  uri,
+  langSource,
+  langTarget,
+  dispatch,
+  userUID,
+}) => {
+  let closureTranslation = ''
+  let closureTransciption = ''
   return new Promise((resolve, reject) => {
     readAsStringAsync(uri, {
       encoding: EncodingType.Base64,
@@ -23,6 +32,7 @@ const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
             langTarget,
             audioData: audioBase64,
             fileFormat: 'm4a',
+            userUID,
           })
         })
         socket.on('partial-translation', (partialTranslation) => {
@@ -31,6 +41,7 @@ const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
         socket.on('final-translation', (finalTranslation) => {
           dispatch(setTranslatedText(finalTranslation.translation))
           dispatch(setIsTranslationFinal(true))
+          closureTranslation = finalTranslation.translation
         })
         socket.on('partial-transcription', (partialTranscription) => {
           dispatch(setTranscribedText(partialTranscription))
@@ -38,12 +49,22 @@ const translationSession = ({ uri, langSource, langTarget, dispatch }) => {
         socket.on('final-transcription', (finalTranscription) => {
           if (finalTranscription === '')
             dispatch(setTranscribedText('Please record again...'))
-          else dispatch(setTranscribedText(finalTranscription))
-
+          else {
+            dispatch(setTranscribedText(finalTranscription))
+            closureTransciption = finalTranscription
+          }
           dispatch(setIsTranscriptionFinal(true))
         })
         socket.on('session-complete', () => {
-          console.log('Session complete, disconnecting socket...')
+          const sessionObj = {
+            langSource,
+            langTarget,
+            uri,
+            sourceTranscription: closureTransciption,
+            targetTranscription: closureTranslation,
+            date: Date.now(),
+          }
+          writeToAtochaFile(JSON.stringify(sessionObj))
           socket.disconnect()
           resolve('session complete')
         })

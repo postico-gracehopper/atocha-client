@@ -8,9 +8,9 @@ const SessionTile = (props) => {
     date,
     sourceTranscription,
     targetTranscription,
-    sourceAudio,
-    sourceLang,
-    targetLang,
+    uri,
+    langSource,
+    langTarget,
   } = props.session.item
 
   if (typeof date === 'number') {
@@ -47,7 +47,7 @@ const SessionTile = (props) => {
       <View style={{ flex: 1 }}>
         <TextTranscriber
           text={sourceTranscription}
-          language={sourceLang}
+          language={langSource}
           color={colors.white}
           disabled={false}
         />
@@ -57,7 +57,7 @@ const SessionTile = (props) => {
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           <TextTranscriber
             text={targetTranscription}
-            language={targetLang}
+            language={langTarget}
             color={colors.white}
             disabled={false}
           />

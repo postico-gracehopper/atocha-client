@@ -37,6 +37,13 @@ const translationSlice = createSlice({
 
 export const selectCurrentText = (state) => state.translation.currentText
 
+export const selectSessionObject = (state) => {
+  return {
+    sourceTranscription: state.translation.transcribedText,
+    targetTranscription: state.translation.translatedText,
+  }
+}
+
 export const {
   setTranslatedText,
   setTranscribedText,
