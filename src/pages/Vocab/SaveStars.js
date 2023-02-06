@@ -26,22 +26,23 @@ async function addVocabToFirebase(userId, vocabWord, originalLang, definition) {
   }
 }
 
-const SaveStars = (vocab) => {
+const SaveStars = ({ sessionVocab, language }) => {
   const user = getAuth()
   const currentUser = user.currentUser
 
   const onSaveStars = async (event) => {
     event.preventDefault()
+    console.log('Session vocab issss', sessionVocab)
+    console.log('Passed-in language isss', language)
     if (currentUser) {
       const uid = currentUser.uid
-      console.log('Uid isss', uid)
-      // dummy data first
-      const starredWord = 'ananas'
-      const currentLang = 'fr-FR'
-      const starredDef = 'pineappleeee'
-      addVocabToFirebase(uid, starredWord, currentLang, starredDef).catch(
-        (error) => console.error(error),
-      )
+
+      // Iterate over the key-value pairs in the sessionVocab object
+      Object.entries(sessionVocab).forEach(([vocabWord, definition]) => {
+        addVocabToFirebase(uid, vocabWord, language, definition).catch(
+          (error) => console.error(error),
+        )
+      })
     } else {
       console.error('No user is signed in.')
     }

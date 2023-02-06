@@ -16,8 +16,6 @@ import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 import SaveStars from './SaveStars'
 
-const sessionVocab = {}
-
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
@@ -40,6 +38,7 @@ export default function Vocab() {
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [translatedStrings, setTranslatedStrings] = useState([])
+  const [sessionVocab, setSessionVocab] = useState({})
 
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
@@ -172,7 +171,10 @@ export default function Vocab() {
                                 ? selectedWords.filter((i) => i !== index)
                                 : [...selectedWords, index],
                             )
-                            sessionVocab[word] = translatedStrings[index]
+                            setSessionVocab({
+                              ...sessionVocab,
+                              [word]: translatedStrings[index],
+                            })
                             console.log('Session vocab is', sessionVocab)
                             console.log(
                               'Translated strings are',
@@ -198,7 +200,11 @@ export default function Vocab() {
                       Get a fresh list
                     </Text>
                   </Pressable>
-                  <SaveStars vocab={sessionVocab} />
+                  <SaveStars
+                    sessionVocab={sessionVocab}
+                    language={displayLang}
+                  />
+                  {/* currentLang should be updated; French is dummy data */}
                 </View>
               ) : (
                 <View style={styles.container}>
