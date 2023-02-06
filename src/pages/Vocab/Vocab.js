@@ -11,33 +11,12 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 
 import { uri } from '../../../constants'
-// import { getAuth } from 'firebase/auth'
 import { useAuth } from '../../../context/authContext'
-import { db } from '../../../firebase'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
+import SaveStars from './SaveStars'
 
 const sessionVocab = {}
-
-const currentUser = useAuth()
-
-async function addVocabToFirebase(user, vocabulary) {
-  try {
-    if (!currentUser) {
-      console.log('No user is signed in.')
-      return null
-    }
-    await db
-      .doc(`users/${user}`)
-      // Change "set" below to "update" once the field exists in Firebase
-      .set({
-        savedVocab: { ...vocabulary },
-      })
-    console.log('Vocab added to Firebase successfully')
-  } catch (error) {
-    console.error('Error adding vocab to Firebase: ', error)
-  }
-}
 
 const Loading = () => {
   return (
@@ -96,9 +75,12 @@ export default function Vocab() {
 
   async function onSaveStars(event) {
     event.preventDefault()
+    const currentUser = useAuth()
     if (currentUser) {
       const uid = currentUser.uid
-      await addVocabToFirebase(uid, sessionVocab)
+      addVocabToFirebase(uid, sessionVocab).catch((error) =>
+        console.error(error),
+      )
     } else {
       console.error('No user is signed in.')
     }
@@ -216,12 +198,7 @@ export default function Vocab() {
                       Get a fresh list
                     </Text>
                   </Pressable>
-                  <Pressable
-                    style={styles.vocabPressable}
-                    onPress={onSaveStars}
-                  >
-                    <Text style={styles.vocabPressableText}>Save my stars</Text>
-                  </Pressable>
+                  <SaveStars vocab={sessionVocab} />
                 </View>
               ) : (
                 <View style={styles.container}>
