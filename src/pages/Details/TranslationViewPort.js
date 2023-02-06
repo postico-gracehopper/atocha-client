@@ -54,35 +54,29 @@ const TranslationViewPort = ({
       ) : null}
       {viewMode === 'translation-output' ? (
         <View style={styles.textOutputContainer}>
-          {isTranscriptionFinal ? (
-            <TextOutput
-              styles={styles}
-              langCode={langSource}
-              langName={sourceLanguageOutput}
-              text={transcribedText}
-              isFinal={isTranscriptionFinal}
-            />
-          ) : null}
-          {isTranslationFinal ? (
-            <>
-              <View
-                style={{
-                  backgroundColor: colors.gray,
-                  height: 1,
-                  width: windowWidth * 0.9,
-                  marginTop: 15,
-                  marginBottom: 15,
-                }}
-              ></View>
-              <TextOutput
-                styles={styles}
-                langCode={langTarget}
-                langName={targetLanguageOutput}
-                text={translatedText}
-                isFinal={isTranslationFinal}
-              />
-            </>
-          ) : null}
+          <TextOutput
+            styles={styles}
+            langCode={langSource}
+            langName={sourceLanguageOutput}
+            text={transcribedText}
+            isFinal={isTranscriptionFinal}
+          />
+          <View
+            style={{
+              backgroundColor: colors.gray,
+              height: 1,
+              width: windowWidth * 0.9,
+              marginTop: 15,
+              marginBottom: 15,
+            }}
+          ></View>
+          <TextOutput
+            styles={styles}
+            langCode={langTarget}
+            langName={targetLanguageOutput}
+            text={translatedText}
+            isFinal={isTranslationFinal}
+          />
         </View>
       ) : null}
     </>
