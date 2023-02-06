@@ -24,18 +24,14 @@ const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [userName, setUserName] = useState('')
-
+  const [error, setError] = useState(null)
   const auth = getAuth()
   const navigation = useNavigation()
-  const { currentUser } = useAuth()
 
-  const user = auth.currentUser
-
-  const saveToDb = async () => {
-    const userId = user.uid
+  const saveToDb = async (uid) => {
     const updateDb = async () => {
       await setDoc(
-        doc(db, 'User', userId),
+        doc(db, 'User', uid),
         {
           email,
           userName,
@@ -47,22 +43,12 @@ const SignUp = () => {
     await updateDb().catch(console.error)
   }
 
-  //   function writeUserData(userId, userName, email) {
-  //     const db = getDatabase()
-  //     set(ref(db, '/User', userId), {
-  //       userName: userName,
-  //       email: email,
-  //     })
-  //     console.log('database updated')
-  //   }
-
   const updateUserName = () => {
-    updateProfile(user, {
+    updateProfile(auth.currentUser, {
       displayName: userName,
     })
       .then(() => {
         console.log('Profile updated')
-        console.log(user.displayName)
       })
       .catch((error) => {
         console.log(error)
@@ -73,15 +59,19 @@ const SignUp = () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user
+        saveToDb(user.uid)
         console.log('SUCCESS', user)
       })
       .then(() => {
         navigation.navigate('Details')
       })
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(error)
+        setError(error.code.split('/')[1].split('-').join(' '))
+        if (error.code.includes('internal-error')) {
+          setError('Please fill out all fields!')
+        } else if (error.code.includes('weak-password')) {
+          setError('password must be at least 6 characters!')
+        }
       })
   }
 
@@ -92,6 +82,7 @@ const SignUp = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
+        <Text style={styles.title}>Atocha</Text>
         <View style={styles.page}>
           <TextInput
             style={styles.input}
@@ -119,16 +110,16 @@ const SignUp = () => {
             secureTextEntry
           />
           <TouchableOpacity
-            style={styles.loginBtn}
+            style={styles.signOutBtn}
             onPress={async () => {
               await onSignUpPress()
-              saveToDb()
               //writeUserData(userId, userName, email)
               updateUserName()
             }}
           >
             <Text style={{ color: 'white' }}>Sign Up</Text>
           </TouchableOpacity>
+          {error !== null ? <Text style={styles.error}>{error}</Text> : null}
         </View>
       </ImageBackground>
     </View>
@@ -136,8 +127,14 @@ const SignUp = () => {
 }
 
 const styles = StyleSheet.create({
-  loginBtn: {
-    width: 200,
+  title: {
+    marginTop: 40,
+    fontFamily: 'arsilon',
+    color: colors.primary,
+    fontSize: 80,
+  },
+  signOutBtn: {
+    width: 150,
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
@@ -161,8 +158,11 @@ const styles = StyleSheet.create({
   },
   page: {
     width: 200,
+    height: 350,
     alignItems: 'center',
-    marginTop: 200,
+    marginTop: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    borderRadius: 25,
   },
   image: {
     flex: 1,
@@ -171,6 +171,12 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.lightGrayPurple,
+  },
+  error: {
+    marginTop: 10,
+    borderRadius: 20,
+    color: colors.primary,
+    fontSize: 16,
   },
 })
 

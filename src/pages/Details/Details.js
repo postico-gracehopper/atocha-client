@@ -30,7 +30,7 @@ import {
   setInputLanguageString,
   setOutputLanguageString,
 } from '../../slices/languagePickerSlice'
-
+import { getAuth } from 'firebase/auth'
 import languages from '../SelectLanguage/languageList'
 
 import translationSession from './translationSession'
@@ -136,6 +136,10 @@ const Details = () => {
   const handleLanguageSwap = () => {
     dispatch(swapSelectedLanguages())
   }
+
+  const user = getAuth()
+  const current = user.currentUser
+  console.log('HERE', current)
 
   const handleTextSubmit = async () => {
     console.log('text submitted')
