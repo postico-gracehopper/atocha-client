@@ -41,11 +41,13 @@ const image = {
   // move this someplace else
   uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
 }
+import { useAuth } from '../../../context/authContext'
 
 const Details = () => {
   const [recording, setRecording] = React.useState()
   const [isRecording, setIsRecording] = React.useState(false)
   const [viewMode, setViewMode] = React.useState('text-input')
+  const { currentUser } = useAuth()
 
   const transcribedText = useSelector(
     (state) => state.translation.transcribedText,
@@ -70,19 +72,15 @@ const Details = () => {
     dispatch(setIsTranscriptionFinal(false))
     dispatch(setIsTranslationFinal(false))
     try {
-      console.log('Requesting permission from the phone..')
       await Audio.requestPermissionsAsync()
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       })
-
-      console.log('Starting recording..')
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY,
       )
       setRecording(recording)
-      console.log('Recording started')
     } catch (err) {
       console.error('Failed to start recording', err)
     }
@@ -91,6 +89,7 @@ const Details = () => {
   async function stopRecording() {
     console.log('Stopping recording..')
     setViewMode('translation-output')
+
     setIsRecording(false)
     setRecording(undefined)
     dispatch(setSourceLanguageOutput(langSourceName))
@@ -101,13 +100,12 @@ const Details = () => {
     })
 
     const uri = await recording.getURI()
-    console.log('stop recording entered')
-
     translationSession({
       uri,
       langSource: langSource,
       langTarget: langTarget,
       dispatch,
+      userUID: currentUser.uid,
     })
       .then((textFromGoogle) => {
         console.log('text from google: ', textFromGoogle)

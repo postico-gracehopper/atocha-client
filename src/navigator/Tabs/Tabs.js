@@ -79,7 +79,7 @@ const TabNavigator = () => (
       },
     })}
   >
-    <Tab.Screen name="History" component={History} />
+    <Tab.Screen name="History" component={History} key={Date.now()} />
     <Tab.Screen name="Details" component={Details} />
     {/* <Tab.Screen name="Language" component={SelectLanguage} /> */}
     <Tab.Screen name="Vocab" component={Vocab} />
