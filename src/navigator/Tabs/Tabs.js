@@ -65,6 +65,15 @@ const TabNavigator = () => (
                 solid
               />
             )
+          case 'Phrasebook':
+            return (
+              <FontAwesome5
+                name="book"
+                color={focused ? colors.brightPrimary : colors.fadedPrimary}
+                size={20}
+                solid
+              />
+            )
           case 'Logout':
             return (
               <FontAwesome5
