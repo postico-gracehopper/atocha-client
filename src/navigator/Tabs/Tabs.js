@@ -12,6 +12,7 @@ import { colors } from 'theme'
 // import { HomeNavigator, ProfileNavigator } from '../Stacks'
 
 import Details from '../../pages/Details'
+import Phrasebook from '../../pages/Phrasebook'
 import SelectLanguage from '../../pages/SelectLanguage'
 import Vocab from '../../pages/Vocab'
 import History from '../../pages/History'
@@ -80,6 +81,7 @@ const TabNavigator = () => (
     })}
   >
     <Tab.Screen name="History" component={History} key={Date.now()} />
+    <Tab.Screen name="Phrasebook" component={Phrasebook} />
     <Tab.Screen name="Details" component={Details} />
     {/* <Tab.Screen name="Language" component={SelectLanguage} /> */}
     <Tab.Screen name="Vocab" component={Vocab} />
