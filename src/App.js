@@ -28,7 +28,6 @@ const App = () => {
   const anonymousSignIn = () => {
     if (!loggedIn) {
       const auth = getAuth()
-      console.log('IN ANONYMOUS SIGN IN')
       signInAnonymously(auth)
         .then(() => {})
         .catch((error) => {

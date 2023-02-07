@@ -32,7 +32,6 @@ const TextEntry = ({ styles, onSubmitEditing, langCode }) => {
         returnKeyType="done"
         onChangeText={handleChangeText}
         onSubmitEditing={onSubmitEditing}
-        // onSubmitEditing={() => console.log('SUBMITTED!')}
       />
     </View>
   )

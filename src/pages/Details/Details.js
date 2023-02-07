@@ -139,7 +139,6 @@ const Details = () => {
 
   const user = getAuth()
   const current = user.currentUser
-  console.log('HERE', current)
 
   const handleTextSubmit = async () => {
     console.log('text submitted')
@@ -164,7 +163,13 @@ const Details = () => {
   const handleReset = async () => {
     setViewMode('text-input')
     setIsRecording(false)
-    setRecording(undefined)
+    if (recording) {
+      console.log(
+        '🚀 ~ file: Details.js:167 ~ handleReset ~ recording',
+        recording,
+      )
+      await recording.stopAndUnloadAsync()
+    }
     dispatch(setTranscribedText(''))
     dispatch(setTranslatedText(''))
     dispatch(setIsTranscriptionFinal(false))
@@ -268,8 +273,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingTop: 40,
-    paddingBottom: 20,
+    paddingTop: 35,
+    paddingBottom: 15,
   },
   picker: {
     width: 170,
@@ -277,7 +282,7 @@ const styles = StyleSheet.create({
   onePickerItem: {
     height: 130,
     color: colors.white,
-    fontSize: 20,
+    fontSize: 18,
     fontStyle: 'bold',
   },
   textInputContainer: {
@@ -287,7 +292,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   textOutputContainer: {
-    flex: 5,
+    flex: 1.8,
     width: '100%',
     paddingLeft: 20,
   },
@@ -318,7 +323,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   controlContainer: {
-    flex: 2,
+    flex: 1.75,
     width: '100%',
   },
   recordButtonContainer: {
@@ -360,6 +365,61 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 25,
     fontFamily: 'Cochin',
+  },
+  finalText: {
+    marginTop: 5,
+    color: colors.white,
+    fontSize: 25,
+    fontFamily: 'Cochin',
+  },
+  finalText: {
+    marginTop: 5,
+    color: colors.white,
+    fontSize: 25,
+    fontFamily: 'Cochin',
+  },
+  generatedTextContainer: {
+    flex: 3,
+    width: '100%',
+    paddingTop: 50,
+  },
+  generatedTextHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+  },
+  generatedTextHeaderActive: {
+    alignItems: 'center',
+    // borderBottomColor: colors.white,
+    // borderBottomWidth: 2,
+    width: '50%',
+    backgroundColor: 'rgba(169, 169, 169, 0.2)',
+  },
+  generatedTextHeaderInactive: {
+    alignItems: 'center',
+    width: '50%',
+  },
+  generatedTextHeaderText: {
+    color: colors.white,
+    fontSize: 18,
+    fontFamily: 'Cochin',
+  },
+  generatedTextActiveContainer: {
+    backgroundColor: 'rgba(169, 169, 169, 0.2)',
+    flex: 1,
+    paddingLeft: 20,
+    paddingTop: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    marginTop: 10,
+    color: colors.white,
   },
 })
 
