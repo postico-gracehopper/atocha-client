@@ -1,8 +1,9 @@
-import { useState, useEffect, React } from 'react'
+import { useState, React } from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 import colors from '../../theme/colors'
 import { getAuth } from 'firebase/auth'
 import { db } from '../../../firebase'
+import { Animated, Easing } from 'react-native'
 
 import { doc, collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
@@ -29,11 +30,34 @@ async function addVocabToFirebase(userId, vocabWord, originalLang, definition) {
 const SaveStars = ({ sessionVocab, language }) => {
   const user = getAuth()
   const currentUser = user.currentUser
+  const [backgroundColor, setBackgroundColor] = useState(colors.primary)
+  const [textColor, setTextColor] = useState(colors.white)
+  const [textOpacity, setTextOpacity] = useState(new Animated.Value(1))
+  const [text, setText] = useState('Save my stars')
 
   const onSaveStars = async (event) => {
     event.preventDefault()
-    console.log('Session vocab issss', sessionVocab)
-    console.log('Passed-in language isss', language)
+    setBackgroundColor('white')
+    setTimeout(() => {
+      setBackgroundColor(colors.brightPrimary)
+    }, 200)
+
+    Animated.timing(textOpacity, {
+      toValue: 0,
+      duration: 800,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start(() => {
+      setText('Vocabulary saved.')
+      setBackgroundColor(colors.primary)
+      Animated.timing(textOpacity, {
+        toValue: 1,
+        duration: 500,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start()
+    })
+
     if (currentUser) {
       const uid = currentUser.uid
 
@@ -49,24 +73,31 @@ const SaveStars = ({ sessionVocab, language }) => {
   }
 
   return (
-    <Pressable style={styles.vocabPressable} onPress={onSaveStars}>
-      <Text style={styles.vocabPressableText}>Save my stars</Text>
+    <Pressable
+      style={[styles.vocabPressable, { backgroundColor }]}
+      onPress={onSaveStars}
+    >
+      <Animated.Text
+        style={[styles.vocabPressableText, { opacity: textOpacity }]}
+      >
+        {text}
+      </Animated.Text>
     </Pressable>
   )
 }
 const styles = StyleSheet.create({
   vocabPressable: {
-    marginTop: 30,
+    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: colors.brightPrimary,
   },
   vocabPressableText: {
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: 'Baskerville',
+    color: colors.white,
   },
 })
 

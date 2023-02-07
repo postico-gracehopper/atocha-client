@@ -49,10 +49,6 @@ export default function Vocab() {
   let nonEnglishCode = ''
   let displayLang = ''
 
-  // MV note: Below I've coded in the ability to use both
-  // input and output languages in both the OpenAI vocab list generation
-  // AND the translation call to Google. Right now, we're only translating
-  // non-English words to English, but this lets us change that in the future.
   if (currInput == 'en-US') {
     nonEnglishCode = currOutput.split('-')[0]
     displayLang = languages.find(
@@ -67,23 +63,9 @@ export default function Vocab() {
 
   useEffect(() => {
     if (result) {
-      // getDefinitions(result.split(/[\s,]+/))
       getDefinitions(result)
     }
   }, [result])
-
-  async function onSaveStars(event) {
-    event.preventDefault()
-    const currentUser = useAuth()
-    if (currentUser) {
-      const uid = currentUser.uid
-      addVocabToFirebase(uid, sessionVocab).catch((error) =>
-        console.error(error),
-      )
-    } else {
-      console.error('No user is signed in.')
-    }
-  }
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -115,14 +97,15 @@ export default function Vocab() {
           .split(' ')
           .filter((el) => el !== ''),
       )
-      console.log('Data dot result was', data.result)
       setIsLoading(false)
+      setSelectedWords([])
     } catch (error) {
       console.error(error)
     }
   }
 
   async function getDefinitions(wordArray) {
+    // Next we'll use Google translate to give the definitions for each word/phrase.
     try {
       console.log('getDefinitions is using this "result": ', wordArray)
       const response = await axios({
@@ -138,6 +121,7 @@ export default function Vocab() {
       setTranslatedStrings(
         response.data.map((word) => word.toLowerCase().replace(/\./gi, '')),
       )
+      console.log('Translated strings arrre', translatedStrings)
       if (response.status !== 200) {
         throw (
           data.error ||
@@ -160,41 +144,40 @@ export default function Vocab() {
             <>
               {result ? (
                 <View style={styles.container}>
-                  {result &&
-                    result.map((word, index) => (
-                      <View key={index} style={styles.wordContainer}>
-                        <Pressable
-                          onPress={() => {
-                            const selected = selectedWords.includes(index)
-                            setSelectedWords(
-                              selected
-                                ? selectedWords.filter((i) => i !== index)
-                                : [...selectedWords, index],
-                            )
-                            setSessionVocab({
-                              ...sessionVocab,
-                              [word]: translatedStrings[index],
-                            })
-                            console.log('Session vocab is', sessionVocab)
-                            console.log(
-                              'Translated strings are',
-                              translatedStrings,
-                            )
-                          }}
-                        >
-                          <Text style={styles.vocabList}>
-                            {selectedWords.includes(index) ? (
-                              <Text style={styles.selectedVocab}>★ {word}</Text>
-                            ) : (
-                              <Text>☆ {word}</Text>
-                            )}
-                          </Text>
-                          <Text style={styles.vocabDefinition}>
-                            {translatedStrings[index]}
-                          </Text>
-                        </Pressable>
-                      </View>
-                    ))}
+                  <View style={styles.vocabContainer}>
+                    {result &&
+                      result.map((word, index) => (
+                        <View key={index} style={styles.wordContainer}>
+                          <Pressable
+                            onPress={() => {
+                              const selected = selectedWords.includes(index)
+                              setSelectedWords(
+                                selected
+                                  ? selectedWords.filter((i) => i !== index)
+                                  : [...selectedWords, index],
+                              )
+                              setSessionVocab({
+                                ...sessionVocab,
+                                [word]: translatedStrings[index],
+                              })
+                            }}
+                          >
+                            <Text style={styles.starContainer}>
+                              {selectedWords.includes(index) ? (
+                                <Text style={styles.selectedVocab}>
+                                  ★ {word}
+                                </Text>
+                              ) : (
+                                <Text>☆ {word}</Text>
+                              )}
+                            </Text>
+                            <Text style={styles.vocabDefinition}>
+                              {translatedStrings[index]}
+                            </Text>
+                          </Pressable>
+                        </View>
+                      ))}
+                  </View>
                   <Pressable style={styles.vocabPressable} onPress={onSubmit}>
                     <Text style={styles.vocabPressableText}>
                       Get a fresh list
@@ -246,7 +229,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     zIndex: 1,
   },
   image: {
@@ -313,15 +296,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brightPrimary,
   },
   vocabPressableText: {
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: 'Baskerville',
+    color: colors.white,
   },
-  vocabList: {
+  starContainer: {
     fontFamily: 'Baskerville-SemiBold',
     fontSize: 32,
     lineHeight: 42,
     color: colors.white,
-    textAlign: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  vocabContainer: {
+    alignContent: 'flex-start',
+    paddingTop: 60,
   },
   vocabDefinition: {
     fontFamily: 'Baskerville',
@@ -329,7 +318,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontSize: 24,
     color: colors.white,
-    textAlign: 'center',
+    textAlign: 'left',
+    paddingLeft: 40,
   },
   wordContainer: {
     marginBottom: 16,
