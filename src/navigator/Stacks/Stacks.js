@@ -7,6 +7,7 @@ import Details from 'pages/Details'
 import SelectLanguage from '../../pages/SelectLanguage'
 import Vocab from '../../pages/Vocab'
 import Login from 'pages/Login'
+import Phrasebook from '../../pages/Phrasebook'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
 import Login from '../../pages/AuthPages'
@@ -70,6 +71,13 @@ export const HomeNavigator = () => (
       component={Login}
       options={{
         title: 'Login',
+      }}
+    />
+    <Stack.Screen
+      name="Phrasebook"
+      component={Phrasebook}
+      options={{
+        title: 'Phrasebook',
       }}
     />
   </Stack.Navigator>
