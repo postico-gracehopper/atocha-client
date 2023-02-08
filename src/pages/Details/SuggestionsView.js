@@ -70,8 +70,7 @@ const SuggestingsView = ({ styles }) => {
   }
 
   return (
-    <>
-      {/* <View style={styles.teacherOutputContainer}> */}
+    <View style={styles.generatedTextActiveContainer}>
       {isLoading ? (
         <Loading styles={styles} />
       ) : (
@@ -91,8 +90,7 @@ const SuggestingsView = ({ styles }) => {
           })}
         </>
       )}
-      {/* </View> */}
-    </>
+    </View>
   )
 }
 

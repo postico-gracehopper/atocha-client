@@ -59,20 +59,18 @@ const TeacherView = ({ styles }) => {
   }
 
   return (
-    <>
-      <View style={styles.generatedTextActiveContainer}>
-        {isLoading ? (
-          <Loading styles={styles} />
-        ) : (
-          <>
-            <Pressable onPress={onSubmit}>
-              <Text style={styles.finalText}>Ask the teacher</Text>
-            </Pressable>
-            <Text style={styles.teacherText}>{result}</Text>
-          </>
-        )}
-      </View>
-    </>
+    <View style={styles.generatedTextActiveContainer}>
+      {isLoading ? (
+        <Loading styles={styles} />
+      ) : (
+        <>
+          <Pressable onPress={onSubmit}>
+            <Text style={styles.finalText}>Ask the teacher</Text>
+          </Pressable>
+          <Text style={styles.teacherText}>{result}</Text>
+        </>
+      )}
+    </View>
   )
 }
 

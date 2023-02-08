@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   textOutputContainer: {
-    flex: 1.8,
+    flex: 1,
     width: '100%',
     paddingLeft: 20,
   },
@@ -321,7 +321,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   controlContainer: {
-    flex: 1.75,
+    position: 'absolute',
+    bottom: 15,
     width: '100%',
   },
   recordButtonContainer: {
@@ -331,16 +332,16 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   recordButtonOn: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 100,
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 100,
     backgroundColor: colors.pink,
     justifyContent: 'center',
@@ -350,30 +351,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingRight: 15,
+    paddingRight: 70,
   },
   partialText: {
     marginTop: 5,
     color: colors.gray,
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'Cochin',
   },
   finalText: {
     marginTop: 5,
     color: colors.white,
-    fontSize: 25,
-    fontFamily: 'Cochin',
-  },
-  finalText: {
-    marginTop: 5,
-    color: colors.white,
-    fontSize: 25,
-    fontFamily: 'Cochin',
-  },
-  finalText: {
-    marginTop: 5,
-    color: colors.white,
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'Cochin',
   },
   generatedTextContainer: {
@@ -389,10 +378,10 @@ const styles = StyleSheet.create({
   },
   generatedTextHeaderActive: {
     alignItems: 'center',
-    // borderBottomColor: colors.white,
-    // borderBottomWidth: 2,
     width: '50%',
     backgroundColor: 'rgba(169, 169, 169, 0.2)',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   generatedTextHeaderInactive: {
     alignItems: 'center',
@@ -408,6 +397,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 20,
     paddingTop: 10,
+    marginBottom: 10,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   loadingContainer: {
     flex: 1,

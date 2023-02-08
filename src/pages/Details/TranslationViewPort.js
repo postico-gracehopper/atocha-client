@@ -83,45 +83,48 @@ const TranslationViewPort = ({
               isFinal={isTranslationFinal}
             />
           </View>
-
-          <View style={styles.generatedTextContainer}>
-            <View style={styles.generatedTextHeader}>
-              <Pressable
-                style={
-                  generatedTextView === 'teacher'
-                    ? styles.generatedTextHeaderActive
-                    : styles.generatedTextHeaderInactive
-                }
-                disabled={generatedTextView === 'teacher'}
-                onPress={() => {
-                  setGeneratedTextView('teacher')
-                }}
-              >
-                <Text style={styles.generatedTextHeaderText}>Teacher</Text>
-                <Text style={styles.generatedTextHeaderText}>explanation</Text>
-              </Pressable>
-              <Pressable
-                style={
-                  generatedTextView === 'recommendations'
-                    ? styles.generatedTextHeaderActive
-                    : styles.generatedTextHeaderInactive
-                }
-                disabled={generatedTextView === 'recommendations'}
-                onPress={() => {
-                  setGeneratedTextView('recommendations')
-                }}
-              >
-                <Text style={styles.generatedTextHeaderText}>Suggested</Text>
-                <Text style={styles.generatedTextHeaderText}>responses</Text>
-              </Pressable>
+          {isTranslationFinal ? (
+            <View style={styles.generatedTextContainer}>
+              <View style={styles.generatedTextHeader}>
+                <Pressable
+                  style={
+                    generatedTextView === 'teacher'
+                      ? styles.generatedTextHeaderActive
+                      : styles.generatedTextHeaderInactive
+                  }
+                  disabled={generatedTextView === 'teacher'}
+                  onPress={() => {
+                    setGeneratedTextView('teacher')
+                  }}
+                >
+                  <Text style={styles.generatedTextHeaderText}>Teacher</Text>
+                  <Text style={styles.generatedTextHeaderText}>
+                    explanation
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={
+                    generatedTextView === 'recommendations'
+                      ? styles.generatedTextHeaderActive
+                      : styles.generatedTextHeaderInactive
+                  }
+                  disabled={generatedTextView === 'recommendations'}
+                  onPress={() => {
+                    setGeneratedTextView('recommendations')
+                  }}
+                >
+                  <Text style={styles.generatedTextHeaderText}>Suggested</Text>
+                  <Text style={styles.generatedTextHeaderText}>responses</Text>
+                </Pressable>
+              </View>
+              {generatedTextView === 'teacher' ? (
+                <TeacherView styles={styles} />
+              ) : null}
+              {generatedTextView === 'recommendations' ? (
+                <SuggestingsView styles={styles} />
+              ) : null}
             </View>
-            {generatedTextView === 'teacher' ? (
-              <TeacherView styles={styles} />
-            ) : null}
-            {generatedTextView === 'recommendations' ? (
-              <SuggestingsView styles={styles} />
-            ) : null}
-          </View>
+          ) : null}
         </>
       ) : null}
     </>
