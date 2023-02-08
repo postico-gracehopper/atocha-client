@@ -99,7 +99,7 @@ export default function TabNavigator() {
       <Tab.Screen name="History" component={History} key={Date.now()} />
       <Tab.Screen
         name="Phrasebook"
-        component={user ? Phrasebook : LoggedOutPhrasebook}
+        component={user.email == null ? LoggedOutPhrasebook : Phrasebook}
       />
       <Tab.Screen name="Details" component={Details} />
       <Tab.Screen name="Vocab" component={Vocab} />
