@@ -10,6 +10,7 @@ import Phrasebook from '../../pages/Phrasebook'
 import Vocab from '../../pages/Vocab'
 import History from '../../pages/History'
 import LoggedOutPhrasebook from '../../pages/Phrasebook/LoggedOutPhrasebook'
+import LoggedOutVocab from '../../pages/Vocab/LoggedOutVocab'
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -105,12 +106,12 @@ export default function TabNavigator() {
       })}
     >
       <Tab.Screen name="History" component={History} key={Date.now()} />
+      <Tab.Screen name="Details" component={Details} />
+      <Tab.Screen name="Vocab" component={loggedIn ? Vocab : LoggedOutVocab} />
       <Tab.Screen
         name="Phrasebook"
         component={loggedIn ? Phrasebook : LoggedOutPhrasebook}
       />
-      <Tab.Screen name="Details" component={Details} />
-      <Tab.Screen name="Vocab" component={Vocab} />
     </Tab.Navigator>
   )
 }

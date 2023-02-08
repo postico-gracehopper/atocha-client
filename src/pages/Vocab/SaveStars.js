@@ -38,8 +38,7 @@ const SaveStars = ({ sessionVocab, language }) => {
   const onSaveStars = async (event) => {
     event.preventDefault()
     setText('Loading...')
-    setBackgroundColor('red')
-    setColor('blue')
+    setBackgroundColor(colors.primary)
 
     if (currentUser) {
       const uid = currentUser.uid
@@ -55,8 +54,7 @@ const SaveStars = ({ sessionVocab, language }) => {
       await new Promise((resolve) => setTimeout(resolve, 500))
 
       setText('Vocabulary saved.')
-      setBackgroundColor(colors.fadedPrimary)
-      setColor(colors.lightPrimary)
+      setColor(colors.fadedPrimary)
     } else {
       console.error('No user is signed in.')
     }
