@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   },
   starContainer: {
     fontFamily: 'Baskerville-SemiBold',
-    fontSize: 26,
+    fontSize: 22,
     lineHeight: 42,
     color: colors.white,
     flexDirection: 'row',

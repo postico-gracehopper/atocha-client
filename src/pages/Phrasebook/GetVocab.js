@@ -62,7 +62,7 @@ const GetVocab = () => {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 0.9,
+    flex: 1,
   },
   scrollView: {
     flex: 1,
@@ -71,17 +71,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 8,
+    maxWidth: '95%',
   },
   vocabWord: {
     fontSize: 20,
     color: 'white',
-    paddingRight: 8,
+    flexWrap: 'wrap',
+    maxWidth: '50%',
   },
   definition: {
     fontSize: 20,
     fontStyle: 'italic',
     fontWeight: '700',
     color: colors.brightPrimary,
+    flexWrap: 'wrap',
+    maxWidth: '50%',
+    textAlign: 'right',
   },
 })
 

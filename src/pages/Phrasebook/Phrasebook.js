@@ -1,4 +1,4 @@
-import { useState, useEffect, React } from 'react'
+import { useState, React } from 'react'
 import {
   View,
   Text,
@@ -6,11 +6,9 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native'
-import { useSelector } from 'react-redux'
 import { getAuth } from 'firebase/auth'
 
 import colors from '../../theme/colors'
-import { db } from '../../../firebase'
 import GetVocab from './GetVocab'
 
 const Loading = () => {
@@ -24,22 +22,11 @@ const Loading = () => {
 
 export default function Phrasebook() {
   const user = getAuth()
-  const currentUser = user.currentUser
   const [isLoading, setIsLoading] = useState(false)
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     getVocab(currentUser)
-  //   } else {
-  //     console.log("Nobody's logged innn")
-  //   }
-  // }, [])
 
   const image = {
     uri: 'https://images.unsplash.com/photo-1573455494057-12684d151bf4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1862&q=80',
   }
-
-  const currentMessage = useSelector((state) => state.translation.currentText)
 
   return (
     <View style={styles.root}>
