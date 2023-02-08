@@ -14,7 +14,9 @@ import colors from '../../theme/colors'
 
 const Login = () => {
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [error, setError] = useState(null)
 
   const navigation = useNavigation()
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 30,
     color: colors.primary,
   },
   page: {
