@@ -1,10 +1,11 @@
 import { useState, useEffect, React } from 'react'
-import { View, Pressable, Text, StyleSheet, ScrollView } from 'react-native'
-import colors from '../../theme/colors'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import { getAuth } from 'firebase/auth'
 import { db } from '../../../firebase'
+import { collection, onSnapshot } from 'firebase/firestore'
 
-import { getDocs, collection, onSnapshot } from 'firebase/firestore'
+import { langFlags } from './langFlags'
+import colors from '../../theme/colors'
 
 const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
@@ -19,8 +20,6 @@ const GetVocab = () => {
     const unsub = onSnapshot(
       collection(db, `User/${userId}/phrasebook`),
       (querySnapshot) => {
-        console.log('Query path:', `User/${userId}/phrasebook`)
-
         const vocabWords = querySnapshot.docs.map((doc) => {
           return {
             id: doc.id,
@@ -33,7 +32,7 @@ const GetVocab = () => {
         vocabWords.sort((a, b) => {
           const dateA = a.dateAdded ? new Date(a.dateAdded) : 0
           const dateB = b.dateAdded ? new Date(b.dateAdded) : 0
-          return -1 * (dateA - dateB)
+          return dateA - dateB
         })
         setVocabWords(vocabWords)
       },
@@ -51,7 +50,7 @@ const GetVocab = () => {
         {vocabWords.map((word) => (
           <View key={word.id} style={styles.wordContainer}>
             <Text style={styles.vocabWord}>
-              ({word.originalLang}) {word.vocabWord}
+              {langFlags[word.originalLang]} {word.vocabWord}
             </Text>
             <Text style={styles.definition}>{word.definition}</Text>
           </View>
@@ -66,24 +65,28 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    alignSelf: 'center',
+    justifySelf: 'center',
   },
   wordContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 8,
+    margin: 4,
     maxWidth: '95%',
   },
   vocabWord: {
-    fontSize: 20,
+    fontSize: 22,
     color: 'white',
     flexWrap: 'wrap',
     maxWidth: '50%',
+    textAlign: 'left',
+    fontFamily: 'Cochin',
   },
   definition: {
     fontSize: 20,
-    fontStyle: 'italic',
     fontWeight: '700',
-    color: colors.brightPrimary,
+    color: colors.lightPrimary,
+    fontFamily: 'Cochin',
     flexWrap: 'wrap',
     maxWidth: '50%',
     textAlign: 'right',

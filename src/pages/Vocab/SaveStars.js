@@ -31,42 +31,32 @@ const SaveStars = ({ sessionVocab, language }) => {
   const user = getAuth()
   const currentUser = user.currentUser
   const [backgroundColor, setBackgroundColor] = useState(colors.primary)
-  const [textColor, setTextColor] = useState(colors.white)
+  const [color, setColor] = useState(colors.white)
   const [textOpacity, setTextOpacity] = useState(new Animated.Value(1))
   const [text, setText] = useState('Save my stars')
 
   const onSaveStars = async (event) => {
     event.preventDefault()
-    setBackgroundColor('white')
-    setTimeout(() => {
-      setBackgroundColor(colors.brightPrimary)
-    }, 200)
-
-    Animated.timing(textOpacity, {
-      toValue: 0,
-      duration: 800,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start(() => {
-      setText('Vocabulary saved.')
-      setBackgroundColor(colors.primary)
-      Animated.timing(textOpacity, {
-        toValue: 1,
-        duration: 500,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }).start()
-    })
+    setText('Loading...')
+    setBackgroundColor('red')
+    setColor('blue')
 
     if (currentUser) {
       const uid = currentUser.uid
 
       // Iterate over the key-value pairs in the sessionVocab object
-      Object.entries(sessionVocab).forEach(([vocabWord, definition]) => {
-        addVocabToFirebase(uid, vocabWord, language, definition).catch(
-          (error) => console.error(error),
-        )
-      })
+      await Promise.all(
+        Object.entries(sessionVocab).map(([vocabWord, definition]) => {
+          return addVocabToFirebase(uid, vocabWord, language, definition)
+        }),
+      ).catch((error) => console.error(error))
+
+      setText('Saving...')
+      await new Promise((resolve) => setTimeout(resolve, 500))
+
+      setText('Vocabulary saved.')
+      setBackgroundColor(colors.fadedPrimary)
+      setColor(colors.lightPrimary)
     } else {
       console.error('No user is signed in.')
     }
@@ -74,11 +64,11 @@ const SaveStars = ({ sessionVocab, language }) => {
 
   return (
     <Pressable
-      style={[styles.vocabPressable, { backgroundColor }]}
+      style={[styles.vocabPressable, { backgroundColor }, { color }]}
       onPress={onSaveStars}
     >
       <Animated.Text
-        style={[styles.vocabPressableText, { opacity: textOpacity }]}
+        style={[styles.vocabPressableText, { opacity: textOpacity, color }]}
       >
         {text}
       </Animated.Text>
@@ -97,7 +87,6 @@ const styles = StyleSheet.create({
   vocabPressableText: {
     fontSize: 18,
     fontFamily: 'Baskerville',
-    color: colors.white,
   },
 })
 

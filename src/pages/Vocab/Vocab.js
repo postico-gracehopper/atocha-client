@@ -303,14 +303,16 @@ const styles = StyleSheet.create({
   starContainer: {
     fontFamily: 'Baskerville-SemiBold',
     fontSize: 22,
-    lineHeight: 42,
     color: colors.white,
     flexDirection: 'row',
     justifyContent: 'center',
   },
   vocabContainer: {
     alignContent: 'flex-start',
+    flexWrap: 'wrap',
     paddingTop: 60,
+    // marginHorizontal: 2,
+    maxWidth: '100%',
   },
   vocabDefinition: {
     fontFamily: 'Baskerville',
@@ -319,6 +321,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: colors.white,
     textAlign: 'left',
+    paddingVertical: 8,
     paddingLeft: 40,
   },
   wordContainer: {
