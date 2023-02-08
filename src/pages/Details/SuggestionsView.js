@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Text, Pressable, View, ActivityIndicator } from 'react-native'
 
 import colors from '../../theme/colors'
+import SingleSuggestion from './SingleSuggestion'
 
 const Loading = ({ styles }) => {
   return (
@@ -28,10 +29,13 @@ const SuggestingsView = ({ styles }) => {
 
   const [result, setResult] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
+    setSubmitted(true)
+
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
@@ -69,23 +73,34 @@ const SuggestingsView = ({ styles }) => {
     }
   }
 
+  const onPress = () => {
+    console.log('onPress')
+  }
+
   return (
     <View style={styles.generatedTextActiveContainer}>
+      {!submitted ? (
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Pressable onPress={onSubmit} style={styles.generatePressable}>
+            <Text style={styles.generatePressableText}>Continue the convo</Text>
+          </Pressable>
+        </View>
+      ) : null}
       {isLoading ? (
         <Loading styles={styles} />
       ) : (
         <>
-          <Pressable onPress={onSubmit}>
-            <Text style={styles.finalText}>Suggest responses</Text>
-          </Pressable>
           {result.map((item) => {
             return (
-              <View key={item.source}>
-                {console.log('item.source', item.source)}
-                {console.log('item.target', item.target)}
-                <Text style={styles.teacherText}>{item.source}</Text>
-                <Text style={styles.teacherText}>{item.target}</Text>
-              </View>
+              <SingleSuggestion
+                key={item.source}
+                styles={styles}
+                onPress={onPress}
+                sourceText={item.source}
+                targetText={item.target}
+              />
             )
           })}
         </>

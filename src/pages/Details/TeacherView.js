@@ -28,10 +28,12 @@ const TeacherView = ({ styles }) => {
 
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
+    setSubmitted(true)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
@@ -60,15 +62,21 @@ const TeacherView = ({ styles }) => {
 
   return (
     <View style={styles.generatedTextActiveContainer}>
+      {!submitted ? (
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Pressable onPress={onSubmit} style={styles.generatePressable}>
+            <Text style={styles.generatePressableText}>Ask the teacher</Text>
+          </Pressable>
+        </View>
+      ) : null}
       {isLoading ? (
         <Loading styles={styles} />
       ) : (
-        <>
-          <Pressable onPress={onSubmit}>
-            <Text style={styles.finalText}>Ask the teacher</Text>
-          </Pressable>
+        <View>
           <Text style={styles.teacherText}>{result}</Text>
-        </>
+        </View>
       )}
     </View>
   )

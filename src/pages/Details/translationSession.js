@@ -15,6 +15,7 @@ const translationSession = ({
   dispatch,
   userUID,
 }) => {
+  console.log('translationSession() called')
   let closureTranslation = ''
   let closureTransciption = ''
   return new Promise((resolve, reject) => {

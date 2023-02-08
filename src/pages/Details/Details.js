@@ -65,6 +65,7 @@ const Details = () => {
   const dispatch = useDispatch()
 
   async function startRecording() {
+    console.log('Starting recording..')
     setViewMode('audio-input')
     setIsRecording(true)
     dispatch(setTranscribedText(''))
@@ -181,7 +182,7 @@ const Details = () => {
       <StatusBar barStyle="light-content" />
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
-        <View style={styles.languagePickerContainer}>
+        {/* <View style={styles.languagePickerContainer}>
           <LanguagePicker
             styles={styles}
             chosenLanguage={langSource}
@@ -199,7 +200,7 @@ const Details = () => {
             chosenLanguage={langTarget}
             onValueChange={onOutputValueChange}
           />
-        </View>
+        </View> */}
         <TranslationViewPort
           styles={styles}
           viewMode={viewMode}
@@ -209,16 +210,26 @@ const Details = () => {
           handleTextSubmit={handleTextSubmit}
         />
         <View style={styles.controlContainer}>
-          <View style={styles.resetButton}>
-            <ResetButton styles={styles} handleReset={handleReset} />
-          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <LanguagePicker
-              styles={styles}
-              chosenLanguage={langSource}
-              onValueChange={onInputValueChange}
-            />
+            <View style={{ flexDirection: 'column', top: 0 }}>
+              <LanguagePicker
+                styles={styles}
+                chosenLanguage={langSource}
+                onValueChange={onInputValueChange}
+              />
+            </View>
             <View style={styles.recordButtonContainer}>
+              <Pressable
+                title="SWAP LANGUAGES"
+                onPress={handleLanguageSwap}
+                style={{ paddingBottom: 10 }}
+              >
+                <MaterialCommunityIcons
+                  name="swap-horizontal"
+                  size={35}
+                  color={colors.white}
+                />
+              </Pressable>
               <Pressable
                 style={
                   isRecording ? styles.recordButtonOff : styles.recordButtonOn
@@ -299,25 +310,29 @@ const styles = StyleSheet.create({
     flex: 5,
     width: '100%',
     paddingLeft: 20,
+    paddingRight: 50,
     fontFamily: 'Cochin',
+    paddingTop: 85,
   },
   textOutputContainer: {
     flex: 1,
     width: '100%',
     paddingLeft: 20,
+    paddingTop: 85,
   },
   listeningViewContainer: {
     flex: 5,
     width: '100%',
     paddingLeft: 20,
+    paddingTop: 85,
   },
   listeningViewText: {
     color: colors.gray,
-    fontSize: 30,
+    fontSize: 25,
   },
   textInput: {
     color: colors.white,
-    fontSize: 30,
+    fontSize: 25,
     height: '100%',
   },
   headerContainer: {
@@ -333,31 +348,39 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   controlContainer: {
+    height: 135,
     position: 'absolute',
     bottom: 15,
     width: '100%',
   },
   recordButtonContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
+    alignItems: 'center',
   },
   recordButtonOn: {
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     borderRadius: 100,
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     borderRadius: 100,
     backgroundColor: colors.pink,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  resetButtonContainer: {
+    position: 'absolute',
+    top: 65,
+    right: 20,
+    zIndex: '1',
   },
   resetButton: {
     display: 'flex',
@@ -377,10 +400,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Cochin',
   },
+  teacherText: {
+    marginTop: 20,
+    color: colors.white,
+    fontSize: 20,
+    fontFamily: 'Cochin',
+  },
+
   generatedTextContainer: {
-    flex: 3,
+    flex: 1,
     width: '100%',
     paddingTop: 50,
+    bottom: 150,
   },
   generatedTextHeader: {
     flexDirection: 'row',
@@ -406,6 +437,7 @@ const styles = StyleSheet.create({
   },
   generatedTextActiveContainer: {
     backgroundColor: 'rgba(169, 169, 169, 0.2)',
+    flexDirection: 'column',
     flex: 1,
     paddingLeft: 20,
     paddingTop: 10,
@@ -422,6 +454,37 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     color: colors.white,
+  },
+  generatePressable: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: colors.primary,
+    borderColor: colors.gray,
+    borderWidth: 1,
+  },
+  generatePressableText: {
+    fontSize: 18,
+    fontFamily: 'Baskerville',
+    color: colors.white,
+  },
+  suggestionPressable: {
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+    borderRadius: 20,
+    // backgroundColor: colors.primary,
+    borderColor: colors.gray,
+    borderWidth: 1,
+    // alignItems: 'center',
+    paddingLeft: 20,
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  suggestionsText: {
+    color: colors.white,
+    fontSize: 18,
+    fontFamily: 'Cochin',
   },
 })
 

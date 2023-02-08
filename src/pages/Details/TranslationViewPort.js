@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { View, Dimensions, Pressable, Text } from 'react-native'
-import { TextEntry, TextOutput, ListeningView } from '../../components/'
+import {
+  TextEntry,
+  TextOutput,
+  ListeningView,
+  ResetButton,
+} from '../../components/'
 
 import { colors } from 'theme'
 import TeacherView from './TeacherView'
@@ -38,6 +43,7 @@ const TranslationViewPort = ({
   const langTarget = useSelector((state) => state.languagePicker.output)
 
   const windowWidth = Dimensions.get('window').width
+  const windowHeight = Dimensions.get('window').height
 
   return (
     <>
@@ -59,6 +65,9 @@ const TranslationViewPort = ({
       {viewMode === 'translation-output' ? (
         <>
           <View style={styles.textOutputContainer}>
+            <View style={styles.resetButtonContainer}>
+              <ResetButton styles={styles} handleReset={handleReset} />
+            </View>
             <TextOutput
               styles={styles}
               langCode={langSource}
