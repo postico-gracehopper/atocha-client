@@ -60,7 +60,15 @@ export default function App() {
           ),
         }}
       />
-      <Drawer.Screen name="Phrasebook" component={Phrasebook} />
+      <Drawer.Screen
+        name="Phrasebook"
+        component={Phrasebook}
+        options={{
+          drawerIcon: ({ color }) => (
+            <Ionicons name="book-outline" size={22} color={color} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   )
 }

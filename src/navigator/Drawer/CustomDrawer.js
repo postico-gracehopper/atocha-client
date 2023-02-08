@@ -43,6 +43,7 @@ const CustomDrawer = (props) => {
   useEffect(() => {
     if (current) {
       current.displayName ? setDisplayName(current.displayName) : null
+      current.displayName ? setLoggedIn(true) : setLoggedIn(false)
     }
   }, [current])
 
@@ -66,7 +67,11 @@ const CustomDrawer = (props) => {
               marginBottom: 10,
             }}
           ></Image>
-          <Text style={styles.userInfo}> Welcome {displayName} </Text>
+          {loggedIn ? (
+            <Text style={styles.userInfo}> Welcome {displayName}! </Text>
+          ) : (
+            <Text> Welcome!</Text>
+          )}
         </ImageBackground>
         <View style={{ flex: 1, paddingTop: 10 }}>
           <DrawerItemList
