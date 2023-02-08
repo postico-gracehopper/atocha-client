@@ -3,6 +3,7 @@ import { Button, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Login from '../../pages/AuthPages'
+import Phrasebook from '../../pages/Phrasebook'
 import SignUp from '../../pages/AuthPages/SignUp'
 import Details from '../../pages/Details'
 import Logout from '../../pages/AuthPages/Logout'
@@ -59,6 +60,7 @@ export default function App() {
           ),
         }}
       />
+      <Drawer.Screen name="Phrasebook" component={Phrasebook} />
     </Drawer.Navigator>
   )
 }
