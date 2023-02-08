@@ -14,11 +14,19 @@ import LoggedOutPhrasebook from '../../pages/Phrasebook/LoggedOutPhrasebook'
 const Tab = createMaterialBottomTabNavigator()
 
 export default function TabNavigator() {
-  const [user, setUser] = useState({})
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser)
+      if (currentUser) {
+        if (currentUser.email == undefined) {
+          setLoggedIn(false)
+          console.log('False! Current user is', currentUser)
+        } else {
+          setLoggedIn(true)
+          console.log('True! Current user is', currentUser)
+        }
+      } else setLoggedIn(false)
     })
 
     return () => {
@@ -99,7 +107,7 @@ export default function TabNavigator() {
       <Tab.Screen name="History" component={History} key={Date.now()} />
       <Tab.Screen
         name="Phrasebook"
-        component={user.email == null ? LoggedOutPhrasebook : Phrasebook}
+        component={loggedIn ? Phrasebook : LoggedOutPhrasebook}
       />
       <Tab.Screen name="Details" component={Details} />
       <Tab.Screen name="Vocab" component={Vocab} />

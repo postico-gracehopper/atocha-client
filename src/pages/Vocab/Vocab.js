@@ -99,6 +99,7 @@ export default function Vocab() {
       )
       setIsLoading(false)
       setSelectedWords([])
+      setSessionVocab({})
     } catch (error) {
       console.error(error)
     }

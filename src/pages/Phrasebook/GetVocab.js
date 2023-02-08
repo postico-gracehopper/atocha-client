@@ -29,11 +29,7 @@ const GetVocab = () => {
             dateAdded: doc.data().dateAdded,
           }
         })
-        vocabWords.sort((a, b) => {
-          const dateA = a.dateAdded ? new Date(a.dateAdded) : 0
-          const dateB = b.dateAdded ? new Date(b.dateAdded) : 0
-          return dateA - dateB
-        })
+        vocabWords.sort((a, b) => b.dateAdded - a.dateAdded)
         setVocabWords(vocabWords)
       },
     )
