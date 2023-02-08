@@ -212,20 +212,32 @@ const Details = () => {
           <View style={styles.resetButton}>
             <ResetButton styles={styles} handleReset={handleReset} />
           </View>
-          <View style={styles.recordButtonContainer}>
-            <Pressable
-              style={
-                isRecording ? styles.recordButtonOff : styles.recordButtonOn
-              }
-              title={isRecording ? 'STOP' : 'RECORD'}
-              onPress={recording ? stopRecording : startRecording}
-            >
-              <MaterialCommunityIcons
-                name={'microphone'}
-                size={45}
-                color={colors.primary}
-              />
-            </Pressable>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <LanguagePicker
+              styles={styles}
+              chosenLanguage={langSource}
+              onValueChange={onInputValueChange}
+            />
+            <View style={styles.recordButtonContainer}>
+              <Pressable
+                style={
+                  isRecording ? styles.recordButtonOff : styles.recordButtonOn
+                }
+                title={isRecording ? 'STOP' : 'RECORD'}
+                onPress={recording ? stopRecording : startRecording}
+              >
+                <MaterialCommunityIcons
+                  name={'microphone'}
+                  size={45}
+                  color={colors.primary}
+                />
+              </Pressable>
+            </View>
+            <LanguagePicker
+              styles={styles}
+              chosenLanguage={langTarget}
+              onValueChange={onOutputValueChange}
+            />
           </View>
         </View>
       </ImageBackground>
