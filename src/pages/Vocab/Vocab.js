@@ -92,9 +92,9 @@ export default function Vocab() {
       setResult(
         data.result
           .toLowerCase()
-          .replace(/[,.]/g, '')
+          .replace(/[".]/g, '')
           .trim()
-          .split(' ')
+          .split(',')
           .filter((el) => el !== ''),
       )
       setIsLoading(false)
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   },
   starContainer: {
     fontFamily: 'Baskerville-SemiBold',
-    fontSize: 32,
+    fontSize: 26,
     lineHeight: 42,
     color: colors.white,
     flexDirection: 'row',
@@ -316,12 +316,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Baskerville',
     fontStyle: 'italic',
     letterSpacing: 1,
-    fontSize: 24,
+    fontSize: 22,
     color: colors.white,
     textAlign: 'left',
     paddingLeft: 40,
   },
   wordContainer: {
-    marginBottom: 16,
+    marginBottom: 6,
   },
 })

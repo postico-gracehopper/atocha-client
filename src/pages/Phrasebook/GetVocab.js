@@ -21,20 +21,20 @@ const GetVocab = () => {
       (querySnapshot) => {
         console.log('Query path:', `User/${userId}/phrasebook`)
 
-        const vocabWords = querySnapshot.docs
-          .map((doc) => {
-            return {
-              id: doc.id,
-              vocabWord: doc.data().vocabWord,
-              definition: doc.data().definition,
-              dateAdded: doc.data().dateAdded,
-            }
-          })
-          .sort((a, b) => {
-            const dateA = a.dateAdded ? new Date(a.dateAdded) : 0
-            const dateB = b.dateAdded ? new Date(b.dateAdded) : 0
-            return -1 * (dateA - dateB)
-          })
+        const vocabWords = querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            vocabWord: doc.data().vocabWord,
+            originalLang: doc.data().originalLang,
+            definition: doc.data().definition,
+            dateAdded: doc.data().dateAdded,
+          }
+        })
+        vocabWords.sort((a, b) => {
+          const dateA = a.dateAdded ? new Date(a.dateAdded) : 0
+          const dateB = b.dateAdded ? new Date(b.dateAdded) : 0
+          return -1 * (dateA - dateB)
+        })
         setVocabWords(vocabWords)
       },
     )
@@ -50,7 +50,9 @@ const GetVocab = () => {
       <ScrollView style={styles.scrollView}>
         {vocabWords.map((word) => (
           <View key={word.id} style={styles.wordContainer}>
-            <Text style={styles.vocabWord}>{word.vocabWord}</Text>
+            <Text style={styles.vocabWord}>
+              ({word.originalLang}) {word.vocabWord}
+            </Text>
             <Text style={styles.definition}>{word.definition}</Text>
           </View>
         ))}
@@ -71,11 +73,12 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   vocabWord: {
-    fontSize: 24,
+    fontSize: 20,
     color: 'white',
+    paddingRight: 8,
   },
   definition: {
-    fontSize: 24,
+    fontSize: 20,
     fontStyle: 'italic',
     fontWeight: '700',
     color: colors.brightPrimary,

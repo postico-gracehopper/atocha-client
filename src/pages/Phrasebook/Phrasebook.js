@@ -127,21 +127,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  vocabList: {
-    fontFamily: 'Baskerville-SemiBold',
-    fontSize: 32,
-    lineHeight: 42,
-    color: colors.white,
-    textAlign: 'center',
-  },
-  vocabDefinition: {
-    fontFamily: 'Baskerville',
-    fontStyle: 'italic',
-    letterSpacing: 1,
-    fontSize: 24,
-    color: colors.white,
-    textAlign: 'center',
-  },
   wordContainer: {
     marginBottom: 16,
   },
