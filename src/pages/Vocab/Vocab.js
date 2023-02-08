@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 
 import { uri } from '../../../constants'
-import { useAuth } from '../../../context/authContext'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 import SaveStars from './SaveStars'
@@ -72,6 +71,7 @@ export default function Vocab() {
     setIsLoading(true)
     console.log('non English lang isss', nonEnglishCode)
     console.log('Uri isss', uri)
+    console.log('Session vocab isss', sessionVocab)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
@@ -156,10 +156,18 @@ export default function Vocab() {
                                   ? selectedWords.filter((i) => i !== index)
                                   : [...selectedWords, index],
                               )
-                              setSessionVocab({
-                                ...sessionVocab,
-                                [word]: translatedStrings[index],
-                              })
+                              if (selected) {
+                                // Remove the word from sessionVocab if it's already selected
+                                const newSessionVocab = { ...sessionVocab }
+                                delete newSessionVocab[word]
+                                setSessionVocab(newSessionVocab)
+                              } else {
+                                // Add the word to sessionVocab if it's not already selected
+                                setSessionVocab({
+                                  ...sessionVocab,
+                                  [word]: translatedStrings[index],
+                                })
+                              }
                             }}
                           >
                             <Text style={styles.starContainer}>

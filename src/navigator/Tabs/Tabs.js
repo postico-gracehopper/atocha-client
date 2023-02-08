@@ -14,7 +14,7 @@ import LoggedOutPhrasebook from '../../pages/Phrasebook/LoggedOutPhrasebook'
 const Tab = createMaterialBottomTabNavigator()
 
 export default function TabNavigator() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({})
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
