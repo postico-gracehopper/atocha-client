@@ -65,6 +65,7 @@ const Details = () => {
   const dispatch = useDispatch()
 
   async function startRecording() {
+    console.log('Starting recording..')
     setViewMode('audio-input')
     setIsRecording(true)
     dispatch(setTranscribedText(''))
@@ -161,7 +162,13 @@ const Details = () => {
   const handleReset = async () => {
     setViewMode('text-input')
     setIsRecording(false)
-    setRecording(undefined)
+    if (recording) {
+      console.log(
+        '🚀 ~ file: Details.js:167 ~ handleReset ~ recording',
+        recording,
+      )
+      await recording.stopAndUnloadAsync()
+    }
     dispatch(setTranscribedText(''))
     dispatch(setTranslatedText(''))
     dispatch(setIsTranscriptionFinal(false))
@@ -175,7 +182,7 @@ const Details = () => {
       <StatusBar barStyle="light-content" />
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
-        <View style={styles.languagePickerContainer}>
+        {/* <View style={styles.languagePickerContainer}>
           <LanguagePicker
             styles={styles}
             chosenLanguage={langSource}
@@ -193,7 +200,7 @@ const Details = () => {
             chosenLanguage={langTarget}
             onValueChange={onOutputValueChange}
           />
-        </View>
+        </View> */}
         <TranslationViewPort
           styles={styles}
           viewMode={viewMode}
@@ -203,23 +210,45 @@ const Details = () => {
           handleTextSubmit={handleTextSubmit}
         />
         <View style={styles.controlContainer}>
-          <View style={styles.resetButton}>
-            <ResetButton styles={styles} handleReset={handleReset} />
-          </View>
-          <View style={styles.recordButtonContainer}>
-            <Pressable
-              style={
-                isRecording ? styles.recordButtonOff : styles.recordButtonOn
-              }
-              title={isRecording ? 'STOP' : 'RECORD'}
-              onPress={recording ? stopRecording : startRecording}
-            >
-              <MaterialCommunityIcons
-                name={'microphone'}
-                size={45}
-                color={colors.primary}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'column', top: 0 }}>
+              <LanguagePicker
+                styles={styles}
+                chosenLanguage={langSource}
+                onValueChange={onInputValueChange}
               />
-            </Pressable>
+            </View>
+            <View style={styles.recordButtonContainer}>
+              <Pressable
+                title="SWAP LANGUAGES"
+                onPress={handleLanguageSwap}
+                style={{ paddingBottom: 10 }}
+              >
+                <MaterialCommunityIcons
+                  name="swap-horizontal"
+                  size={35}
+                  color={colors.white}
+                />
+              </Pressable>
+              <Pressable
+                style={
+                  isRecording ? styles.recordButtonOff : styles.recordButtonOn
+                }
+                title={isRecording ? 'STOP' : 'RECORD'}
+                onPress={recording ? stopRecording : startRecording}
+              >
+                <MaterialCommunityIcons
+                  name={'microphone'}
+                  size={45}
+                  color={colors.primary}
+                />
+              </Pressable>
+            </View>
+            <LanguagePicker
+              styles={styles}
+              chosenLanguage={langTarget}
+              onValueChange={onOutputValueChange}
+            />
           </View>
         </View>
       </ImageBackground>
@@ -265,8 +294,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingTop: 40,
-    paddingBottom: 20,
+    paddingTop: 35,
+    paddingBottom: 15,
   },
   picker: {
     width: 170,
@@ -274,32 +303,36 @@ const styles = StyleSheet.create({
   onePickerItem: {
     height: 130,
     color: colors.white,
-    fontSize: 20,
+    fontSize: 18,
     fontStyle: 'bold',
   },
   textInputContainer: {
     flex: 5,
     width: '100%',
     paddingLeft: 20,
+    paddingRight: 50,
     fontFamily: 'Cochin',
+    paddingTop: 85,
   },
   textOutputContainer: {
-    flex: 5,
+    flex: 1,
     width: '100%',
     paddingLeft: 20,
+    paddingTop: 85,
   },
   listeningViewContainer: {
     flex: 5,
     width: '100%',
     paddingLeft: 20,
+    paddingTop: 85,
   },
   listeningViewText: {
     color: colors.gray,
-    fontSize: 30,
+    fontSize: 25,
   },
   textInput: {
     color: colors.white,
-    fontSize: 30,
+    fontSize: 25,
     height: '100%',
   },
   headerContainer: {
@@ -315,47 +348,142 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   controlContainer: {
-    flex: 2,
+    height: 135,
+    position: 'absolute',
+    bottom: 15,
     width: '100%',
   },
   recordButtonContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
+    alignItems: 'center',
   },
   recordButtonOn: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderRadius: 100,
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderRadius: 100,
     backgroundColor: colors.pink,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  resetButtonContainer: {
+    position: 'absolute',
+    top: 65,
+    right: 20,
+    zIndex: '1',
+  },
   resetButton: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingRight: 15,
+    paddingRight: 70,
   },
   partialText: {
     marginTop: 5,
     color: colors.gray,
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'Cochin',
   },
   finalText: {
     marginTop: 5,
     color: colors.white,
-    fontSize: 25,
+    fontSize: 20,
+    fontFamily: 'Cochin',
+  },
+  teacherText: {
+    marginTop: 20,
+    color: colors.white,
+    fontSize: 20,
+    fontFamily: 'Cochin',
+  },
+
+  generatedTextContainer: {
+    flex: 1,
+    width: '100%',
+    paddingTop: 50,
+    bottom: 150,
+  },
+  generatedTextHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+  },
+  generatedTextHeaderActive: {
+    alignItems: 'center',
+    width: '50%',
+    backgroundColor: 'rgba(169, 169, 169, 0.2)',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  generatedTextHeaderInactive: {
+    alignItems: 'center',
+    width: '50%',
+  },
+  generatedTextHeaderText: {
+    color: colors.white,
+    fontSize: 18,
+    fontFamily: 'Cochin',
+  },
+  generatedTextActiveContainer: {
+    backgroundColor: 'rgba(169, 169, 169, 0.2)',
+    flexDirection: 'column',
+    flex: 1,
+    paddingLeft: 20,
+    paddingTop: 10,
+    marginBottom: 10,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    marginTop: 10,
+    color: colors.white,
+  },
+  generatePressable: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: colors.primary,
+    borderColor: colors.gray,
+    borderWidth: 1,
+  },
+  generatePressableText: {
+    fontSize: 18,
+    fontFamily: 'Baskerville',
+    color: colors.white,
+  },
+  suggestionPressable: {
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+    borderRadius: 20,
+    // backgroundColor: colors.primary,
+    borderColor: colors.gray,
+    borderWidth: 1,
+    // alignItems: 'center',
+    paddingLeft: 20,
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  suggestionsText: {
+    color: colors.white,
+    fontSize: 18,
     fontFamily: 'Cochin',
   },
 })
