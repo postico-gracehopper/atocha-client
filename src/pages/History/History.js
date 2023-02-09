@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   transparentOverlay: {
     backgroundColor: 'black',
-    opacity: 0.8,
+    opacity: 0.82,
     position: 'absolute',
     top: 0,
     bottom: 0,

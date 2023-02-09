@@ -22,9 +22,6 @@ const SessionTile = (props) => {
       String(parseInt(date[2])) +
       ({ 1: 'st', 2: 'nd', 3: 'rd' }[parseInt(date[2])] || 'th')
     date = `${date[0]}, ${date[1]} ${date[2]}`
-    // date = `${date.toString().slice(0, 3)}, ${date
-    //   .toString()
-    //   .slice(4, 7)} ${date.toString()}`
   }
   const langSourceFlag = languageList.find(
     (lang) => lang.languageCode === langSource,
@@ -60,12 +57,16 @@ const SessionTile = (props) => {
       <View style={{ flex: 1 }}>
         <Text>
           {uri ? (
-            <URIPlayback color={colors.white} disabled={false} uri={uri} />
+            <URIPlayback
+              color={colors.lightPurple}
+              disabled={false}
+              uri={uri}
+            />
           ) : (
             <TextTranscriber
               text={sourceTranscription}
               language={langSource}
-              color={colors.white}
+              color={colors.lightPurple}
               disabled={false}
             />
           )}
@@ -80,7 +81,7 @@ const SessionTile = (props) => {
             <TextTranscriber
               text={targetTranscription}
               language={langTarget}
-              color={colors.white}
+              color={colors.lightPurple}
               disabled={false}
             />
           </Text>
