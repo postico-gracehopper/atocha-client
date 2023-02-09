@@ -2,14 +2,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  translatedText: null,
-  transcribedText: null,
+  translatedText: '',
+  transcribedText: '',
   isTranslationFinal: false,
   isTranscriptionFinal: false,
   sourceLanguageOutput: '',
   targetLanguageOutput: '',
-  teacherGeneratedText: null,
-  suggestionGeneratedText: null,
+  teacherGeneratedText: '',
+  isTeacherSubmitted: false,
+  suggestionGeneratedText: '',
 }
 
 const translationSlice = createSlice({
@@ -35,10 +36,13 @@ const translationSlice = createSlice({
       state.targetLanguageOutput = action.payload
     },
     setTeacherGeneratedText: (state, action) => {
-      state.sourceLanguageOutput = action.payload
+      state.teacherGeneratedText = action.payload
+    },
+    setIsTeacherSubmitted: (state, action) => {
+      state.isTeacherSubmitted = action.payload
     },
     setSuggestionGeneratedText: (state, action) => {
-      state.targetLanguageOutput = action.payload
+      state.suggestionGeneratedText = action.payload
     },
   },
 })
@@ -60,6 +64,7 @@ export const {
   setSourceLanguageOutput,
   setTargetLanguageOutput,
   setTeacherGeneratedText,
+  setIsTeacherSubmitted,
   setSuggestionGeneratedText,
 } = translationSlice.actions
 

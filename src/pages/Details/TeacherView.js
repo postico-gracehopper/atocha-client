@@ -1,10 +1,15 @@
 import { useState, React } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 
 import { Text, Pressable, View, ActivityIndicator } from 'react-native'
 
 import colors from '../../theme/colors'
+
+import {
+  setTeacherGeneratedText,
+  setIsTeacherSubmitted,
+} from '../../slices/translationSlice'
 
 const Loading = ({ styles }) => {
   return (
@@ -16,6 +21,8 @@ const Loading = ({ styles }) => {
 }
 
 const TeacherView = ({ styles }) => {
+  const dispatch = useDispatch()
+
   const translatedText = useSelector(
     (state) => state.translation.translatedText,
   )
@@ -25,16 +32,20 @@ const TeacherView = ({ styles }) => {
   const targetLanguageOutput = useSelector(
     (state) => state.translation.targetLanguageOutput,
   )
+  const teacherGeneratedText = useSelector(
+    (state) => state.translation.teacherGeneratedText,
+  )
+  const isTeacherSubmitted = useSelector(
+    (state) => state.translation.isTeacherSubmitted,
+  )
 
-  const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
-    setSubmitted(true)
-    // First, generate the vocab list given the recent conversation and output language.
+    dispatch(setIsTeacherSubmitted(true))
     try {
       const response = await axios({
         method: 'post',
@@ -53,7 +64,7 @@ const TeacherView = ({ styles }) => {
         )
       }
       const trimedResult = data.result.trim()
-      setResult(trimedResult)
+      dispatch(setTeacherGeneratedText(trimedResult))
       setIsLoading(false)
     } catch (error) {
       console.error(error)
@@ -62,7 +73,7 @@ const TeacherView = ({ styles }) => {
 
   return (
     <View style={styles.generatedTextActiveContainer}>
-      {!submitted ? (
+      {!isTeacherSubmitted ? (
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
@@ -75,7 +86,7 @@ const TeacherView = ({ styles }) => {
         <Loading styles={styles} />
       ) : (
         <View>
-          <Text style={styles.teacherText}>{result}</Text>
+          <Text style={styles.teacherText}>{teacherGeneratedText}</Text>
         </View>
       )}
     </View>

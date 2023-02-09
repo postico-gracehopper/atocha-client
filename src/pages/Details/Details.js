@@ -22,6 +22,8 @@ import {
   setIsTranscriptionFinal,
   setSourceLanguageOutput,
   setTargetLanguageOutput,
+  setIsTeacherSubmitted,
+  setTeacherGeneratedText,
 } from '../../slices/translationSlice'
 import {
   setInputLanguage,
@@ -72,6 +74,10 @@ const Details = () => {
     dispatch(setTranslatedText(''))
     dispatch(setIsTranscriptionFinal(false))
     dispatch(setIsTranslationFinal(false))
+    dispatch(setIsTeacherSubmitted(false))
+    dispatch(setTeacherGeneratedText(''))
+    dispatch(setSourceLanguageOutput(''))
+    dispatch(setTargetLanguageOutput(''))
     try {
       await Audio.requestPermissionsAsync()
       await Audio.setAudioModeAsync({
@@ -161,10 +167,6 @@ const Details = () => {
     setViewMode('text-input')
     setIsRecording(false)
     if (recording) {
-      console.log(
-        '🚀 ~ file: Details.js:167 ~ handleReset ~ recording',
-        recording,
-      )
       await recording.stopAndUnloadAsync()
     }
     dispatch(setTranscribedText(''))
@@ -173,6 +175,8 @@ const Details = () => {
     dispatch(setIsTranslationFinal(false))
     dispatch(setSourceLanguageOutput(''))
     dispatch(setTargetLanguageOutput(''))
+    dispatch(setIsTeacherSubmitted(false))
+    dispatch(setTeacherGeneratedText(''))
   }
 
   return (
