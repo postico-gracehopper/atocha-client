@@ -14,6 +14,7 @@ import { uri } from '../../../constants'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 import SaveStars from './SaveStars'
+import { useAuth } from '../../../context/authContext'
 
 const Loading = () => {
   return (
@@ -36,6 +37,7 @@ export default function Vocab() {
   const [isLoading, setIsLoading] = useState(false)
   const [translatedStrings, setTranslatedStrings] = useState([])
   const [sessionVocab, setSessionVocab] = useState({})
+  const { currentUser } = useAuth()
 
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
@@ -79,6 +81,9 @@ export default function Vocab() {
           inputLang: displayLang,
           conversation: recentConversation,
         },
+        headers: {
+          auth: await currentUser.getIdToken(),
+        },
       })
       const { data } = response
       if (response.status !== 200) {
@@ -116,16 +121,16 @@ export default function Vocab() {
           // Replace the above if you want non-English definitions in the future.
           text: wordArray,
         },
+        headers: {
+          auth: await currentUser.getIdToken(),
+        },
       })
       setTranslatedStrings(
         response.data.map((word) => word.toLowerCase().replace(/\./gi, '')),
       )
       console.log('Translated strings arrre', translatedStrings)
       if (response.status !== 200) {
-        throw (
-          data.error ||
-          new Error(`Request failed with status ${response.status}`)
-        )
+        throw new Error(`Request failed with status ${response.status}`)
       }
     } catch (error) {
       console.error(error)
