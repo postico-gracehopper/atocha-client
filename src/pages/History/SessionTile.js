@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import { colors } from 'theme'
 import TextTranscriber from '../../components/TextTranscriber'
 import languageList from '../SelectLanguage/languageList'
+import URIPlayback from '../../components/URIPlayBack'
 
 const SessionTile = (props) => {
   let {
@@ -58,13 +59,16 @@ const SessionTile = (props) => {
       </Text>
       <View style={{ flex: 1 }}>
         <Text>
-          <TextTranscriber
-            text={sourceTranscription}
-            language={langSource}
-            color={colors.white}
-            disabled={false}
-            uri={uri}
-          />
+          {uri ? (
+            <URIPlayback color={colors.white} disabled={false} uri={uri} />
+          ) : (
+            <TextTranscriber
+              text={sourceTranscription}
+              language={langSource}
+              color={colors.white}
+              disabled={false}
+            />
+          )}
           <Text style={{ fontSize: 22 }}>{langSourceFlag}</Text>
         </Text>
         <Text style={{ color: 'white' }}>{sourceTranscription}</Text>
