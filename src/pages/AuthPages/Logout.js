@@ -27,7 +27,7 @@ const Logout = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
-        <View>
+        <View style={{ position: 'relative', zIndex: '1' }}>
           <TouchableOpacity
             style={styles.logoutBtn}
             title="Log Out"
@@ -51,7 +51,7 @@ const Logout = () => {
             <Text style={{ color: 'white' }}>Logout</Text>
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.textWrapper}>
           <Text style={styles.text}>See You Soon!</Text>
           <Text style={styles.text}>¡Te veo pronto!</Text>
           <Text style={styles.text}>再见！</Text>
@@ -66,20 +66,32 @@ const Logout = () => {
 }
 
 const styles = StyleSheet.create({
+  textWrapper: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     fontFamily: 'arsilon',
     color: 'rgba(255, 255, 255, 0.55)',
     fontSize: 60,
+    textAlign: 'center',
   },
   logoutBtn: {
     width: 200,
-    borderRadius: 25,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
     backgroundColor: colors.primary,
     marginTop: 300,
+    borderRadius: 40,
+    borderColor: 'white',
+    borderWidth: 4,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 8 },
+    shadowOpacity: 7,
+    shadowRadius: 3,
   },
   page: {
     width: 200,
