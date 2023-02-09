@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { authenticate } from 'slices/app.slice'
-import LoggedNav from './Drawer/Drawer'
+import { LoggedNav, LoginNav } from './Drawer'
 
 const Navigator = () => {
   const { checked, loggedIn } = useSelector((state) => state.app)

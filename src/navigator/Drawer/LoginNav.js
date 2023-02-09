@@ -2,13 +2,13 @@ import * as React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons'
 
-import Login from '../../pages/AuthPages'
 import SignUp from '../../pages/AuthPages/SignUp'
 import CustomDrawer from './CustomDrawer'
+import TabNavigator from '../Tabs/Tabs'
 
 const Drawer = createDrawerNavigator()
 
-export default function LoggedNav() {
+export default function LoginNav() {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
@@ -17,17 +17,9 @@ export default function LoggedNav() {
         headerShown: false,
         drawerLabelStyle: { marginLeft: -25 },
       }}
-      initialRouteName="Details"
+      initialRouteName="Home"
     >
-      <Drawer.Screen
-        name="Login"
-        component={Login}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="log-in-outline" size={22} color={color} />
-          ),
-        }}
-      />
+      <Drawer.Screen name="Home" component={TabNavigator} />
       <Drawer.Screen
         name="Sign Up"
         component={SignUp}

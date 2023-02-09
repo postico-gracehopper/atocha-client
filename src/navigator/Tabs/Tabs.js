@@ -11,6 +11,7 @@ import Vocab from '../../pages/Vocab'
 import History from '../../pages/History'
 import LoggedOutPhrasebook from '../../pages/Phrasebook/LoggedOutPhrasebook'
 import LoggedOutVocab from '../../pages/Vocab/LoggedOutVocab'
+import { LoggedNav, LoginNav } from '../Drawer'
 
 const Tab = createMaterialBottomTabNavigator()
 
