@@ -1,15 +1,15 @@
 import { useState, useEffect, React } from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import { getAuth } from 'firebase/auth'
 import { db } from '../../../firebase'
 import { collection, onSnapshot } from 'firebase/firestore'
-
+import { useAuth } from '../../../context/authContext'
 import { langFlags } from './langFlags'
 import colors from '../../theme/colors'
 
 const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
   const [userId, setUserId] = useState(null)
+  const { currentUser } = useAuth()
 
   const onGetVocab = async () => {
     console.log('In the getVocab async block :)')

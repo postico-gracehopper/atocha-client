@@ -14,6 +14,8 @@ import { uri } from '../../../constants'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 
+import { useAuth } from '../../../context/authContext'
+
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
@@ -35,6 +37,7 @@ export default function LoggedOutVocab() {
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [translatedStrings, setTranslatedStrings] = useState([])
+  const { currentUser } = useAuth()
 
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
@@ -75,6 +78,9 @@ export default function LoggedOutVocab() {
           inputLang: displayLang,
           conversation: recentConversation,
         },
+        headers: {
+          auth: await currentUser.getIdToken(),
+        },
       })
       const { data } = response
       if (response.status !== 200) {
@@ -109,6 +115,9 @@ export default function LoggedOutVocab() {
           // targetLang: nonEnglishCode,
           // Replace the above if you want non-English definitions in the future.
           text: wordArray,
+        },
+        headers: {
+          auth: await currentUser.getIdToken(),
         },
       })
       setTranslatedStrings(
