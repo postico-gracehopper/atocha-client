@@ -15,7 +15,6 @@ import SuggestingsView from './SuggestionsView'
 const TranslationViewPort = ({
   styles,
   viewMode,
-
   handleReset,
   handleTextSubmit,
 }) => {
@@ -43,7 +42,7 @@ const TranslationViewPort = ({
   const langTarget = useSelector((state) => state.languagePicker.output)
 
   const windowWidth = Dimensions.get('window').width
-  const windowHeight = Dimensions.get('window').height
+  // const windowHeight = Dimensions.get('window').height
 
   return (
     <>

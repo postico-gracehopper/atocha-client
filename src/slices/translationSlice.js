@@ -10,7 +10,8 @@ const initialState = {
   targetLanguageOutput: '',
   teacherGeneratedText: '',
   isTeacherSubmitted: false,
-  suggestionGeneratedText: '',
+  suggestionGeneratedText: [],
+  isSuggestionSubmitted: false,
 }
 
 const translationSlice = createSlice({
@@ -44,6 +45,9 @@ const translationSlice = createSlice({
     setSuggestionGeneratedText: (state, action) => {
       state.suggestionGeneratedText = action.payload
     },
+    setIsSuggestionSubmitted: (state, action) => {
+      state.isSuggestionSubmitted = action.payload
+    },
   },
 })
 
@@ -66,6 +70,7 @@ export const {
   setTeacherGeneratedText,
   setIsTeacherSubmitted,
   setSuggestionGeneratedText,
+  setIsSuggestionSubmitted,
 } = translationSlice.actions
 
 export default translationSlice.reducer

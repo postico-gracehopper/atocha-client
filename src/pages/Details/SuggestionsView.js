@@ -8,12 +8,8 @@ import colors from '../../theme/colors'
 import SingleSuggestion from './SingleSuggestion'
 
 import {
-  setTranslatedText,
-  setTranscribedText,
-  setIsTranslationFinal,
-  setIsTranscriptionFinal,
-  setSourceLanguageOutput,
-  setTargetLanguageOutput,
+  setIsSuggestionSubmitted,
+  setSuggestionGeneratedText,
 } from '../../slices/translationSlice'
 import textTranslationSession from './textTranslationSession'
 
@@ -38,17 +34,19 @@ const SuggestingsView = ({ styles }) => {
   const targetLanguageOutput = useSelector(
     (state) => state.translation.targetLanguageOutput,
   )
+  const suggestionGeneratedText = useSelector(
+    (state) => state.translation.suggestionGeneratedText,
+  )
+  const isSuggestionSubmitted = useSelector(
+    (state) => state.translation.isSuggestionSubmitted,
+  )
 
-  const [result, setResult] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
 
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
-    setSubmitted(true)
-
-    // First, generate the vocab list given the recent conversation and output language.
+    dispatch(setIsSuggestionSubmitted(true))
     try {
       const response = await axios({
         method: 'post',
@@ -78,7 +76,9 @@ const SuggestingsView = ({ styles }) => {
         resultArray.push(tempObj)
       })
       console.log('resultArray', resultArray)
-      setResult(resultArray)
+      console.log('resultArray', resultArray)
+      dispatch(setSuggestionGeneratedText(resultArray))
+      dispatch(setIsSuggestionSubmitted(true))
       setIsLoading(false)
     } catch (error) {
       console.error(error)
@@ -107,12 +107,14 @@ const SuggestingsView = ({ styles }) => {
 
   return (
     <View style={styles.generatedTextActiveContainer}>
-      {!submitted ? (
+      {!isSuggestionSubmitted ? (
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
           <Pressable onPress={onSubmit} style={styles.generatePressable}>
-            <Text style={styles.generatePressableText}>Continue the convo</Text>
+            <Text style={styles.generatePressableText}>
+              Continue the conversation
+            </Text>
           </Pressable>
         </View>
       ) : null}
@@ -120,7 +122,7 @@ const SuggestingsView = ({ styles }) => {
         <Loading styles={styles} />
       ) : (
         <>
-          {result.map((item) => {
+          {suggestionGeneratedText.map((item) => {
             return (
               <SingleSuggestion
                 key={item.source}
