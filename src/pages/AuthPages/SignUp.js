@@ -22,6 +22,7 @@ import { getDatabase, ref, set } from 'firebase/database'
 
 const SignUp = () => {
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState(false)
   const [password, setPassword] = useState('')
   const [userName, setUserName] = useState('')
   const [error, setError] = useState(null)
@@ -83,22 +84,34 @@ const SignUp = () => {
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
         <Text style={styles.title}>Atocha</Text>
-        <View style={styles.page}>
+        <View
+          style={
+            !emailError && password.length < 6 && error !== null
+              ? styles.pageErrors
+              : styles.page
+          }
+        >
           <TextInput
             style={styles.input}
             placeholder="Username"
             placeholderTextColor="#403e41"
-            onChangeText={(text) => setUserName(text)}
+            onChangeText={(text) => {
+              setUserName(text)
+            }}
             value={userName}
           />
           <TextInput
             style={styles.input}
             placeholder="Email"
             placeholderTextColor="#403e41"
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => {
+              setEmail(text)
+              setEmailError(/\S+@\S+\.\S+/.test(text))
+            }}
             value={email}
             secureTextEntry={false}
           />
+          {emailError ? null : <Text>Valid email required</Text>}
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -109,11 +122,15 @@ const SignUp = () => {
             value={password}
             secureTextEntry
           />
+          {password.length < 6 ? (
+            <Text style={{ textAlign: 'center' }}>
+              Password must be at least 6 characters
+            </Text>
+          ) : null}
           <TouchableOpacity
             style={styles.signOutBtn}
             onPress={async () => {
               await onSignUpPress()
-              //writeUserData(userId, userName, email)
               updateUserName()
             }}
           >
@@ -139,7 +156,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 30,
     color: 'white',
     backgroundColor: colors.primary,
   },
@@ -156,9 +173,17 @@ const styles = StyleSheet.create({
     marginTop: 40,
     color: colors.primary,
   },
+  pageErrors: {
+    width: 200,
+    height: 400,
+    alignItems: 'center',
+    marginTop: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    borderRadius: 25,
+  },
   page: {
     width: 200,
-    height: 350,
+    height: 360,
     alignItems: 'center',
     marginTop: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.75)',
