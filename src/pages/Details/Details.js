@@ -180,25 +180,6 @@ const Details = () => {
       <StatusBar barStyle="light-content" />
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
-        {/* <View style={styles.languagePickerContainer}>
-          <LanguagePicker
-            styles={styles}
-            chosenLanguage={langSource}
-            onValueChange={onInputValueChange}
-          />
-          <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
-            <MaterialCommunityIcons
-              name="swap-horizontal-bold"
-              size={35}
-              color={colors.white}
-            />
-          </Pressable>
-          <LanguagePicker
-            styles={styles}
-            chosenLanguage={langTarget}
-            onValueChange={onOutputValueChange}
-          />
-        </View> */}
         <TranslationViewPort
           styles={styles}
           viewMode={viewMode}

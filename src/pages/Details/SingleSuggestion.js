@@ -11,7 +11,10 @@ const SingleSuggestion = ({ styles, onPress, sourceText, targetText }) => {
         alignItems: 'center',
       }}
     >
-      <Pressable onPress={onPress} style={styles.suggestionPressable}>
+      <Pressable
+        onPress={onPress(sourceText)}
+        style={styles.suggestionPressable}
+      >
         <Text style={styles.suggestionsText}>{sourceText}</Text>
         <Text style={styles.suggestionsText}>{targetText}</Text>
       </Pressable>

@@ -1,11 +1,21 @@
 import { useState, React } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 
 import { Text, Pressable, View, ActivityIndicator } from 'react-native'
 
 import colors from '../../theme/colors'
 import SingleSuggestion from './SingleSuggestion'
+
+import {
+  setTranslatedText,
+  setTranscribedText,
+  setIsTranslationFinal,
+  setIsTranscriptionFinal,
+  setSourceLanguageOutput,
+  setTargetLanguageOutput,
+} from '../../slices/translationSlice'
+import textTranslationSession from './textTranslationSession'
 
 const Loading = ({ styles }) => {
   return (
@@ -17,6 +27,8 @@ const Loading = ({ styles }) => {
 }
 
 const SuggestingsView = ({ styles }) => {
+  const dispatch = useDispatch()
+
   const transcribedText = useSelector(
     (state) => state.translation.transcribedText,
   )
@@ -73,8 +85,24 @@ const SuggestingsView = ({ styles }) => {
     }
   }
 
-  const onPress = () => {
+  const onPress = (updatedText) => {
     console.log('onPress')
+    // dispatch(setIsTranscriptionFinal(true))
+    // dispatch(setSourceLanguageOutput(sourceLanguageOutput))
+    // dispatch(setTargetLanguageOutput(targetLanguageOutput))
+    // dispatch(setTranscribedText(updatedText))
+    // textTranslationSession({
+    //   transcribedText,
+    //   sourceLanguageOutput,
+    //   targetLanguageOutput,
+    //   dispatch,
+    // })
+    //   .then((textFromGoogle) => {
+    //     console.log('text from google: ', textFromGoogle)
+    //   })
+    //   .catch((err) => {
+    //     console.error(err)
+    //   })
   }
 
   return (
