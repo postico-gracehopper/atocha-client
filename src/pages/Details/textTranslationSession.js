@@ -12,12 +12,15 @@ const textTranslationSession = ({
   langSource,
   langTarget,
   dispatch,
+  idToken,
 }) => {
   return new Promise((resolve, reject) => {
     console.log('entered session')
-    const socket = io('http://127.0.0.1:3000') // !@# need some ternary for TEST / LOCAL / PRODUCTION
+    const socket = io('http://127.0.0.1:3000/text', {
+      auth: { token: idToken },
+    }) // !@# need some ternary for TEST / LOCAL / PRODUCTION
     socket.on('connect', () => {
-      socket.emit('text', {
+      socket.emit('session', {
         langSource,
         langTarget,
         text: transcribedText,
