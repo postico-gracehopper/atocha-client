@@ -13,7 +13,6 @@ import axios from 'axios'
 import { uri } from '../../../constants'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
-import SaveStars from './SaveStars'
 
 const Loading = () => {
   return (
@@ -24,18 +23,18 @@ const Loading = () => {
   )
 }
 
-export default function Vocab() {
+export default function LoggedOutVocab() {
   const currInput = useSelector((state) => state.languagePicker.input)
   const currOutput = useSelector((state) => state.languagePicker.output)
-  const [selectedWords, setSelectedWords] = useState([])
   const recentConversation = useSelector(
     (state) => state.translation.translatedText,
   )
+  // MV to-do: Conversation should take in the last 3 recording transcriptions from history,
+  // not just the current "translatedText" (aka the most recent recording transcription).
 
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [translatedStrings, setTranslatedStrings] = useState([])
-  const [sessionVocab, setSessionVocab] = useState({})
 
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
@@ -67,9 +66,6 @@ export default function Vocab() {
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
-    console.log('non English lang isss', nonEnglishCode)
-    console.log('Uri isss', uri)
-    console.log('Session vocab isss', sessionVocab)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
@@ -96,8 +92,6 @@ export default function Vocab() {
           .filter((el) => el !== ''),
       )
       setIsLoading(false)
-      setSelectedWords([])
-      setSessionVocab({})
     } catch (error) {
       console.error(error)
     }
@@ -147,41 +141,12 @@ export default function Vocab() {
                     {result &&
                       result.map((word, index) => (
                         <View key={index} style={styles.wordContainer}>
-                          <Pressable
-                            onPress={() => {
-                              const selected = selectedWords.includes(index)
-                              setSelectedWords(
-                                selected
-                                  ? selectedWords.filter((i) => i !== index)
-                                  : [...selectedWords, index],
-                              )
-                              if (selected) {
-                                // Remove the word from sessionVocab if it's already selected
-                                const newSessionVocab = { ...sessionVocab }
-                                delete newSessionVocab[word]
-                                setSessionVocab(newSessionVocab)
-                              } else {
-                                // Add the word to sessionVocab if it's not already selected
-                                setSessionVocab({
-                                  ...sessionVocab,
-                                  [word]: translatedStrings[index],
-                                })
-                              }
-                            }}
-                          >
-                            <Text style={styles.starContainer}>
-                              {selectedWords.includes(index) ? (
-                                <Text style={styles.selectedVocab}>
-                                  ★ {word}
-                                </Text>
-                              ) : (
-                                <Text>☆ {word}</Text>
-                              )}
-                            </Text>
-                            <Text style={styles.vocabDefinition}>
-                              {translatedStrings[index]}
-                            </Text>
-                          </Pressable>
+                          <Text style={styles.starContainer}>
+                            <Text>{word}</Text>
+                          </Text>
+                          <Text style={styles.vocabDefinition}>
+                            {translatedStrings[index]}
+                          </Text>
                         </View>
                       ))}
                   </View>
@@ -190,10 +155,7 @@ export default function Vocab() {
                       Get a fresh list
                     </Text>
                   </Pressable>
-                  <SaveStars
-                    sessionVocab={sessionVocab}
-                    language={displayLang}
-                  />
+                  {/* currentLang should be updated; French is dummy data */}
                 </View>
               ) : (
                 <View style={styles.container}>
@@ -280,9 +242,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  selectedVocab: {
-    color: colors.brightPrimary,
-  },
   transparentOverlay: {
     backgroundColor: 'black',
     opacity: 0.7,
@@ -316,7 +275,7 @@ const styles = StyleSheet.create({
   vocabContainer: {
     alignContent: 'flex-start',
     flexWrap: 'wrap',
-    paddingTop: 60,
+    paddingHorizontal: 20,
     maxWidth: '100%',
   },
   vocabDefinition: {
@@ -326,10 +285,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: colors.white,
     textAlign: 'left',
-    paddingVertical: 8,
-    paddingLeft: 40,
+    paddingTop: 5,
   },
   wordContainer: {
-    marginBottom: 6,
+    paddingBottom: 30,
   },
 })

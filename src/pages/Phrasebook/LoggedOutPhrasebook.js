@@ -1,48 +1,22 @@
-import { useState, React } from 'react'
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  StyleSheet,
-  ImageBackground,
-} from 'react-native'
-import { getAuth } from 'firebase/auth'
-
+import React from 'react'
+import { Text, StyleSheet, View, ImageBackground } from 'react-native'
 import colors from '../../theme/colors'
-import GetVocab from './GetVocab'
 
-const Loading = () => {
-  return (
-    <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" />
-      <Text style={styles.loadingText}>Loading...</Text>
-    </View>
-  )
-}
-
-export default function Phrasebook() {
-  const user = getAuth()
-  const [isLoading, setIsLoading] = useState(false)
-
+export default function LoggedOutPhrasebook(props) {
   const image = {
     uri: 'https://images.unsplash.com/photo-1573455494057-12684d151bf4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1862&q=80',
   }
-
   return (
     <View style={styles.root}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
         <View style={styles.wrapper}>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <>
-              <View style={styles.container}>
-                <Text style={styles.notYet}>Phrasebook</Text>
-                <GetVocab />
-              </View>
-            </>
-          )}
+          <View style={styles.notYetContainer}>
+            <Text style={styles.notYet}>Hold on...</Text>
+            <Text style={styles.notYetSubtext}>
+              You'll need to be logged in to save words to your Phrasebook.
+            </Text>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -53,28 +27,12 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     position: 'relative',
-  },
-  container: {
-    flex: 1,
-    marginTop: 20,
-    // justifyContent: 'center',
-    // alignItems: 'flex-start',
-    zIndex: 1,
+    justifyContent: 'center',
   },
   image: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    fontSize: 16,
-    marginTop: 10,
-    color: colors.white,
   },
   notYet: {
     marginTop: 50,
@@ -113,8 +71,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  wordContainer: {
-    marginBottom: 16,
   },
 })
