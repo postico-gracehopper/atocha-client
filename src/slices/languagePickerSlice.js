@@ -26,6 +26,10 @@ const languagePickerSlice = createSlice({
     },
     swapSelectedLanguages: (state, action) => {
       ;[state.input, state.output] = [state.output, state.input]
+      ;[state.inputString, state.outputString] = [
+        state.outputString,
+        state.inputString,
+      ]
     },
   },
 })
