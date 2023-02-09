@@ -6,34 +6,12 @@ const soundObject = new Audio.Sound()
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-export default function TextTranscriber({
-  text,
-  language,
-  color,
-  disabled,
-  uri,
-}) {
+export default function TextTranscriber({ text, language, color, disabled }) {
   //state holding whether it is playing
   const [playing, setPlaying] = React.useState(false)
 
   const handlePlay = async () => {
     setPlaying(true)
-    if (uri) {
-      try {
-        const sound = new Audio.Sound()
-        const { durationMillis: duration } = await sound.loadAsync({
-          uri,
-        })
-        await sound.playAsync()
-        setTimeout(() => {
-          setPlaying(false)
-        }, duration)
-        return
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
     const enableAndPlaySound = async () => {
       if (Platform.OS === 'ios') {
         await Audio.setAudioModeAsync({ playsInSilentModeIOS: true })
