@@ -33,7 +33,7 @@ export default function App() {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Login"
         component={Login}
         options={{
@@ -41,7 +41,7 @@ export default function App() {
             <Ionicons name="log-in-outline" size={22} color={color} />
           ),
         }}
-      />
+      /> */}
       <Drawer.Screen
         name="Sign Up"
         component={SignUp}
@@ -51,7 +51,7 @@ export default function App() {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Logout"
         component={Logout}
         options={{
@@ -59,7 +59,7 @@ export default function App() {
             <Ionicons name="log-out-outline" size={22} color={color} />
           ),
         }}
-      />
+      /> */}
       <Drawer.Screen
         name="Phrasebook"
         component={Phrasebook}
