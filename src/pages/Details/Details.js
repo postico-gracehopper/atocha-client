@@ -106,7 +106,7 @@ const Details = () => {
       langSource: langSource,
       langTarget: langTarget,
       dispatch,
-      userUID: currentUser.uid,
+      idToken: await currentUser.getIdToken(),
     })
       .then((textFromGoogle) => {
         console.log('text from google: ', textFromGoogle)
@@ -136,9 +136,6 @@ const Details = () => {
     dispatch(swapSelectedLanguages())
   }
 
-  const user = getAuth()
-  const current = user.currentUser
-
   const handleTextSubmit = async () => {
     console.log('text submitted')
     dispatch(setIsTranscriptionFinal(true))
@@ -149,6 +146,7 @@ const Details = () => {
       langSource,
       langTarget,
       dispatch,
+      idToken: await currentUser.getIdToken(),
     })
       .then((textFromGoogle) => {
         console.log('text from google: ', textFromGoogle)
