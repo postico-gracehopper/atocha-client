@@ -21,12 +21,12 @@ export default function LoginNav() {
       initialRouteName="Home"
     >
       <Drawer.Screen
-        name="TabNavigator"
+        name="Home"
         component={TabNavigator}
         options={{
-          drawerLabel: () => null,
-          title: null,
-          drawerIcon: () => null,
+          drawerIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={22} color={color} />
+          ),
         }}
       />
       <Drawer.Screen

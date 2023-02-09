@@ -21,12 +21,12 @@ export default function LoggedNav() {
       initialRouteName="Home"
     >
       <Drawer.Screen
-        name="TabNavigator"
+        name="Home"
         component={TabNavigator}
         options={{
-          drawerLabel: () => null,
-          title: null,
-          drawerIcon: () => null,
+          drawerIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={22} color={color} />
+          ),
         }}
       />
       <Drawer.Screen
@@ -39,7 +39,7 @@ export default function LoggedNav() {
         }}
       />
       <Drawer.Screen
-        name="Make a new account"
+        name="New account"
         component={SignUp}
         options={{
           drawerIcon: ({ color }) => (

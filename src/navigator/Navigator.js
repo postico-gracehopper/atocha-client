@@ -26,7 +26,7 @@ const Navigator = () => {
           setLogged(true)
           console.log('Navigator true! Current user is', currentUser)
         }
-      } else setLoggedIn(false)
+      } else setLogged(false)
     })
 
     return () => {
