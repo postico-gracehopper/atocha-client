@@ -3,17 +3,15 @@ import { View, Text } from 'react-native'
 import {
   DrawerContentScrollView,
   DrawerItemList,
-  DrawerItem,
 } from '@react-navigation/drawer'
 import colors from '../../theme/colors'
 import { ImageBackground, Image } from 'react-native'
-import { getAuth, signInAnonymously, signOut } from 'firebase/auth'
+import { getAuth, signInAnonymously } from 'firebase/auth'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
-import FontIcon from 'react-native-vector-icons/FontAwesome5'
+
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import Details from '../../pages/Details'
 
 const backgroundImage = {
   uri: 'https://www.state.gov/wp-content/uploads/2018/11/Germany-2109x1406.jpg',
@@ -28,18 +26,6 @@ const CustomDrawer = (props) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const user = getAuth()
   const current = user.currentUser
-  const { navigation } = props
-
-  const anonymousSignIn = () => {
-    console.log('IN ANONYMOUS SIGN IN')
-    signInAnonymously(user)
-      .then(() => {})
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(error)
-      })
-  }
 
   useEffect(() => {
     if (current) {
@@ -77,89 +63,17 @@ const CustomDrawer = (props) => {
         <View style={{ flex: 1, paddingTop: 10 }}>
           <DrawerItemList
             {...props}
-            activeBackgroundColor={colors.primary}
-            activeTintColor="white"
-            inactiveTintColor={colors.primary}
+            // activeBackgroundColor={colors.primary}
+            // activeTintColor="white"
+            // inactiveTintColor={colors.primary}
             labelStyle={{
               marginLeft: -25,
               fontFamily: 'Cochin',
-              fontSize: 16,
+              fontSize: 32,
             }}
           />
         </View>
       </DrawerContentScrollView>
-      <View
-        style={{
-          padding: 20,
-          borderTopWidth: 1,
-          borderTopColor: colors.primary,
-        }}
-      >
-        {loggedIn ? (
-          <TouchableOpacity
-            onPress={() => {
-              user
-                .signOut()
-                .then(() => {
-                  setDisplayName('')
-                  console.log('Sign-out successful')
-                })
-                .then(() => {
-                  anonymousSignIn()
-                })
-                .then(() => {
-                  console.log('IN NAVIGATION')
-                  navigation.navigate('Details')
-                })
-                .catch((error) => {
-                  console.log('Error signing out', error)
-                })
-            }}
-            style={{ paddingVertical: 15 }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Ionicons
-                name="log-out-outline"
-                size={22}
-                color={colors.primary}
-              />
-              <Text
-                style={{
-                  fontFamily: 'Cochin',
-                  fontSize: 16,
-                  color: colors.primary,
-                }}
-              >
-                Logout
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login')
-            }}
-            style={{ paddingVertical: 15 }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Ionicons
-                name="log-in-outline"
-                size={22}
-                color={colors.primary}
-              />
-              <Text
-                style={{
-                  fontFamily: 'Cochin',
-                  fontSize: 16,
-                  color: colors.primary,
-                }}
-              >
-                Login
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      </View>
     </View>
   )
 }
@@ -167,7 +81,7 @@ const CustomDrawer = (props) => {
 const styles = StyleSheet.create({
   userInfo: {
     color: colors.primary,
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'Cochin',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',

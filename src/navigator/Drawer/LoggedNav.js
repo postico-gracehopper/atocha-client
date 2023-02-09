@@ -2,7 +2,7 @@ import * as React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons'
 
-import Login from '../../pages/AuthPages'
+import { Login, Logout, Signup } from '../../pages/AuthPages'
 import SignUp from '../../pages/AuthPages/SignUp'
 import CustomDrawer from './CustomDrawer'
 import TabNavigator from '../Tabs/Tabs'
@@ -20,18 +20,26 @@ export default function LoggedNav() {
       }}
       initialRouteName="Home"
     >
-      <Drawer.Screen name="Home" component={TabNavigator} />
       <Drawer.Screen
-        name="Login"
-        component={Login}
+        name="TabNavigator"
+        component={TabNavigator}
+        options={{
+          drawerLabel: () => null,
+          title: null,
+          drawerIcon: () => null,
+        }}
+      />
+      <Drawer.Screen
+        name="Log out"
+        component={Logout}
         options={{
           drawerIcon: ({ color }) => (
-            <Ionicons name="log-in-outline" size={22} color={color} />
+            <Ionicons name="language-outline" size={22} color={color} />
           ),
         }}
       />
       <Drawer.Screen
-        name="Sign Up"
+        name="Make a new account"
         component={SignUp}
         options={{
           drawerIcon: ({ color }) => (

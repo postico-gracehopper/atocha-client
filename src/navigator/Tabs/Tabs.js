@@ -23,10 +23,8 @@ export default function TabNavigator() {
       if (currentUser) {
         if (currentUser.email == undefined) {
           setLoggedIn(false)
-          console.log('False! Current user is', currentUser)
         } else {
           setLoggedIn(true)
-          console.log('True! Current user is', currentUser)
         }
       } else setLoggedIn(false)
     })
