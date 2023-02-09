@@ -8,6 +8,8 @@ const initialState = {
   isTranscriptionFinal: false,
   sourceLanguageOutput: '',
   targetLanguageOutput: '',
+  teacherGeneratedText: null,
+  suggestionGeneratedText: null,
 }
 
 const translationSlice = createSlice({
@@ -32,10 +34,16 @@ const translationSlice = createSlice({
     setTargetLanguageOutput: (state, action) => {
       state.targetLanguageOutput = action.payload
     },
+    setTeacherGeneratedText: (state, action) => {
+      state.sourceLanguageOutput = action.payload
+    },
+    setSuggestionGeneratedText: (state, action) => {
+      state.targetLanguageOutput = action.payload
+    },
   },
 })
 
-export const selectCurrentText = (state) => state.translation.currentText
+export const selectCurrentText = (state) => state.translation.currentText // TODO delete this
 
 export const selectSessionObject = (state) => {
   return {
@@ -51,6 +59,8 @@ export const {
   setIsTranscriptionFinal,
   setSourceLanguageOutput,
   setTargetLanguageOutput,
+  setTeacherGeneratedText,
+  setSuggestionGeneratedText,
 } = translationSlice.actions
 
 export default translationSlice.reducer
