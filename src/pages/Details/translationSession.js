@@ -25,7 +25,7 @@ const translationSession = ({
         reject(new Error(`could not read recording uri: ${uri}, error: ${err}`))
       })
       .then((audioBase64) => {
-        const socket = io('http://127.0.0.1:3000') // !@# need some ternary for TEST / LOCAL / PRODUCTION
+        const socket = io('http://127.0.0.1:3000/audio') // !@# need some ternary for TEST / LOCAL / PRODUCTION
         socket.on('connect', () => {
           socket.emit('audio', {
             langSource,
