@@ -2,14 +2,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  translatedText: null,
-  transcribedText: null,
+  translatedText: '',
+  transcribedText: '',
   isTranslationFinal: false,
   isTranscriptionFinal: false,
   sourceLanguageOutput: '',
   targetLanguageOutput: '',
-  teacherGeneratedText: null,
-  suggestionGeneratedText: null,
+  teacherGeneratedText: '',
+  isTeacherSubmitted: false,
+  isTeacherLoading: false,
+  suggestionGeneratedText: [],
+  isSuggestionSubmitted: false,
+  isSuggestionLoading: false,
+  viewMode: 'text-input',
 }
 
 const translationSlice = createSlice({
@@ -35,15 +40,28 @@ const translationSlice = createSlice({
       state.targetLanguageOutput = action.payload
     },
     setTeacherGeneratedText: (state, action) => {
-      state.sourceLanguageOutput = action.payload
+      state.teacherGeneratedText = action.payload
+    },
+    setIsTeacherSubmitted: (state, action) => {
+      state.isTeacherSubmitted = action.payload
+    },
+    setIsTeacherLoading: (state, action) => {
+      state.isTeacherLoading = action.payload
     },
     setSuggestionGeneratedText: (state, action) => {
-      state.targetLanguageOutput = action.payload
+      state.suggestionGeneratedText = action.payload
+    },
+    setIsSuggestionSubmitted: (state, action) => {
+      state.isSuggestionSubmitted = action.payload
+    },
+    setIsSuggestionLoading: (state, action) => {
+      state.isSuggestionLoading = action.payload
+    },
+    setViewMode: (state, action) => {
+      state.viewMode = action.payload
     },
   },
 })
-
-export const selectCurrentText = (state) => state.translation.currentText // TODO delete this
 
 export const selectSessionObject = (state) => {
   return {
@@ -60,7 +78,12 @@ export const {
   setSourceLanguageOutput,
   setTargetLanguageOutput,
   setTeacherGeneratedText,
+  setIsTeacherSubmitted,
   setSuggestionGeneratedText,
+  setIsSuggestionSubmitted,
+  setIsSuggestionLoading,
+  setIsTeacherLoading,
+  setViewMode,
 } = translationSlice.actions
 
 export default translationSlice.reducer

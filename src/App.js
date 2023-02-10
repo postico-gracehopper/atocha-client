@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
+import { View, LogBox } from 'react-native'
 import { Provider } from 'react-redux'
 import store from 'utils/store'
 import 'utils/ignore'
@@ -20,6 +20,9 @@ const App = () => {
     await Promise.all([...imageAssets, ...fontAssets])
     setDidLoad(true)
   }
+
+  // Use this to suppress the warnings about AsyncStorage... it is an issue with Firebase and React Native
+  // LogBox.ignoreAllLogs()
 
   const user = getAuth()
   const current = user.currentUser

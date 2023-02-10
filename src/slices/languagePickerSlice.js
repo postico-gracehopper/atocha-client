@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// TODO test all the language pairs with Google
 const initialState = {
-  input: 'en-US',
-  output: 'es-MX',
-  inputString: 'English',
-  outputString: 'Spanish',
+  langSource: 'en-US',
+  langTarget: 'es-MX',
+  langSourceName: 'English',
+  langTargetName: 'Spanish',
 }
 
 const languagePickerSlice = createSlice({
@@ -13,22 +12,25 @@ const languagePickerSlice = createSlice({
   initialState,
   reducers: {
     setInputLanguage: (state, action) => {
-      state.input = action.payload
+      state.langSource = action.payload
     },
     setOutputLanguage: (state, action) => {
-      state.output = action.payload
+      state.langTarget = action.payload
     },
     setInputLanguageString: (state, action) => {
-      state.inputString = action.payload
+      state.langSourceName = action.payload
     },
     setOutputLanguageString: (state, action) => {
-      state.outputString = action.payload
+      state.langTargetName = action.payload
     },
     swapSelectedLanguages: (state, action) => {
-      ;[state.input, state.output] = [state.output, state.input]
-      ;[state.inputString, state.outputString] = [
-        state.outputString,
-        state.inputString,
+      ;[state.langSource, state.langTarget] = [
+        state.langTarget,
+        state.langSource,
+      ]
+      ;[state.langSourceName, state.langTargetName] = [
+        state.langTargetName,
+        state.langSourceName,
       ]
     },
   },

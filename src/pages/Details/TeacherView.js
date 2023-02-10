@@ -1,11 +1,22 @@
 import { useState, React } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-
-import { Text, Pressable, View, ActivityIndicator } from 'react-native'
+import { useAuth } from '../../../context/authContext'
+import {
+  Text,
+  Pressable,
+  View,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native'
 
 import colors from '../../theme/colors'
-import { useAuth } from '../../../context/authContext'
+
+import {
+  setTeacherGeneratedText,
+  setIsTeacherSubmitted,
+  setIsTeacherLoading,
+} from '../../slices/translationSlice'
 
 const Loading = ({ styles }) => {
   return (
@@ -17,26 +28,22 @@ const Loading = ({ styles }) => {
 }
 
 const TeacherView = ({ styles }) => {
-  const translatedText = useSelector(
-    (state) => state.translation.translatedText,
-  )
-  const sourceLanguageOutput = useSelector(
-    (state) => state.translation.sourceLanguageOutput,
-  )
-  const targetLanguageOutput = useSelector(
-    (state) => state.translation.targetLanguageOutput,
-  )
+  const dispatch = useDispatch()
 
-  const [result, setResult] = useState()
-  const [isLoading, setIsLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const { currentUser } = useAuth()
+  const {
+    translatedText,
+    sourceLanguageOutput,
+    targetLanguageOutput,
+    teacherGeneratedText,
+    isTeacherSubmitted,
+    isTeacherLoading,
+  } = useSelector((state) => state.translation)
 
   async function onSubmit(event) {
     event.preventDefault()
-    setIsLoading(true)
-    setSubmitted(true)
-    // First, generate the vocab list given the recent conversation and output language.
+    dispatch(setIsTeacherLoading(true))
+    dispatch(setIsTeacherSubmitted(true))
+    const { currentUser } = useAuth()
     try {
       const response = await axios({
         method: 'post',
@@ -58,30 +65,40 @@ const TeacherView = ({ styles }) => {
         )
       }
       const trimedResult = data.result.trim()
-      setResult(trimedResult)
-      setIsLoading(false)
+      dispatch(setTeacherGeneratedText(trimedResult))
+      dispatch(setIsTeacherLoading(false))
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <View style={styles.generatedTextActiveContainer}>
-      {!submitted ? (
+    <View
+      style={[
+        styles.generatedTextActiveContainer,
+        { borderTopRightRadius: 20 },
+      ]}
+    >
+      {!isTeacherSubmitted ? (
         <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 65,
+          }}
         >
           <Pressable onPress={onSubmit} style={styles.generatePressable}>
             <Text style={styles.generatePressableText}>Ask the teacher</Text>
           </Pressable>
         </View>
       ) : null}
-      {isLoading ? (
+      {isTeacherLoading ? (
         <Loading styles={styles} />
       ) : (
-        <View>
-          <Text style={styles.teacherText}>{result}</Text>
-        </View>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.teacherText}>{teacherGeneratedText}</Text>
+        </ScrollView>
       )}
     </View>
   )
