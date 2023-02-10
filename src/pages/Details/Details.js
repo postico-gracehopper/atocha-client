@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.white,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Cochin',
   },
   teacherText: {

@@ -60,6 +60,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
                 disabled={isSuggestionsLoading || isTeacherLoading}
               />
             </View>
+            {/* Input below */}
             <TextOutput
               styles={styles}
               langCode={langSource}
@@ -67,6 +68,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
               text={transcribedText}
               isFinal={isTranscriptionFinal}
             />
+            {/* Divider */}
             <View
               style={{
                 backgroundColor: colors.gray,
@@ -75,6 +77,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
                 marginBottom: 15,
               }}
             ></View>
+            {/* Translated below */}
             <TextOutput
               styles={styles}
               langCode={langTarget}
