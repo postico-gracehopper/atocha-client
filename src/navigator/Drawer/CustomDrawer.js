@@ -29,8 +29,8 @@ const CustomDrawer = (props) => {
 
   useEffect(() => {
     if (current) {
-      current.displayName ? setDisplayName(current.displayName) : null
-      current.displayName ? setLoggedIn(true) : setLoggedIn(false)
+      current.isAnonymous ? null : setDisplayName(current.displayName)
+      current.isAnonymous ? setLoggedIn(false) : setLoggedIn(true)
     }
   }, [current])
 

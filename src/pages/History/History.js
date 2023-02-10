@@ -18,11 +18,25 @@ import readAtochaFile from '../../filesystem/readAtochaFile'
 import clearAtochaFile from '../../filesystem/clearAtochaFile'
 import writeToAtochaFile from '../../filesystem/writeToAtochaFile'
 import { useDispatch } from 'react-redux'
+import { Picker } from '@react-native-picker/picker'
+import colors from '../../theme/colors'
+import {
+  sortedAndFiltered,
+  SortHistory,
+  SearchHistory,
+} from '../../components/FilterSort'
+import { SearchBar } from 'react-native-elements'
+import { FilterHistory } from '../../components/FilterSort'
 
 const History = () => {
   let [sessions, setSessions] = useState([])
   let [trigger, setTrigger] = useState(Date.now())
+  let [filter, setFilter] = useState('All')
+  let [sortBy, setSortBy] = useState('-')
+  let [searchBy, setSearchBy] = useState('')
   const dispatch = useDispatch()
+
+  const sessionFiltered = sortedAndFiltered(sessions, filter, sortBy, searchBy)
 
   readAtochaFile()
     .then((sessions) => setSessions(sessions))
@@ -78,16 +92,28 @@ const History = () => {
     <View style={styles.root}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
-        {sessions && sessions.length ? (
+        <View style={styles.languagePickerContainer}>
+          <FilterHistory
+            styles={styles}
+            filter={filter}
+            setFilter={setFilter}
+          />
+          <SortHistory setSortBy={setSortBy} />
+        </View>
+
+        {sessionFiltered && sessionFiltered.length ? (
           <FlatList
             style={{ marginTop: 50, width: '100%' }}
-            data={sessions}
+            data={sessionFiltered}
             renderItem={(session) => <SessionTile session={session} />}
           />
         ) : (
           <></>
         )}
       </ImageBackground>
+      <View>
+        <SearchHistory searchBy={searchBy} setSearchBy={setSearchBy} />
+      </View>
     </View>
   )
 }
@@ -110,6 +136,21 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  languagePickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  picker: {
+    width: 170,
+  },
+  onePickerItem: {
+    height: 130,
+    color: colors.white,
+    fontSize: 20,
+    fontStyle: 'bold',
   },
 })
 

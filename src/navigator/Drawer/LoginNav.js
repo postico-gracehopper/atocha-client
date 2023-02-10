@@ -14,9 +14,7 @@ export default function LoginNav() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
-        drawerActiveTintColor: 'red',
         headerShown: false,
-        drawerLabelStyle: { marginLeft: -25 },
       }}
       initialRouteName="Home"
     >

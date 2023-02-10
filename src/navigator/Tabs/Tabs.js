@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import { Ionicons } from '@expo/vector-icons'
 import { colors } from 'theme'
 import { auth } from '../../../firebase'
 
