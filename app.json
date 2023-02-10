@@ -23,13 +23,10 @@
       "config": "metro.config.js",
       "sourceExts": ["js", "jsx", "svg", "ts", "tsx"]
     },
-    // "scheme":"com.yoursite.yourapp",
-    // MV: We need to add the above line once we determine our bundleId.
     "extra": {
       "eas": {
         "projectId": "ae04ca16-29b6-41e0-b5f5-d54c1c620b2a"
       }
-    },
-    "owner": "meridith"
+    }
   }
 }
