@@ -41,7 +41,6 @@ const GetVocab = () => {
     filter,
     sortBy,
     searchBy,
-    langFlags,
   )
   console.log(vocabWordsFiltered)
 

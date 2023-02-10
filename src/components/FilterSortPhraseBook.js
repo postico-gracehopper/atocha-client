@@ -8,7 +8,6 @@ import { SearchBar } from 'react-native-elements'
 import { langFlags } from '../pages/Phrasebook/langFlags'
 
 export const FilterPhraseBook = ({ setFilter }) => {
-  //This needs to be an array of language names
   const data = [
     'All',
     'English',
@@ -79,15 +78,8 @@ export const SearchPhraseBook = ({ searchBy, setSearchBy }) => {
   )
 }
 
-export function sortedAndFiltered(
-  vocabWords,
-  filter,
-  sortBy,
-  searchBy,
-  langFlags,
-) {
+export function sortedAndFiltered(vocabWords, filter, sortBy, searchBy) {
   let filtered =
-    //"filter" will represent the langauge that was selected
     filter !== 'All'
       ? vocabWords.filter((word) => word.originalLang === filter)
       : vocabWords
