@@ -14,7 +14,9 @@ const translationSession = ({
   langTarget,
   dispatch,
   userUID,
+  idToken,
 }) => {
+  console.log('translationSession() called')
   let closureTranslation = ''
   let closureTransciption = ''
   return new Promise((resolve, reject) => {
@@ -25,9 +27,11 @@ const translationSession = ({
         reject(new Error(`could not read recording uri: ${uri}, error: ${err}`))
       })
       .then((audioBase64) => {
-        const socket = io('http://127.0.0.1:3000') // !@# need some ternary for TEST / LOCAL / PRODUCTION
+        const socket = io('http://127.0.0.1:3000/audio', {
+          auth: { token: idToken },
+        }) // !@# need some ternary for TEST / LOCAL / PRODUCTION
         socket.on('connect', () => {
-          socket.emit('audio', {
+          socket.emit('session', {
             langSource,
             langTarget,
             audioData: audioBase64,

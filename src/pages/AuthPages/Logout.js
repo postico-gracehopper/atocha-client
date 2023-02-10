@@ -14,7 +14,6 @@ const Logout = () => {
   }
 
   const anonymousSignIn = () => {
-    console.log('IN ANONYMOUS SIGN IN')
     signInAnonymously(auth)
       .then(() => {})
       .catch((error) => {

@@ -13,7 +13,7 @@ const ResetButton = ({ styles, handleReset }) => {
     >
       <MaterialCommunityIcons
         name="close-circle"
-        size={36}
+        size={30}
         color={colors.white}
       />
     </Pressable>
