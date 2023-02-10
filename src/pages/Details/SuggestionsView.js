@@ -32,8 +32,6 @@ import { useAuth } from '../../../context/authContext'
 import textTranslationSession from './textTranslationSession'
 import host from '../../utils/host'
 
-import { useAuth } from '../../../context/authContext'
-
 const Loading = ({ styles }) => {
   return (
     <View style={styles.loadingContainer}>

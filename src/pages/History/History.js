@@ -19,7 +19,6 @@ import readAtochaFile from '../../filesystem/readAtochaFile'
 import clearAtochaFile from '../../filesystem/clearAtochaFile'
 import writeToAtochaFile from '../../filesystem/writeToAtochaFile'
 import { Picker } from '@react-native-picker/picker'
-import colors from '../../theme/colors'
 import {
   sortedAndFiltered,
   SortHistory,
@@ -36,6 +35,7 @@ const History = () => {
   let [sortBy, setSortBy] = useState('-')
   let [searchBy, setSearchBy] = useState('')
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
 
   const sessionFiltered = sortedAndFiltered(sessions, filter, sortBy, searchBy)
 
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
+    marginTop: 30,
   },
   picker: {
     width: 170,

@@ -11,17 +11,13 @@ import {
 } from 'react-native'
 
 import colors from '../../theme/colors'
-
-import { useAuth } from '../../../context/authContext'
 import host from '../../utils/host'
-
 
 import {
   setTeacherGeneratedText,
   setIsTeacherSubmitted,
   setIsTeacherLoading,
 } from '../../slices/translationSlice'
-
 
 const Loading = ({ styles }) => {
   return (
@@ -34,6 +30,7 @@ const Loading = ({ styles }) => {
 
 const TeacherView = ({ styles }) => {
   const dispatch = useDispatch()
+  const { currentUser } = useAuth()
 
   const {
     translatedText,
@@ -48,7 +45,6 @@ const TeacherView = ({ styles }) => {
     event.preventDefault()
     dispatch(setIsTeacherLoading(true))
     dispatch(setIsTeacherSubmitted(true))
-    const { currentUser } = useAuth()
     try {
       const response = await axios({
         method: 'post',
