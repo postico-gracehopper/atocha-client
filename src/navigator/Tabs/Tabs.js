@@ -40,7 +40,7 @@ export default function TabNavigator() {
       initialRouteName="Details"
       activeColor={colors.white}
       inactiveColor={colors.fadedPrimary}
-      barStyle={{ backgroundColor: colors.primary }}
+      barStyle={{ backgroundColor: colors.primary, height: 100 }}
       screenOptions={({ route }) => ({
         // eslint-disable-next-line react/prop-types
         tabBarIcon: ({ focused }) => {
