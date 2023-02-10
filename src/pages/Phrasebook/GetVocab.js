@@ -8,8 +8,9 @@ import colors from '../../theme/colors'
 
 const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
-  const [userId, setUserId] = useState(null)
+
   const { currentUser } = useAuth()
+  userId = currentUser.uid
 
   const onGetVocab = async () => {
     const unsub = onSnapshot(
