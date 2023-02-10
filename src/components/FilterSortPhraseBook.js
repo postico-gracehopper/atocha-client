@@ -5,27 +5,23 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { SelectList } from 'react-native-dropdown-select-list'
 import languages from '../pages/SelectLanguage/languageList'
 import { SearchBar } from 'react-native-elements'
-export const FilterHistory = ({ styles, filter, setFilter }) => {
-  const data = ['All', ...languages]
+import { langFlags } from '../pages/Phrasebook/langFlags'
+
+export const FilterPhraseBook = ({ setFilter }) => {
+  //This needs to be an array of language names
+  const data = [
+    'All',
+    'English',
+    'Spanish',
+    'French',
+    'German',
+    'Portuguese',
+    'Italian',
+    'Russian',
+    'Hindi',
+    'Thai',
+  ]
   return (
-    // <View>
-    //   <View>
-    //     <Picker
-    //       selectedValue={filter}
-    //       style={styles.picker}
-    //       itemStyle={styles.onePickerItem}
-    //       onValueChange={(itemValue) => setFilter(itemValue)}
-    //     >
-    //       <Picker.Item label="All" value="All" />
-    //       {languages.map(({ languageName, languageCode }) => (
-    //         <Picker.Item
-    //           key={languageCode}
-    //           label={languageName}
-    //           value={languageCode}
-    //         />
-    //       ))}
-    //     </Picker>
-    //   </View>
     <View>
       <View>
         <SelectDropdown
@@ -33,24 +29,14 @@ export const FilterHistory = ({ styles, filter, setFilter }) => {
           buttonStyle={{ width: 120, height: 40 }}
           data={data}
           onSelect={(selectedItem, index) => {
-            if (selectedItem === 'All') {
-              setFilter('All')
-            } else setFilter(selectedItem.languageCode)
+            setFilter(selectedItem)
           }}
           defaultButtonText={'Filter By'}
           buttonTextAfterSelection={(selectedItem, index) => {
-            if (selectedItem === 'All') {
-              return 'All'
-            }
-            return selectedItem.languageName
+            return selectedItem
           }}
           rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
-            if (item === 'All') {
-              return 'All'
-            }
-            return item.languageName
+            return item
           }}
         />
       </View>
@@ -58,7 +44,7 @@ export const FilterHistory = ({ styles, filter, setFilter }) => {
   )
 }
 
-export const SortHistory = ({ sortBy, setSortBy }) => {
+export const SortPhraseBook = ({ setSortBy }) => {
   const data = ['-', 'Most Recent', 'Least Recent']
   return (
     <View>
@@ -83,21 +69,28 @@ export const SortHistory = ({ sortBy, setSortBy }) => {
   )
 }
 
-export const SearchHistory = ({ searchBy, setSearchBy }) => {
+export const SearchPhraseBook = ({ searchBy, setSearchBy }) => {
   return (
     <SearchBar
-      placeholder="Search Conversations"
+      placeholder="Search Phrases"
       value={searchBy}
       onChangeText={(text) => setSearchBy(text)}
     />
   )
 }
 
-export function sortedAndFiltered(session, filter, sortBy, searchBy) {
+export function sortedAndFiltered(
+  vocabWords,
+  filter,
+  sortBy,
+  searchBy,
+  langFlags,
+) {
   let filtered =
+    //"filter" will represent the langauge that was selected
     filter !== 'All'
-      ? session.filter((session) => session.langTarget === filter)
-      : session
+      ? vocabWords.filter((word) => word.originalLang === filter)
+      : vocabWords
 
   let sorted
 
@@ -107,29 +100,26 @@ export function sortedAndFiltered(session, filter, sortBy, searchBy) {
 
   if (sortBy === 'Least Recent') {
     sorted = [...filtered].sort((a, b) =>
-      Number(a.date) < Number(b.date) ? -1 : 0,
+      Number(a.dateAdded) < Number(b.dateAdded) ? -1 : 0,
     )
   }
 
   if (sortBy === 'Most Recent') {
     sorted = [...filtered].sort((a, b) =>
-      Number(a.date) > Number(b.date) ? -1 : 0,
+      Number(a.dateAdded) > Number(b.dateAdded) ? -1 : 0,
     )
   }
 
   if (searchBy.length > 0) {
-    return sorted.filter((session) => {
+    return sorted.filter((word) => {
       if (searchBy === '') {
-        return session
+        return word
       } else if (
-        session.sourceTranscription
-          .toLowerCase()
-          .includes(searchBy.toLowerCase()) ||
-        session.targetTranscription
-          .toLowerCase()
-          .includes(searchBy.toLowerCase())
+        word.originalLang.toLowerCase().includes(searchBy.toLowerCase()) ||
+        word.vocabWord.toLowerCase().includes(searchBy.toLowerCase()) ||
+        word.definition.toLowerCase().includes(searchBy.toLowerCase())
       ) {
-        return session
+        return word
       }
     })
   }

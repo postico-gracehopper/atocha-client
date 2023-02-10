@@ -45,10 +45,10 @@ export default function TabNavigator() {
         // eslint-disable-next-line react/prop-types
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
-            case 'Details':
+            case 'Translate':
               return (
                 <FontAwesome5
-                  name="home"
+                  name="language"
                   color={focused ? colors.brightPrimary : colors.fadedPrimary}
                   size={20}
                   solid
@@ -106,7 +106,7 @@ export default function TabNavigator() {
       })}
     >
       <Tab.Screen name="History" component={History} key={Date.now()} />
-      <Tab.Screen name="Details" component={Details} />
+      <Tab.Screen name="Translate" component={Details} />
       <Tab.Screen name="Vocab" component={loggedIn ? Vocab : LoggedOutVocab} />
       <Tab.Screen
         name="Phrasebook"

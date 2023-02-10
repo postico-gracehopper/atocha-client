@@ -23,9 +23,9 @@ import {
   sortedAndFiltered,
   SortHistory,
   SearchHistory,
-} from '../../components/FilterSort'
+} from '../../components/FilterSortHistory'
 import { SearchBar } from 'react-native-elements'
-import { FilterHistory } from '../../components/FilterSort'
+import { FilterHistory } from '../../components/FilterSortHistory'
 import { useDispatch, useSelector } from 'react-redux'
 
 const History = () => {
@@ -38,7 +38,7 @@ const History = () => {
   const isFocused = useIsFocused()
 
   const sessionFiltered = sortedAndFiltered(sessions, filter, sortBy, searchBy)
-
+  console.log(sessionFiltered[0])
   useEffect(() => {
     if (isFocused) {
       readAtochaFile()
@@ -56,7 +56,6 @@ const History = () => {
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
   }
-
   return (
     <View style={styles.root}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -69,7 +68,6 @@ const History = () => {
           />
           <SortHistory setSortBy={setSortBy} />
         </View>
-
         {sessionFiltered && sessionFiltered.length ? (
           <FlatList
             style={{ marginTop: 50, width: '100%' }}
