@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import { Ionicons } from '@expo/vector-icons'
 import { colors } from 'theme'
 
 // MV stack navigators - we don't need these for now,
@@ -16,6 +17,7 @@ import Phrasebook from '../../pages/Phrasebook'
 import SelectLanguage from '../../pages/SelectLanguage'
 import Vocab from '../../pages/Vocab'
 import History from '../../pages/History'
+import Login from '../../pages/AuthPages'
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -29,12 +31,12 @@ const TabNavigator = () => (
       // eslint-disable-next-line react/prop-types
       tabBarIcon: ({ focused }) => {
         switch (route.name) {
-          case 'Details':
+          case 'Translate':
             return (
               <FontAwesome5
-                name="home"
+                name="language"
                 color={focused ? colors.brightPrimary : colors.fadedPrimary}
-                size={20}
+                size={25}
                 solid
               />
             )
@@ -82,7 +84,7 @@ const TabNavigator = () => (
   >
     <Tab.Screen name="History" component={History} key={Date.now()} />
     <Tab.Screen name="Phrasebook" component={Phrasebook} />
-    <Tab.Screen name="Details" component={Details} />
+    <Tab.Screen name="Translate" component={Details} />
     {/* <Tab.Screen name="Language" component={SelectLanguage} /> */}
     <Tab.Screen name="Vocab" component={Vocab} />
   </Tab.Navigator>

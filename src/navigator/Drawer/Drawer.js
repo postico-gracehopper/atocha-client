@@ -18,9 +18,7 @@ export default function App() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
-        drawerActiveTintColor: 'red',
         headerShown: false,
-        drawerLabelStyle: { marginLeft: -25 },
       }}
       initialRouteName="Details"
     >
@@ -33,7 +31,7 @@ export default function App() {
           ),
         }}
       />
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="Login"
         component={Login}
         options={{
@@ -41,7 +39,7 @@ export default function App() {
             <Ionicons name="log-in-outline" size={22} color={color} />
           ),
         }}
-      /> */}
+      />
       <Drawer.Screen
         name="Sign Up"
         component={SignUp}
