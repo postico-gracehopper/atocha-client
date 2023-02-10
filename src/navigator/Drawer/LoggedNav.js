@@ -38,15 +38,6 @@ export default function LoggedNav() {
           ),
         }}
       />
-      <Drawer.Screen
-        name="New account"
-        component={SignUp}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="language-outline" size={22} color={color} />
-          ),
-        }}
-      />
     </Drawer.Navigator>
   )
 }
