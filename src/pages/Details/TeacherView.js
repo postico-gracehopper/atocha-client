@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Text, Pressable, View, ActivityIndicator } from 'react-native'
 
 import colors from '../../theme/colors'
+import { useAuth } from '../../../context/authContext'
 
 const Loading = ({ styles }) => {
   return (
@@ -29,6 +30,7 @@ const TeacherView = ({ styles }) => {
   const [result, setResult] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const { currentUser } = useAuth()
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -43,6 +45,9 @@ const TeacherView = ({ styles }) => {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,
           conversation: translatedText,
+        },
+        headers: {
+          auth: await currentUser.getIdToken(),
         },
       })
       const { data } = response

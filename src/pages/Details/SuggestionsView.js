@@ -15,6 +15,7 @@ import {
   setSourceLanguageOutput,
   setTargetLanguageOutput,
 } from '../../slices/translationSlice'
+import { useAuth } from '../../../context/authContext'
 import textTranslationSession from './textTranslationSession'
 
 const Loading = ({ styles }) => {
@@ -42,6 +43,7 @@ const SuggestingsView = ({ styles }) => {
   const [result, setResult] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const { currentUser } = useAuth()
 
   async function onSubmit(event) {
     event.preventDefault()
@@ -57,6 +59,9 @@ const SuggestingsView = ({ styles }) => {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,
           conversation: transcribedText,
+        },
+        headers: {
+          auth: await currentUser.getIdToken(),
         },
       })
       const { data } = response
