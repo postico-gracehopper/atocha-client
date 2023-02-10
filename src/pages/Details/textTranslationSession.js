@@ -15,7 +15,6 @@ const textTranslationSession = ({
   idToken,
 }) => {
   return new Promise((resolve, reject) => {
-    console.log('entered session')
     const socket = io('http://127.0.0.1:3000/text', {
       auth: { token: idToken },
     }) // !@# need some ternary for TEST / LOCAL / PRODUCTION

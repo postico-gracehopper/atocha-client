@@ -2,7 +2,13 @@ import { useState, React } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 
-import { Text, Pressable, View, ActivityIndicator } from 'react-native'
+import {
+  Text,
+  Pressable,
+  View,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native'
 
 import colors from '../../theme/colors'
 import SingleSuggestion from './SingleSuggestion'
@@ -10,8 +16,21 @@ import SingleSuggestion from './SingleSuggestion'
 import {
   setIsSuggestionSubmitted,
   setSuggestionGeneratedText,
+  setIsTranscriptionFinal,
+  setSourceLanguageOutput,
+  setTargetLanguageOutput,
+  setTranscribedText,
+  setTranslatedText,
+  setViewMode,
+  setIsTeacherSubmitted,
+  setTeacherGeneratedText,
+  setIsTranslationFinal,
+  setIsSuggestionLoading,
+  setIsTeacherLoading,
 } from '../../slices/translationSlice'
 import textTranslationSession from './textTranslationSession'
+
+import { useAuth } from '../../../context/authContext'
 
 const Loading = ({ styles }) => {
   return (
@@ -24,28 +43,23 @@ const Loading = ({ styles }) => {
 
 const SuggestingsView = ({ styles }) => {
   const dispatch = useDispatch()
+  const { currentUser } = useAuth()
 
-  const transcribedText = useSelector(
-    (state) => state.translation.transcribedText,
-  )
-  const sourceLanguageOutput = useSelector(
-    (state) => state.translation.sourceLanguageOutput,
-  )
-  const targetLanguageOutput = useSelector(
-    (state) => state.translation.targetLanguageOutput,
-  )
-  const suggestionGeneratedText = useSelector(
-    (state) => state.translation.suggestionGeneratedText,
-  )
-  const isSuggestionSubmitted = useSelector(
-    (state) => state.translation.isSuggestionSubmitted,
-  )
+  const {
+    transcribedText,
+    sourceLanguageOutput,
+    targetLanguageOutput,
+    suggestionGeneratedText,
+    isSuggestionSubmitted,
+    isSuggestionLoading,
+  } = useSelector((state) => state.translation)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const { langSource, langSourceName, langTarget, langTargetName } =
+    useSelector((state) => state.languagePicker)
 
   async function onSubmit(event) {
     event.preventDefault()
-    setIsLoading(true)
+    dispatch(setIsSuggestionLoading(true))
     dispatch(setIsSuggestionSubmitted(true))
     try {
       const response = await axios({
@@ -79,37 +93,53 @@ const SuggestingsView = ({ styles }) => {
       console.log('resultArray', resultArray)
       dispatch(setSuggestionGeneratedText(resultArray))
       dispatch(setIsSuggestionSubmitted(true))
-      setIsLoading(false)
+      dispatch(setIsSuggestionLoading(false))
     } catch (error) {
       console.error(error)
     }
   }
 
-  const onPress = (updatedText) => {
-    console.log('onPress')
-    // dispatch(setIsTranscriptionFinal(true))
-    // dispatch(setSourceLanguageOutput(sourceLanguageOutput))
-    // dispatch(setTargetLanguageOutput(targetLanguageOutput))
-    // dispatch(setTranscribedText(updatedText))
-    // textTranslationSession({
-    //   transcribedText,
-    //   sourceLanguageOutput,
-    //   targetLanguageOutput,
-    //   dispatch,
-    // })
-    //   .then((textFromGoogle) => {
-    //     console.log('text from google: ', textFromGoogle)
-    //   })
-    //   .catch((err) => {
-    //     console.error(err)
-    //   })
+  const onPress = async (updatedText) => {
+    dispatch(setIsTranscriptionFinal(true))
+    dispatch(setIsTranslationFinal(false))
+    dispatch(setTranscribedText(updatedText))
+    dispatch(setTranslatedText(''))
+    dispatch(setIsTeacherSubmitted(false))
+    dispatch(setIsSuggestionSubmitted(false))
+    dispatch(setSuggestionGeneratedText([]))
+    dispatch(setTeacherGeneratedText(''))
+    dispatch(setViewMode('translation-output'))
+    dispatch(setSourceLanguageOutput(langSourceName))
+    dispatch(setTargetLanguageOutput(langTargetName))
+    dispatch(setIsTeacherLoading(false))
+    dispatch(setIsSuggestionLoading(false))
+    textTranslationSession({
+      transcribedText,
+      langSource,
+      langTarget,
+      dispatch,
+      idToken: await currentUser.getIdToken(),
+    })
+      .then((textFromGoogle) => {
+        console.log('text from google: ', textFromGoogle)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   return (
-    <View style={styles.generatedTextActiveContainer}>
+    <View
+      style={[styles.generatedTextActiveContainer, { borderTopLeftRadius: 20 }]}
+    >
       {!isSuggestionSubmitted ? (
         <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 65,
+          }}
         >
           <Pressable onPress={onSubmit} style={styles.generatePressable}>
             <Text style={styles.generatePressableText}>
@@ -118,21 +148,23 @@ const SuggestingsView = ({ styles }) => {
           </Pressable>
         </View>
       ) : null}
-      {isLoading ? (
+      {isSuggestionLoading ? (
         <Loading styles={styles} />
       ) : (
         <>
-          {suggestionGeneratedText.map((item) => {
-            return (
-              <SingleSuggestion
-                key={item.source}
-                styles={styles}
-                onPress={onPress}
-                sourceText={item.source}
-                targetText={item.target}
-              />
-            )
-          })}
+          <ScrollView style={styles.scrollView}>
+            {suggestionGeneratedText.map((item) => {
+              return (
+                <SingleSuggestion
+                  key={item.source}
+                  styles={styles}
+                  onPress={onPress}
+                  sourceText={item.source}
+                  targetText={item.target}
+                />
+              )
+            })}
+          </ScrollView>
         </>
       )}
     </View>

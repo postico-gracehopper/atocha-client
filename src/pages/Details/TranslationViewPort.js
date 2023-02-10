@@ -12,36 +12,25 @@ import { colors } from 'theme'
 import TeacherView from './TeacherView'
 import SuggestingsView from './SuggestionsView'
 
-const TranslationViewPort = ({
-  styles,
-  viewMode,
-  handleReset,
-  handleTextSubmit,
-}) => {
+const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
   const [generatedTextView, setGeneratedTextView] = React.useState('teacher')
 
-  const translatedText = useSelector(
-    (state) => state.translation.translatedText,
-  )
-  const transcribedText = useSelector(
-    (state) => state.translation.transcribedText,
-  )
-  const isTranslationFinal = useSelector(
-    (state) => state.translation.isTranslationFinal,
-  )
-  const isTranscriptionFinal = useSelector(
-    (state) => state.translation.isTranscriptionFinal,
-  )
-  const sourceLanguageOutput = useSelector(
-    (state) => state.translation.sourceLanguageOutput,
-  )
-  const targetLanguageOutput = useSelector(
-    (state) => state.translation.targetLanguageOutput,
-  )
-  const langSource = useSelector((state) => state.languagePicker.input)
-  const langTarget = useSelector((state) => state.languagePicker.output)
+  const {
+    translatedText,
+    transcribedText,
+    isTranslationFinal,
+    isTranscriptionFinal,
+    sourceLanguageOutput,
+    targetLanguageOutput,
+    isTeacherLoading,
+    isSuggestionsLoading,
+    viewMode,
+  } = useSelector((state) => state.translation)
 
-  const windowWidth = Dimensions.get('window').width
+  const { langSource, langTarget } = useSelector(
+    (state) => state.languagePicker,
+  )
+  // const windowWidth = Dimensions.get('window').width
   // const windowHeight = Dimensions.get('window').height
 
   return (
@@ -65,7 +54,11 @@ const TranslationViewPort = ({
         <>
           <View style={styles.textOutputContainer}>
             <View style={styles.resetButtonContainer}>
-              <ResetButton styles={styles} handleReset={handleReset} />
+              <ResetButton
+                styles={styles}
+                handleReset={handleReset}
+                disabled={isSuggestionsLoading || isTeacherLoading}
+              />
             </View>
             <TextOutput
               styles={styles}
@@ -78,7 +71,6 @@ const TranslationViewPort = ({
               style={{
                 backgroundColor: colors.gray,
                 height: 1,
-                width: windowWidth * 0.9,
                 marginTop: 15,
                 marginBottom: 15,
               }}

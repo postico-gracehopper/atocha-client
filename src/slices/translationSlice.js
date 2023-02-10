@@ -10,8 +10,11 @@ const initialState = {
   targetLanguageOutput: '',
   teacherGeneratedText: '',
   isTeacherSubmitted: false,
+  isTeacherLoading: false,
   suggestionGeneratedText: [],
   isSuggestionSubmitted: false,
+  isSuggestionLoading: false,
+  viewMode: 'text-input',
 }
 
 const translationSlice = createSlice({
@@ -42,11 +45,20 @@ const translationSlice = createSlice({
     setIsTeacherSubmitted: (state, action) => {
       state.isTeacherSubmitted = action.payload
     },
+    setIsTeacherLoading: (state, action) => {
+      state.isTeacherLoading = action.payload
+    },
     setSuggestionGeneratedText: (state, action) => {
       state.suggestionGeneratedText = action.payload
     },
     setIsSuggestionSubmitted: (state, action) => {
       state.isSuggestionSubmitted = action.payload
+    },
+    setIsSuggestionLoading: (state, action) => {
+      state.isSuggestionLoading = action.payload
+    },
+    setViewMode: (state, action) => {
+      state.viewMode = action.payload
     },
   },
 })
@@ -71,6 +83,9 @@ export const {
   setIsTeacherSubmitted,
   setSuggestionGeneratedText,
   setIsSuggestionSubmitted,
+  setIsSuggestionLoading,
+  setIsTeacherLoading,
+  setViewMode,
 } = translationSlice.actions
 
 export default translationSlice.reducer

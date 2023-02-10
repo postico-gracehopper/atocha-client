@@ -9,14 +9,21 @@ const SingleSuggestion = ({ styles, onPress, sourceText, targetText }) => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 15,
       }}
     >
       <Pressable
-        onPress={onPress(sourceText)}
+        onPress={() => onPress(sourceText)}
         style={styles.suggestionPressable}
       >
-        <Text style={styles.suggestionsText}>{sourceText}</Text>
-        <Text style={styles.suggestionsText}>{targetText}</Text>
+        <View>
+          <Text style={[styles.suggestionsText, { paddingBottom: 7 }]}>
+            {sourceText}
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.suggestionsText}>{targetText}</Text>
+        </View>
       </Pressable>
     </View>
   )

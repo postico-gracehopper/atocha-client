@@ -2,13 +2,20 @@ import { useState, React } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 
-import { Text, Pressable, View, ActivityIndicator } from 'react-native'
+import {
+  Text,
+  Pressable,
+  View,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native'
 
 import colors from '../../theme/colors'
 
 import {
   setTeacherGeneratedText,
   setIsTeacherSubmitted,
+  setIsTeacherLoading,
 } from '../../slices/translationSlice'
 
 const Loading = ({ styles }) => {
@@ -23,28 +30,18 @@ const Loading = ({ styles }) => {
 const TeacherView = ({ styles }) => {
   const dispatch = useDispatch()
 
-  const translatedText = useSelector(
-    (state) => state.translation.translatedText,
-  )
-  const sourceLanguageOutput = useSelector(
-    (state) => state.translation.sourceLanguageOutput,
-  )
-  const targetLanguageOutput = useSelector(
-    (state) => state.translation.targetLanguageOutput,
-  )
-  const teacherGeneratedText = useSelector(
-    (state) => state.translation.teacherGeneratedText,
-  )
-  const isTeacherSubmitted = useSelector(
-    (state) => state.translation.isTeacherSubmitted,
-  )
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const {
+    translatedText,
+    sourceLanguageOutput,
+    targetLanguageOutput,
+    teacherGeneratedText,
+    isTeacherSubmitted,
+    isTeacherLoading,
+  } = useSelector((state) => state.translation)
 
   async function onSubmit(event) {
     event.preventDefault()
-    setIsLoading(true)
+    dispatch(setIsTeacherLoading(true))
     dispatch(setIsTeacherSubmitted(true))
     try {
       const response = await axios({
@@ -65,29 +62,39 @@ const TeacherView = ({ styles }) => {
       }
       const trimedResult = data.result.trim()
       dispatch(setTeacherGeneratedText(trimedResult))
-      setIsLoading(false)
+      dispatch(setIsTeacherLoading(false))
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <View style={styles.generatedTextActiveContainer}>
+    <View
+      style={[
+        styles.generatedTextActiveContainer,
+        { borderTopRightRadius: 20 },
+      ]}
+    >
       {!isTeacherSubmitted ? (
         <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 65,
+          }}
         >
           <Pressable onPress={onSubmit} style={styles.generatePressable}>
             <Text style={styles.generatePressableText}>Ask the teacher</Text>
           </Pressable>
         </View>
       ) : null}
-      {isLoading ? (
+      {isTeacherLoading ? (
         <Loading styles={styles} />
       ) : (
-        <View>
+        <ScrollView style={styles.scrollView}>
           <Text style={styles.teacherText}>{teacherGeneratedText}</Text>
-        </View>
+        </ScrollView>
       )}
     </View>
   )

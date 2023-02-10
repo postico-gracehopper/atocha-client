@@ -25,8 +25,8 @@ const Loading = () => {
 }
 
 export default function Vocab() {
-  const currInput = useSelector((state) => state.languagePicker.input)
-  const currOutput = useSelector((state) => state.languagePicker.output)
+  const currInput = useSelector((state) => state.languagePicker.langSource)
+  const currOutput = useSelector((state) => state.languagePicker.langTarget)
   const [selectedWords, setSelectedWords] = useState([])
   const recentConversation = useSelector(
     (state) => state.translation.translatedText,

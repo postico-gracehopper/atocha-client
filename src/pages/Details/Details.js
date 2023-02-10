@@ -24,6 +24,9 @@ import {
   setTargetLanguageOutput,
   setIsTeacherSubmitted,
   setTeacherGeneratedText,
+  setViewMode,
+  setIsSuggestionSubmitted,
+  setSuggestionGeneratedText,
 } from '../../slices/translationSlice'
 import {
   setInputLanguage,
@@ -40,7 +43,6 @@ import textTranslationSession from './textTranslationSession'
 import TranslationViewPort from './TranslationViewPort'
 
 const image = {
-  // move this someplace else
   uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
 }
 import { useAuth } from '../../../context/authContext'
@@ -48,34 +50,27 @@ import { useAuth } from '../../../context/authContext'
 const Details = () => {
   const [recording, setRecording] = React.useState()
   const [isRecording, setIsRecording] = React.useState(false)
-  const [viewMode, setViewMode] = React.useState('text-input')
   const { currentUser } = useAuth()
 
-  const transcribedText = useSelector(
-    (state) => state.translation.transcribedText,
-  )
-
-  const langSource = useSelector((state) => state.languagePicker.input)
-  const langTarget = useSelector((state) => state.languagePicker.output)
-  const langSourceName = useSelector(
-    (state) => state.languagePicker.inputString,
-  )
-  const langTargetName = useSelector(
-    (state) => state.languagePicker.outputString,
-  )
+  const { transcribedText, isTeacherLoading, isSuggestionLoading } =
+    useSelector((state) => state.translation)
+  const { langSource, langTarget, langSourceName, langTargetName } =
+    useSelector((state) => state.languagePicker)
 
   const dispatch = useDispatch()
 
   async function startRecording() {
     console.log('Starting recording..')
-    setViewMode('audio-input')
     setIsRecording(true)
+    dispatch(setViewMode('audio-input'))
     dispatch(setTranscribedText(''))
     dispatch(setTranslatedText(''))
     dispatch(setIsTranscriptionFinal(false))
     dispatch(setIsTranslationFinal(false))
     dispatch(setIsTeacherSubmitted(false))
+    dispatch(setIsSuggestionSubmitted(false))
     dispatch(setTeacherGeneratedText(''))
+    dispatch(setSuggestionGeneratedText([]))
     dispatch(setSourceLanguageOutput(''))
     dispatch(setTargetLanguageOutput(''))
     try {
@@ -95,8 +90,7 @@ const Details = () => {
 
   async function stopRecording() {
     console.log('Stopping recording..')
-    setViewMode('translation-output')
-
+    dispatch(setViewMode('translation-output'))
     setIsRecording(false)
     setRecording(undefined)
     dispatch(setSourceLanguageOutput(langSourceName))
@@ -160,11 +154,11 @@ const Details = () => {
       .catch((err) => {
         console.error(err)
       })
-    setViewMode('translation-output')
+    dispatch(setViewMode('translation-output'))
   }
 
   const handleReset = async () => {
-    setViewMode('text-input')
+    dispatch(setViewMode('text-input'))
     setIsRecording(false)
     if (recording) {
       await recording.stopAndUnloadAsync()
@@ -184,14 +178,15 @@ const Details = () => {
       <StatusBar barStyle="light-content" />
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
+
         <TranslationViewPort
           styles={styles}
-          viewMode={viewMode}
           recording={recording}
           isRecording={isRecording}
           handleReset={handleReset}
           handleTextSubmit={handleTextSubmit}
         />
+
         <View style={styles.controlContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flexDirection: 'column', top: 0 }}>
@@ -219,6 +214,7 @@ const Details = () => {
                 }
                 title={isRecording ? 'STOP' : 'RECORD'}
                 onPress={recording ? stopRecording : startRecording}
+                disabled={isTeacherLoading || isSuggestionLoading}
               >
                 <MaterialCommunityIcons
                   name={'microphone'}
@@ -297,12 +293,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
     paddingTop: 85,
   },
-  textOutputContainer: {
-    flex: 1,
-    width: '100%',
-    paddingLeft: 20,
-    paddingTop: 85,
-  },
   listeningViewContainer: {
     flex: 5,
     width: '100%',
@@ -373,28 +363,36 @@ const styles = StyleSheet.create({
   },
   partialText: {
     marginTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
     color: colors.gray,
     fontSize: 20,
     fontFamily: 'Cochin',
   },
   finalText: {
     marginTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
     color: colors.white,
     fontSize: 20,
     fontFamily: 'Cochin',
   },
   teacherText: {
-    marginTop: 20,
     color: colors.white,
     fontSize: 20,
     fontFamily: 'Cochin',
   },
-
   generatedTextContainer: {
     flex: 1,
     width: '100%',
     paddingTop: 50,
     bottom: 150,
+  },
+  textOutputContainer: {
+    flex: 1,
+    width: '100%',
+    paddingLeft: 20,
+    paddingTop: 85,
   },
   generatedTextHeader: {
     flexDirection: 'row',
@@ -423,10 +421,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     paddingLeft: 20,
-    paddingTop: 10,
-    marginBottom: 10,
+    paddingRight: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    paddingTop: 20,
   },
   loadingContainer: {
     flex: 1,
@@ -452,13 +450,9 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   suggestionPressable: {
-    // paddingVertical: 10,
-    // paddingHorizontal: 20,
     borderRadius: 20,
-    // backgroundColor: colors.primary,
     borderColor: colors.gray,
     borderWidth: 1,
-    // alignItems: 'center',
     paddingLeft: 20,
     width: '100%',
     paddingTop: 10,
@@ -466,8 +460,14 @@ const styles = StyleSheet.create({
   },
   suggestionsText: {
     color: colors.white,
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'Cochin',
+  },
+  scrollView: {
+    flex: 1,
+    alignSelf: 'center',
+    justifySelf: 'center',
+    width: '100%',
   },
 })
 
