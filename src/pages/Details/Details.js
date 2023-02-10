@@ -289,6 +289,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: 170,
+    // backgroundColor: 'rgba(169, 169, 169, 0.2)',
   },
   onePickerItem: {
     height: 130,
@@ -377,7 +378,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.gray,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Cochin',
   },
   finalText: {
@@ -394,9 +395,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Cochin',
   },
   generatedTextContainer: {
-    flex: 1,
+    flex: 0.7,
     width: '100%',
-    paddingTop: 50,
+    // paddingTop: 50,
     bottom: 150,
   },
   textOutputContainer: {
@@ -424,8 +425,10 @@ const styles = StyleSheet.create({
   },
   generatedTextHeaderText: {
     color: colors.white,
-    fontSize: 18,
-    fontFamily: 'Cochin',
+    fontSize: 11,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    padding: 12,
   },
   generatedTextActiveContainer: {
     backgroundColor: 'rgba(169, 169, 169, 0.2)',
@@ -433,8 +436,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     paddingTop: 20,
   },
   loadingContainer: {

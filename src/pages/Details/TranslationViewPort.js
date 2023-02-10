@@ -100,10 +100,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
                     setGeneratedTextView('teacher')
                   }}
                 >
-                  <Text style={styles.generatedTextHeaderText}>Teacher</Text>
-                  <Text style={styles.generatedTextHeaderText}>
-                    explanation
-                  </Text>
+                  <Text style={styles.generatedTextHeaderText}>Teach me</Text>
                 </Pressable>
                 <Pressable
                   style={
@@ -116,8 +113,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
                     setGeneratedTextView('recommendations')
                   }}
                 >
-                  <Text style={styles.generatedTextHeaderText}>Suggested</Text>
-                  <Text style={styles.generatedTextHeaderText}>responses</Text>
+                  <Text style={styles.generatedTextHeaderText}>Respond</Text>
                 </Pressable>
               </View>
               {generatedTextView === 'teacher' ? (

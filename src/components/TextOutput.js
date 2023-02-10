@@ -18,7 +18,7 @@ const TextOutput = ({ styles, langCode, langName, text, isFinal }) => {
       </View>
       {/* The below controls how much text to show before scrolling. */}
       <ScrollView
-        style={{ maxHeight: 40 }}
+        style={{ maxHeight: 70 }}
         showsVerticalScrollIndicator={false}
       >
         {isFinal ? (

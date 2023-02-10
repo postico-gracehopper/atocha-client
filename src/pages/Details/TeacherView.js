@@ -74,12 +74,7 @@ const TeacherView = ({ styles }) => {
   }
 
   return (
-    <View
-      style={[
-        styles.generatedTextActiveContainer,
-        { borderTopRightRadius: 20 },
-      ]}
-    >
+    <View style={[styles.generatedTextActiveContainer]}>
       {!isTeacherSubmitted ? (
         <View
           style={{
