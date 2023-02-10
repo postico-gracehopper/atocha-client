@@ -13,7 +13,6 @@ import { StyleSheet } from 'react-native'
 import FontIcon from 'react-native-vector-icons/FontAwesome5'
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import Details from '../../pages/Details'
 
 const backgroundImage = {
   uri: 'https://www.state.gov/wp-content/uploads/2018/11/Germany-2109x1406.jpg',
@@ -43,8 +42,8 @@ const CustomDrawer = (props) => {
 
   useEffect(() => {
     if (current) {
-      current.displayName ? setDisplayName(current.displayName) : null
-      current.displayName ? setLoggedIn(true) : setLoggedIn(false)
+      current.isAnonymous ? null : setDisplayName(current.displayName)
+      current.isAnonymous ? setLoggedIn(false) : setLoggedIn(true)
     }
   }, [current])
 
@@ -109,7 +108,7 @@ const CustomDrawer = (props) => {
                 })
                 .then(() => {
                   console.log('IN NAVIGATION')
-                  navigation.navigate('Details')
+                  navigation.navigate('Translate')
                 })
                 .catch((error) => {
                   console.log('Error signing out', error)
@@ -137,7 +136,7 @@ const CustomDrawer = (props) => {
         ) : (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Login')
+              navigation.navigate('Vocab')
             }}
             style={{ paddingVertical: 15 }}
           >
