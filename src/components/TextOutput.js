@@ -1,5 +1,5 @@
 import { React } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
 
 import TextTranscriber from './TextTranscriber'
 import colors from '../theme/colors'

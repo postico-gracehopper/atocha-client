@@ -4,12 +4,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import colors from '../theme/colors'
 
-const ResetButton = ({ styles, handleReset }) => {
+const ResetButton = ({ styles, handleReset, disabled }) => {
   return (
     <Pressable
       title="RESET TRANSLATION"
       onPress={handleReset}
       styles={styles.resetButton}
+      disabled={disabled}
     >
       <MaterialCommunityIcons
         name="close-circle"

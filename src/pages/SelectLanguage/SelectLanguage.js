@@ -11,8 +11,9 @@ import {
 } from '../../slices/languagePickerSlice'
 
 export default function SelectLanguage() {
-  const chosenInput = useSelector((state) => state.languagePicker.input)
-  const chosenOutput = useSelector((state) => state.languagePicker.output)
+  const { langSource, langTarget } = useSelector(
+    (state) => state.languagePicker,
+  )
 
   const dispatch = useDispatch()
 
@@ -29,7 +30,7 @@ export default function SelectLanguage() {
       <View style={styles.languageContainer}>
         <Text style={styles.chooseText}>I'd like...</Text>
         <Picker
-          selectedValue={chosenInput}
+          selectedValue={langSource}
           style={styles.picker}
           onValueChange={onInputValueChange}
           itemStyle={{
@@ -48,7 +49,7 @@ export default function SelectLanguage() {
       <View style={styles.languageContainer}>
         <Text style={styles.chooseText}>Translated into...</Text>
         <Picker
-          selectedValue={chosenOutput}
+          selectedValue={langTarget}
           style={styles.picker}
           onValueChange={onOutputValueChange}
           itemStyle={{
