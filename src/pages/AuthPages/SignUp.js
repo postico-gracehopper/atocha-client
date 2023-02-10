@@ -83,7 +83,8 @@ const SignUp = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
-        <Text style={styles.title}>Atocha</Text>
+        <View style={styles.transparentOverlay} />
+        <Text style={styles.title}>Sign up</Text>
         <View
           style={
             !emailError && password.length < 6 && error !== null
@@ -145,24 +146,23 @@ const SignUp = () => {
 
 const styles = StyleSheet.create({
   title: {
-    marginTop: 40,
+    marginTop: 150,
     fontFamily: 'arsilon',
-    color: colors.primary,
-    fontSize: 80,
+    color: colors.white,
+    fontSize: 100,
   },
   signOutBtn: {
-    width: 150,
+    width: '90%',
     borderRadius: 25,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
     color: 'white',
     backgroundColor: colors.primary,
   },
   input: {
-    backgroundColor: 'white',
-    width: '80%',
+    backgroundColor: colors.ecru,
+    width: '90%',
     borderRadius: 50,
     borderWidth: 2,
     borderColor: colors.primary,
@@ -170,8 +170,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
-    color: colors.primary,
+  },
+  page: {
+    width: 300,
+    height: 200,
+    marginTop: 60,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    borderRadius: 25,
   },
   pageErrors: {
     width: 200,
@@ -181,13 +188,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.75)',
     borderRadius: 25,
   },
-  page: {
-    width: 200,
-    height: 360,
-    alignItems: 'center',
-    marginTop: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-    borderRadius: 25,
+  error: {
+    marginTop: 10,
+    borderRadius: 20,
+    color: colors.primary,
+    fontSize: 16,
   },
   image: {
     flex: 1,
@@ -196,6 +201,15 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.lightGrayPurple,
+  },
+  transparentOverlay: {
+    backgroundColor: 'black',
+    opacity: 0.7,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   error: {
     marginTop: 10,

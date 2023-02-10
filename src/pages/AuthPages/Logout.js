@@ -1,6 +1,5 @@
 import { getAuth, signOut, signInAnonymously } from 'firebase/auth'
-import { useState, useEffect } from 'react'
-import { Button, View, ImageBackground, StyleSheet, Text } from 'react-native'
+import { View, ImageBackground, StyleSheet, Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import colors from '../../theme/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -17,8 +16,6 @@ const Logout = () => {
     signInAnonymously(auth)
       .then(() => {})
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
         console.log(error)
       })
   }
@@ -40,7 +37,7 @@ const Logout = () => {
                   anonymousSignIn()
                 })
                 .then(() => {
-                  navigation.navigate('Login')
+                  navigation.navigate('Details')
                 })
                 .catch((error) => {
                   console.log('Error signing out', error)

@@ -3,14 +3,13 @@ import { View, Text } from 'react-native'
 import {
   DrawerContentScrollView,
   DrawerItemList,
-  DrawerItem,
 } from '@react-navigation/drawer'
 import colors from '../../theme/colors'
 import { ImageBackground, Image } from 'react-native'
-import { getAuth, signInAnonymously, signOut } from 'firebase/auth'
+import { getAuth, signInAnonymously } from 'firebase/auth'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
-import FontIcon from 'react-native-vector-icons/FontAwesome5'
+
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
@@ -27,18 +26,6 @@ const CustomDrawer = (props) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const user = getAuth()
   const current = user.currentUser
-  const { navigation } = props
-
-  const anonymousSignIn = () => {
-    console.log('IN ANONYMOUS SIGN IN')
-    signInAnonymously(user)
-      .then(() => {})
-      .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(error)
-      })
-  }
 
   useEffect(() => {
     if (current) {
@@ -48,131 +35,92 @@ const CustomDrawer = (props) => {
   }, [current])
 
   return (
-    <View style={{ flex: 1 }}>
-      <DrawerContentScrollView
-        {...props}
-        contentContainerStyle={{ backgroundColor: 'white' }}
+    <View style={styles.root}>
+      <ImageBackground
+        resizeMode="cover"
+        source={backgroundImage}
+        style={styles.image}
       >
-        <ImageBackground
-          resizeMode="cover"
-          source={backgroundImage}
-          style={{ padding: 20 }}
-        >
-          <Image
-            source={profileDefault}
-            style={{
-              height: 80,
-              width: 80,
-              borderRadius: 40,
-              marginBottom: 10,
-            }}
-          ></Image>
+        <View style={styles.transparentOverlay} />
+        <DrawerContentScrollView {...props}>
           {loggedIn ? (
-            <Text style={styles.userInfo}> Welcome {displayName}! </Text>
+            <>
+              {/* <Image
+                source={profileDefault}
+                style={{
+                  height: 80,
+                  width: 80,
+                  borderRadius: 40,
+                  marginBottom: 10,
+                }}
+              ></Image> */}
+              <View style={styles.loggedOutWelcome}>
+                <Text style={styles.subText}> Welcome, </Text>
+                <Text style={styles.arsilonText}> {displayName} </Text>
+              </View>
+            </>
           ) : (
-            <Text style={styles.userInfo}> Welcome! </Text>
+            <View style={styles.loggedOutWelcome}>
+              <Text style={styles.arsilonText}> Welcome! </Text>
+            </View>
           )}
-        </ImageBackground>
-        <View style={{ flex: 1, paddingTop: 10 }}>
-          <DrawerItemList
-            {...props}
-            activeBackgroundColor={colors.primary}
-            activeTintColor="white"
-            inactiveTintColor={colors.primary}
-            labelStyle={{
-              marginLeft: -25,
-              fontFamily: 'Cochin',
-              fontSize: 16,
-            }}
-          />
-        </View>
-      </DrawerContentScrollView>
-      <View
-        style={{
-          padding: 20,
-          borderTopWidth: 1,
-          borderTopColor: colors.primary,
-        }}
-      >
-        {loggedIn ? (
-          <TouchableOpacity
-            onPress={() => {
-              user
-                .signOut()
-                .then(() => {
-                  setDisplayName('')
-                  console.log('Sign-out successful')
-                })
-                .then(() => {
-                  anonymousSignIn()
-                })
-                .then(() => {
-                  console.log('IN NAVIGATION')
-                  navigation.navigate('Translate')
-                })
-                .catch((error) => {
-                  console.log('Error signing out', error)
-                })
-            }}
-            style={{ paddingVertical: 15 }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Ionicons
-                name="log-out-outline"
-                size={22}
-                color={colors.primary}
-              />
-              <Text
-                style={{
-                  fontFamily: 'Cochin',
-                  fontSize: 16,
-                  color: colors.primary,
-                }}
-              >
-                Logout
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Vocab')
-            }}
-            style={{ paddingVertical: 15 }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Ionicons
-                name="log-in-outline"
-                size={22}
-                color={colors.primary}
-              />
-              <Text
-                style={{
-                  fontFamily: 'Cochin',
-                  fontSize: 16,
-                  color: colors.primary,
-                }}
-              >
-                Login
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      </View>
+          <View style={{ flex: 1, paddingTop: 10 }}>
+            <DrawerItemList
+              {...props}
+              labelStyle={{
+                marginLeft: -25,
+                fontFamily: 'Cochin',
+                fontSize: 32,
+                color: colors.white,
+              }}
+            />
+          </View>
+        </DrawerContentScrollView>
+      </ImageBackground>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  userInfo: {
-    color: colors.primary,
-    fontSize: 16,
+  subText: {
+    color: colors.white,
+    fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'Cochin',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     alignSelf: 'flex-start',
     borderRadius: 10,
     overflow: 'hidden',
+  },
+  arsilonText: {
+    color: colors.white,
+    fontSize: 60,
+    fontWeight: 'bold',
+    fontFamily: 'arsilon',
+    alignSelf: 'flex-start',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  loggedOutWelcome: {
+    marginTop: 60,
+    marginBottom: 20,
+    marginLeft: 10,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  root: {
+    flex: 1,
+    backgroundColor: colors.darkGray,
+  },
+  transparentOverlay: {
+    backgroundColor: 'black',
+    opacity: 0.85,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })
 

@@ -30,8 +30,7 @@ const App = () => {
 
   const anonymousSignIn = () => {
     if (!loggedIn) {
-      const auth = getAuth()
-      signInAnonymously(auth)
+      signInAnonymously(user)
         .then(() => {})
         .catch((error) => {
           const errorCode = error.code

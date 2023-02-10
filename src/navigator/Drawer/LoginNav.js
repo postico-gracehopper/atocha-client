@@ -1,26 +1,22 @@
 import * as React from 'react'
-import { Button, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import Login from '../../pages/AuthPages'
-import Phrasebook from '../../pages/Phrasebook'
-import SignUp from '../../pages/AuthPages/SignUp'
-import Details from '../../pages/Details'
-import Logout from '../../pages/AuthPages/Logout'
-import TabNavigator from '../Tabs/Tabs'
-import CustomDrawer from './CustomDrawer'
 import { Ionicons } from '@expo/vector-icons'
-import colors from '../../theme/colors'
+
+import Login from '../../pages/AuthPages/Login'
+import SignUp from '../../pages/AuthPages/SignUp'
+import CustomDrawer from './CustomDrawer'
+import TabNavigator from '../Tabs/Tabs'
+
 const Drawer = createDrawerNavigator()
 
-export default function App() {
+export default function LoginNav() {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Details"
+      initialRouteName="Home"
     >
       <Drawer.Screen
         name="Home"
@@ -46,24 +42,6 @@ export default function App() {
         options={{
           drawerIcon: ({ color }) => (
             <Ionicons name="language-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      {/* <Drawer.Screen
-        name="Logout"
-        component={Logout}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="log-out-outline" size={22} color={color} />
-          ),
-        }}
-      /> */}
-      <Drawer.Screen
-        name="Phrasebook"
-        component={Phrasebook}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Ionicons name="book-outline" size={22} color={color} />
           ),
         }}
       />
