@@ -35,7 +35,6 @@ import {
   setInputLanguageString,
   setOutputLanguageString,
 } from '../../slices/languagePickerSlice'
-import { getAuth } from 'firebase/auth'
 import languages from '../SelectLanguage/languageList'
 
 import translationSession from './translationSession'
