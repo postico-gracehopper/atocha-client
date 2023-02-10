@@ -63,8 +63,6 @@ const translationSlice = createSlice({
   },
 })
 
-export const selectCurrentText = (state) => state.translation.currentText // TODO delete this
-
 export const selectSessionObject = (state) => {
   return {
     sourceTranscription: state.translation.transcribedText,
