@@ -229,7 +229,7 @@ const Details = () => {
               >
                 <MaterialCommunityIcons
                   name={'microphone'}
-                  size={45}
+                  size={35}
                   color={colors.primary}
                 />
               </Pressable>
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   transparentOverlay: {
-    backgroundColor: 'rgba(47,00,24,0.8)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -280,19 +280,21 @@ const styles = StyleSheet.create({
     right: 0,
   },
   languagePickerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingTop: 35,
-    paddingBottom: 15,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+    // width: '100%',
+    // paddingTop: 35,
+    // paddingBottom: 15,
   },
   picker: {
-    width: 170,
+    width: 200,
+    transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
+    // textstyle: { fontSize: 32 },
     // backgroundColor: 'rgba(169, 169, 169, 0.2)',
   },
   onePickerItem: {
-    height: 130,
+    height: 100,
     color: colors.white,
     fontSize: 18,
     fontStyle: 'bold',
@@ -327,15 +329,15 @@ const styles = StyleSheet.create({
   },
   textOutputTag: {
     textTransform: 'uppercase',
-    color: colors.white,
+    letterSpacing: 1.5,
+    color: colors.brightPrimary,
     fontSize: 15,
     paddingRight: 10,
-    fontFamily: 'Cochin',
   },
   controlContainer: {
-    height: 135,
+    height: 110,
     position: 'absolute',
-    bottom: 15,
+    bottom: 20,
     width: '100%',
   },
   recordButtonContainer: {
@@ -346,16 +348,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recordButtonOn: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 100,
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 100,
     backgroundColor: colors.pink,
     justifyContent: 'center',
@@ -391,8 +393,8 @@ const styles = StyleSheet.create({
   },
   teacherText: {
     color: colors.white,
-    fontSize: 20,
-    fontFamily: 'Cochin',
+    fontSize: 15,
+    lineHeight: 24,
   },
   generatedTextContainer: {
     flex: 0.7,
@@ -404,7 +406,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingLeft: 20,
-    paddingTop: 85,
+    paddingTop: 55,
+    paddingBottom: 30,
   },
   generatedTextHeader: {
     flexDirection: 'row',
@@ -463,17 +466,20 @@ const styles = StyleSheet.create({
   },
   suggestionPressable: {
     borderRadius: 20,
-    borderColor: colors.gray,
-    borderWidth: 1,
-    paddingLeft: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 18,
     width: '100%',
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 12,
   },
   suggestionsText: {
     color: colors.white,
-    fontSize: 20,
-    fontFamily: 'Cochin',
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  suggestionsTextTarget: {
+    color: colors.white,
+    fontSize: 10,
+    fontStyle: 'italic',
   },
   scrollView: {
     flex: 1,

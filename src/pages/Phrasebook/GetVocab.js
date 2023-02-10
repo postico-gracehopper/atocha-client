@@ -10,7 +10,7 @@ const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
 
   const { currentUser } = useAuth()
-  userId = currentUser.uid
+  const userId = currentUser.uid
 
   const onGetVocab = async () => {
     const unsub = onSnapshot(

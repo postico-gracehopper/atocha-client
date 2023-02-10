@@ -12,13 +12,13 @@ const TextOutput = ({ styles, langCode, langName, text, isFinal }) => {
         <TextTranscriber
           text={text}
           language={langCode}
-          color={colors.white}
+          color={colors.brightPrimary}
           disabled={!isFinal}
         />
       </View>
       {/* The below controls how much text to show before scrolling. */}
       <ScrollView
-        style={{ maxHeight: 70 }}
+        style={{ maxHeight: 80 }}
         showsVerticalScrollIndicator={false}
       >
         {isFinal ? (
