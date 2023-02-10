@@ -12,11 +12,6 @@ const GetVocab = () => {
   const { currentUser } = useAuth()
 
   const onGetVocab = async () => {
-    console.log('In the getVocab async block :)')
-    const user = getAuth()
-    setUserId(user.currentUser.uid)
-    console.log('current user email is', user.currentUser.email)
-
     const unsub = onSnapshot(
       collection(db, `User/${userId}/phrasebook`),
       (querySnapshot) => {

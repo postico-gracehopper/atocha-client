@@ -1,7 +1,7 @@
 import { useState, React } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-
+import { useAuth } from '../../../context/authContext'
 import {
   Text,
   Pressable,
@@ -43,6 +43,7 @@ const TeacherView = ({ styles }) => {
     event.preventDefault()
     dispatch(setIsTeacherLoading(true))
     dispatch(setIsTeacherSubmitted(true))
+    const { currentUser } = useAuth()
     try {
       const response = await axios({
         method: 'post',
@@ -51,6 +52,9 @@ const TeacherView = ({ styles }) => {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,
           conversation: translatedText,
+        },
+        headers: {
+          auth: await currentUser.getIdToken(),
         },
       })
       const { data } = response

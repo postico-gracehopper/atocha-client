@@ -28,6 +28,7 @@ import {
   setIsSuggestionLoading,
   setIsTeacherLoading,
 } from '../../slices/translationSlice'
+import { useAuth } from '../../../context/authContext'
 import textTranslationSession from './textTranslationSession'
 
 import { useAuth } from '../../../context/authContext'
@@ -69,6 +70,9 @@ const SuggestingsView = ({ styles }) => {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,
           conversation: transcribedText,
+        },
+        headers: {
+          auth: await currentUser.getIdToken(),
         },
       })
       const { data } = response
