@@ -13,6 +13,7 @@ const colors = {
   white: '#e6e6e6',
   darkGray: '#272727',
   black: '#000',
+  transparentPrimary: '#130006CC',
 }
 
 export default colors

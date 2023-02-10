@@ -6,6 +6,7 @@ import {
   setIsTranslationFinal,
   setIsTranscriptionFinal,
 } from '../../slices/translationSlice'
+import host from '../../utils/host'
 
 const textTranslationSession = ({
   transcribedText,
@@ -15,9 +16,9 @@ const textTranslationSession = ({
   idToken,
 }) => {
   return new Promise((resolve, reject) => {
-    const socket = io('http://127.0.0.1:3000/text', {
+    const socket = io(`${host}/text`, {
       auth: { token: idToken },
-    }) // !@# need some ternary for TEST / LOCAL / PRODUCTION
+    }) 
     socket.on('connect', () => {
       socket.emit('session', {
         langSource,

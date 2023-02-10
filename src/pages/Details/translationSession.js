@@ -7,6 +7,7 @@ import {
   setIsTranscriptionFinal,
 } from '../../slices/translationSlice'
 import writeToAtochaFile from '../../filesystem/writeToAtochaFile'
+import host from '../../utils/host'
 
 const translationSession = ({
   uri,
@@ -17,6 +18,7 @@ const translationSession = ({
   idToken,
 }) => {
   console.log('translationSession() called')
+  console.log(host)
   let closureTranslation = ''
   let closureTransciption = ''
   return new Promise((resolve, reject) => {
@@ -27,7 +29,7 @@ const translationSession = ({
         reject(new Error(`could not read recording uri: ${uri}, error: ${err}`))
       })
       .then((audioBase64) => {
-        const socket = io('http://127.0.0.1:3000/audio', {
+        const socket = io(`${host}/audio`, {
           auth: { token: idToken },
         }) // !@# need some ternary for TEST / LOCAL / PRODUCTION
         socket.on('connect', () => {

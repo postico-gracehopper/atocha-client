@@ -9,13 +9,11 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-
-import { uri } from '../../../constants'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
 import SaveStars from './SaveStars'
 import { useAuth } from '../../../context/authContext'
-
+import host from '../../utils/host'
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
@@ -72,13 +70,13 @@ export default function Vocab() {
     event.preventDefault()
     setIsLoading(true)
     console.log('non English lang isss', nonEnglishCode)
-    console.log('Uri isss', uri)
+    console.log('Uri isss', host)
     console.log('Session vocab isss', sessionVocab)
     // First, generate the vocab list given the recent conversation and output language.
     try {
       const response = await axios({
         method: 'post',
-        url: `${uri}/api/generateVocab`,
+        url: `${host}/api/generateVocab`,
         data: {
           inputLang: displayLang,
           conversation: recentConversation,
@@ -116,7 +114,7 @@ export default function Vocab() {
       console.log('getDefinitions is using this "result": ', wordArray)
       const response = await axios({
         method: 'post',
-        url: `${uri}/api/translateString`,
+        url: `${host}/api/translateString`,
         data: {
           targetLang: 'en',
           // targetLang: nonEnglishCode,
