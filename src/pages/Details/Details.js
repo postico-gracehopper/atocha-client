@@ -188,8 +188,19 @@ const Details = () => {
         />
 
         <View style={styles.controlContainer}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'column', top: 0 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'column',
+                top: 0,
+              }}
+            >
               <LanguagePicker
                 styles={styles}
                 chosenLanguage={langSource}
