@@ -6,7 +6,6 @@ import Profile from 'pages/Profile'
 import Details from 'pages/Details'
 import SelectLanguage from '../../pages/SelectLanguage'
 import Vocab from '../../pages/Vocab'
-import Login from 'pages/Login'
 import Phrasebook from '../../pages/Phrasebook'
 import HeaderLeft from './HeaderLeft'
 import HeaderTitle from './HeaderTitle'
@@ -78,31 +77,6 @@ export const HomeNavigator = () => (
       component={Phrasebook}
       options={{
         title: 'Phrasebook',
-      }}
-    />
-  </Stack.Navigator>
-)
-
-export const ProfileNavigator = () => (
-  <Stack.Navigator
-    initialRouteName="Profile"
-    headerMode="screen"
-    screenOptions={navigationProps}
-  >
-    <Stack.Screen
-      name="Profile"
-      component={Profile}
-      options={({ navigation }) => ({
-        title: 'Profile',
-        headerLeft: () => <HeaderLeft navigation={navigation} />,
-        headerTitle: () => <HeaderTitle />,
-      })}
-    />
-    <Stack.Screen
-      name="Details"
-      component={Details}
-      options={{
-        title: 'Details',
       }}
     />
   </Stack.Navigator>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import { Ionicons } from '@expo/vector-icons'
 import { colors } from 'theme'
 import { auth } from '../../../firebase'
 
@@ -11,6 +12,7 @@ import Vocab from '../../pages/Vocab'
 import History from '../../pages/History'
 import LoggedOutPhrasebook from '../../pages/Phrasebook/LoggedOutPhrasebook'
 import LoggedOutVocab from '../../pages/Vocab/LoggedOutVocab'
+import { LoggedNav, LoginNav } from '../Drawer'
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -22,10 +24,8 @@ export default function TabNavigator() {
       if (currentUser) {
         if (currentUser.email == undefined) {
           setLoggedIn(false)
-          console.log('False! Current user is', currentUser)
         } else {
           setLoggedIn(true)
-          console.log('True! Current user is', currentUser)
         }
       } else setLoggedIn(false)
     })

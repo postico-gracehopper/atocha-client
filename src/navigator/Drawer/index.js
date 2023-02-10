@@ -1,3 +1,4 @@
-import Drawer from './Drawer'
+import LoggedNav from './LoggedNav'
+import LoginNav from './LoginNav'
 
-export default Drawer
+export { LoggedNav, LoginNav }

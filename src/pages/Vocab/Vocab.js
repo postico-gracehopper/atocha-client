@@ -24,8 +24,8 @@ const Loading = () => {
 }
 
 export default function Vocab() {
-  const currInput = useSelector((state) => state.languagePicker.input)
-  const currOutput = useSelector((state) => state.languagePicker.output)
+  const currInput = useSelector((state) => state.languagePicker.langSource)
+  const currOutput = useSelector((state) => state.languagePicker.langTarget)
   const [selectedWords, setSelectedWords] = useState([])
   const recentConversation = useSelector(
     (state) => state.translation.translatedText,
@@ -41,7 +41,9 @@ export default function Vocab() {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
   }
 
-  const currentMessage = useSelector((state) => state.translation.currentText)
+  const currentMessage = useSelector(
+    (state) => state.translation.translatedText,
+  )
 
   let nonEnglishCode = ''
   let displayLang = ''

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
+import { View, LogBox } from 'react-native'
 import { Provider } from 'react-redux'
 import store from 'utils/store'
 import 'utils/ignore'
@@ -21,14 +21,16 @@ const App = () => {
     setDidLoad(true)
   }
 
+  // Use this to suppress the warnings about AsyncStorage... it is an issue with Firebase and React Native
+  // LogBox.ignoreAllLogs()
+
   const user = getAuth()
   const current = user.currentUser
   const loggedIn = current !== null ? true : false
 
   const anonymousSignIn = () => {
     if (!loggedIn) {
-      const auth = getAuth()
-      signInAnonymously(auth)
+      signInAnonymously(user)
         .then(() => {})
         .catch((error) => {
           const errorCode = error.code

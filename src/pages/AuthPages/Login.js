@@ -28,7 +28,7 @@ const Login = () => {
         const user = userCredential.user
       })
       .then(() => {
-        navigation.navigate('Details')
+        navigation.navigate('Translate')
       })
       .catch((error) => {
         if (error.code == 'auth/invalid-email') {
@@ -47,15 +47,16 @@ const Login = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
-        <Text style={styles.title}>Atocha</Text>
+        <View style={styles.transparentOverlay} />
+        <Text style={styles.title}>Log in</Text>
         <View style={styles.page}>
           <TextInput
             style={styles.input}
             value={email}
             onChangeText={setEmail}
             placeholder="Email"
+            placeholderTextColor={colors.lightEcru}
             keyboardType="email-address"
-            placeholderTextColor="#403e41"
             autoCapitalize="none"
           />
           <TextInput
@@ -63,7 +64,7 @@ const Login = () => {
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
-            placeholderTextColor="#403e41"
+            placeholderTextColor={colors.lightEcru}
             secureTextEntry={true}
           />
           <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
@@ -78,25 +79,23 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   title: {
-    marginTop: 40,
+    marginTop: 150,
     fontFamily: 'arsilon',
-    color: colors.primary,
-    fontSize: 80,
+    color: colors.white,
+    fontSize: 100,
   },
   loginBtn: {
-    width: '80%',
+    width: '90%',
     borderRadius: 25,
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
-    marginBotton: 20,
     color: 'white',
     backgroundColor: colors.primary,
   },
   input: {
-    backgroundColor: 'white',
-    width: '80%',
+    backgroundColor: colors.ecru,
+    width: '90%',
     borderRadius: 50,
     borderWidth: 2,
     borderColor: colors.primary,
@@ -104,15 +103,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
-    color: colors.primary,
   },
   page: {
-    width: 200,
-    height: 240,
+    width: 300,
+    height: 200,
+    marginTop: 60,
     alignItems: 'center',
-    marginTop: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    justifyContent: 'space-evenly',
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
     borderRadius: 25,
   },
   image: {
@@ -122,6 +120,15 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.lightGrayPurple,
+  },
+  transparentOverlay: {
+    backgroundColor: 'black',
+    opacity: 0.7,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   error: {
     marginTop: 10,

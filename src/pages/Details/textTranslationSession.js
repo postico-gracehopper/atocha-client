@@ -16,10 +16,9 @@ const textTranslationSession = ({
   idToken,
 }) => {
   return new Promise((resolve, reject) => {
-    console.log('entered session')
     const socket = io(`${host}/text`, {
       auth: { token: idToken },
-    }) // !@# need some ternary for TEST / LOCAL / PRODUCTION
+    }) 
     socket.on('connect', () => {
       socket.emit('session', {
         langSource,
