@@ -10,10 +10,9 @@ import {
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 
-import { uri } from '../../../constants'
 import colors from '../../theme/colors'
 import languages from '../SelectLanguage/languageList'
-
+import host from '../../utils/host'
 import { useAuth } from '../../../context/authContext'
 
 const Loading = () => {
@@ -73,7 +72,7 @@ export default function LoggedOutVocab() {
     try {
       const response = await axios({
         method: 'post',
-        url: `${uri}/api/generateVocab`,
+        url: `${host}/api/generateVocab`,
         data: {
           inputLang: displayLang,
           conversation: recentConversation,
@@ -109,7 +108,7 @@ export default function LoggedOutVocab() {
       console.log('getDefinitions is using this "result": ', wordArray)
       const response = await axios({
         method: 'post',
-        url: `${uri}/api/translateString`,
+        url: `${host}/api/translateString`,
         data: {
           targetLang: 'en',
           // targetLang: nonEnglishCode,

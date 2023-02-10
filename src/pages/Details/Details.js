@@ -36,7 +36,6 @@ import languages from '../SelectLanguage/languageList'
 import translationSession from './translationSession'
 import textTranslationSession from './textTranslationSession'
 import TranslationViewPort from './TranslationViewPort'
-import host from '../../utils/host'
 
 const image = {
   // move this someplace else
