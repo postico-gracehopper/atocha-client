@@ -6,6 +6,10 @@ import { authenticate } from 'slices/app.slice'
 import HeaderLeft from './Stacks/HeaderLeft'
 import DrawerNavigator from './Drawer'
 import TabNavigator from './Tabs/Tabs'
+import { HomeNavigator } from './Stacks/Stacks'
+import { createStackNavigator } from '@react-navigation/stack'
+import Login from '../pages/AuthPages'
+const Stack = createStackNavigator()
 
 const Navigator = () => {
   const { checked, loggedIn } = useSelector((state) => state.app)
