@@ -64,7 +64,7 @@ const SignUp = () => {
         console.log('SUCCESS', user)
       })
       .then(() => {
-        navigation.navigate('Details')
+        navigation.navigate('Home')
       })
       .catch((error) => {
         setError(error.code.split('/')[1].split('-').join(' '))

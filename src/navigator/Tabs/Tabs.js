@@ -5,7 +5,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from 'theme'
 import { auth } from '../../../firebase'
-
 import Details from '../../pages/Details'
 import Phrasebook from '../../pages/Phrasebook'
 import Vocab from '../../pages/Vocab'
@@ -37,7 +36,7 @@ export default function TabNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Details"
+      initialRouteName="Translate"
       activeColor={colors.white}
       inactiveColor={colors.fadedPrimary}
       barStyle={{ backgroundColor: colors.primary }}
