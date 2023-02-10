@@ -17,6 +17,7 @@ import {
 } from '../../slices/translationSlice'
 import { useAuth } from '../../../context/authContext'
 import textTranslationSession from './textTranslationSession'
+import host from '../../utils/host'
 
 const Loading = ({ styles }) => {
   return (
@@ -54,7 +55,7 @@ const SuggestingsView = ({ styles }) => {
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/api/generateSuggestions',
+        url: `${host}/api/generateSuggestions`,
         data: {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,

@@ -6,6 +6,7 @@ import { Text, Pressable, View, ActivityIndicator } from 'react-native'
 
 import colors from '../../theme/colors'
 import { useAuth } from '../../../context/authContext'
+import host from '../../utils/host'
 
 const Loading = ({ styles }) => {
   return (
@@ -40,7 +41,7 @@ const TeacherView = ({ styles }) => {
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/api/generateTeacher',
+        url: `${host}/api/generateTeacher`,
         data: {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,
