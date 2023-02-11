@@ -198,7 +198,6 @@ const Details = () => {
             <View
               style={{
                 flexDirection: 'column',
-                top: 0,
               }}
             >
               <LanguagePicker
@@ -211,12 +210,12 @@ const Details = () => {
               <Pressable
                 title="SWAP LANGUAGES"
                 onPress={handleLanguageSwap}
-                style={{ paddingBottom: 10 }}
+                style={{ paddingBottom: 4 }}
               >
                 <MaterialCommunityIcons
-                  name="swap-horizontal"
-                  size={35}
-                  color={colors.white}
+                  name="cached"
+                  size={40}
+                  color={colors.fadedPrimary}
                 />
               </Pressable>
               <Pressable
@@ -263,13 +262,9 @@ Details.defaultProps = {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: colors.lightGrayPurple,
   },
   image: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   transparentOverlay: {
     backgroundColor: 'rgba(0,0,0,0.8)',
@@ -290,8 +285,6 @@ const styles = StyleSheet.create({
   picker: {
     width: 200,
     transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
-    // textstyle: { fontSize: 32 },
-    // backgroundColor: 'rgba(169, 169, 169, 0.2)',
   },
   onePickerItem: {
     height: 100,
@@ -301,10 +294,10 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     flex: 5,
+    maxHeight: '80%',
     width: '100%',
     paddingLeft: 20,
     paddingRight: 50,
-    fontFamily: 'Cochin',
     paddingTop: 85,
   },
   listeningViewContainer: {
@@ -319,7 +312,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: colors.white,
-    fontSize: 25,
+    fontSize: 38,
+    fontFamily: 'lora',
     height: '100%',
   },
   headerContainer: {
@@ -335,7 +329,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   controlContainer: {
-    height: 110,
+    // height: 100,
     position: 'absolute',
     bottom: 20,
     width: '100%',
@@ -376,20 +370,22 @@ const styles = StyleSheet.create({
     paddingRight: 70,
   },
   partialText: {
-    marginTop: 5,
+    marginTop: 8,
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.gray,
     fontSize: 18,
     fontFamily: 'Cochin',
+    lineHeight: 24,
   },
   finalText: {
-    marginTop: 5,
+    marginTop: 8,
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.white,
     fontSize: 18,
     fontFamily: 'Cochin',
+    lineHeight: 24,
   },
   teacherText: {
     color: colors.white,
