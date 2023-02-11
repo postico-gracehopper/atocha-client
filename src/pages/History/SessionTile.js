@@ -35,7 +35,7 @@ const SessionTile = (props) => {
       style={{
         color: colors.white,
         borderTopWidth: 1,
-        borderColor: colors.fadedPrimary,
+        borderColor: colors.darkPrimary,
         paddingLeft: 15,
         paddingRight: 15,
         paddingTop: 5,
@@ -47,7 +47,7 @@ const SessionTile = (props) => {
       <Text
         style={{
           position: 'absolute',
-          color: colors.white,
+          color: 'grey',
           marginTop: 3,
           marginHorizontal: 'auto',
           left: 0,
