@@ -14,7 +14,7 @@ export default function URIPlayBack({ color, disabled, uri }) {
     if (uri) {
       try {
         const { durationMillis: duration } = await pastRecording.loadAsync({
-          uri,
+          uri: uri,
         })
         await pastRecording.playAsync()
         setTimeout(async () => {
@@ -23,7 +23,7 @@ export default function URIPlayBack({ color, disabled, uri }) {
         }, duration)
         return
       } catch (err) {
-        console.log(err)
+        console.log('URIplayback error', err)
       }
     }
   }

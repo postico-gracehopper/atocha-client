@@ -23,6 +23,7 @@ import {
   sortedAndFiltered,
   SortHistory,
   SearchHistory,
+  RecencyToggler,
 } from '../../components/FilterSort'
 import { SearchBar } from 'react-native-elements'
 import { FilterHistory } from '../../components/FilterSort'
@@ -31,13 +32,32 @@ import { useDispatch, useSelector } from 'react-redux'
 const History = () => {
   let [sessions, setSessions] = useState([])
   let [trigger, setTrigger] = useState(Date.now())
-  let [filter, setFilter] = useState('All')
-  let [sortBy, setSortBy] = useState('-')
+  let [fromFilter, setFromFilter] = useState('All')
+  let [toFilter, setToFilter] = useState('All')
+  // let [sortBy, setSortBy] = useState('-')
+  let [mostRecentFirst, setMostRecentFirst] = useState(true)
   let [searchBy, setSearchBy] = useState('')
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
-  const sessionFiltered = sortedAndFiltered(sessions, filter, sortBy, searchBy)
+  const sessionFiltered = sortedAndFiltered(
+    sessions,
+    fromFilter,
+    toFilter,
+    mostRecentFirst,
+    searchBy,
+  )
+
+  const fromLangs = sessions.reduce((acc, val) => {
+    return acc.length && acc.includes(val.langSource)
+      ? acc
+      : [...acc, val.langSource]
+  }, [])
+  const toLangs = sessions.reduce((acc, val) => {
+    return acc.length && acc.includes(val.langTarget)
+      ? acc
+      : [...acc, val.langTarget]
+  }, [])
 
   useEffect(() => {
     if (isFocused) {
@@ -61,28 +81,43 @@ const History = () => {
     <View style={styles.root}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View style={styles.transparentOverlay} />
+        <View
+          style={{ height: 40, width: '100%', backgroundColor: colors.primary }}
+        />
         <View style={styles.languagePickerContainer}>
           <FilterHistory
-            styles={styles}
-            filter={filter}
-            setFilter={setFilter}
+            filter={fromFilter}
+            setFilter={setFromFilter}
+            target={false}
+            onlyLangs={fromLangs}
           />
-          <SortHistory setSortBy={setSortBy} />
+          <SearchHistory searchBy={searchBy} setSearchBy={setSearchBy} />
+          {/* <SortHistory setSortBy={setSortBy} /> */}
+          <RecencyToggler
+            newestFirst={mostRecentFirst}
+            setNewestFirst={setMostRecentFirst}
+          />
+          <FilterHistory
+            filter={toFilter}
+            setFilter={setToFilter}
+            target={true}
+            onlyLangs={toLangs}
+          />
         </View>
-
-        {sessionFiltered && sessionFiltered.length ? (
-          <FlatList
-            style={{ marginTop: 50, width: '100%' }}
-            data={sessionFiltered}
-            renderItem={(session) => <SessionTile session={session} />}
-          />
-        ) : (
-          <></>
-        )}
+        <View style={{ minHeight: 1000, width: '100%' }}>
+          {sessionFiltered && sessionFiltered.length ? (
+            <FlatList
+              contentContainerStyle={{ paddingBottom: 400 }}
+              style={{ marginTop: 0, width: '100%' }}
+              data={sessionFiltered}
+              renderItem={(session) => <SessionTile session={session} />}
+            />
+          ) : (
+            <></>
+          )}
+        </View>
       </ImageBackground>
-      <View>
-        <SearchHistory searchBy={searchBy} setSearchBy={setSearchBy} />
-      </View>
+      <View></View>
     </View>
   )
 }
@@ -111,7 +146,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 30,
+    marginTop: 0,
+    backgroundColor: colors.primary,
+    position: 'fixed',
+    paddingTop: 10,
+    paddingBottom: 5,
   },
   picker: {
     width: 170,

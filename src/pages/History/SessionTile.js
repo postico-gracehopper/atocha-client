@@ -58,7 +58,7 @@ const SessionTile = (props) => {
         <Text>
           {uri ? (
             <URIPlayback
-              color={colors.lightPurple}
+              color={colors.brightPrimary}
               disabled={false}
               uri={uri}
             />
@@ -66,7 +66,7 @@ const SessionTile = (props) => {
             <TextTranscriber
               text={sourceTranscription}
               language={langSource}
-              color={colors.lightPurple}
+              color={colors.brightPrimary}
               disabled={false}
             />
           )}
@@ -81,7 +81,7 @@ const SessionTile = (props) => {
             <TextTranscriber
               text={targetTranscription}
               language={langTarget}
-              color={colors.lightPurple}
+              color={colors.brightPrimary}
               disabled={false}
             />
           </Text>
