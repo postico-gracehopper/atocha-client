@@ -69,7 +69,7 @@ const CustomDrawer = (props) => {
               {...props}
               labelStyle={{
                 marginLeft: -25,
-                fontFamily: 'Cochin',
+                fontFamily: 'lora',
                 fontSize: 32,
                 color: colors.white,
               }}
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 24,
     fontWeight: 'bold',
-    fontFamily: 'Cochin',
+    fontFamily: 'lora',
     alignSelf: 'flex-start',
     borderRadius: 10,
     overflow: 'hidden',

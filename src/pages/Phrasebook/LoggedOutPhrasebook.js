@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   notYetSubtext: {
     marginTop: 10,
     fontSize: 26,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
     color: colors.white,
     paddingHorizontal: 30,
   },

@@ -195,29 +195,22 @@ const Details = () => {
               alignItems: 'center',
             }}
           >
-            <View
-              style={{
-                flexDirection: 'column',
-              }}
-            >
+            <View>
               <LanguagePicker
                 styles={styles}
                 chosenLanguage={langSource}
                 onValueChange={onInputValueChange}
               />
             </View>
+            <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
+              <MaterialCommunityIcons
+                name="arrow-u-right-top"
+                size={30}
+                color={colors.fadedPrimary}
+                style={{ marginRight: 10 }}
+              />
+            </Pressable>
             <View style={styles.recordButtonContainer}>
-              <Pressable
-                title="SWAP LANGUAGES"
-                onPress={handleLanguageSwap}
-                style={{ paddingBottom: 4 }}
-              >
-                <MaterialCommunityIcons
-                  name="cached"
-                  size={40}
-                  color={colors.fadedPrimary}
-                />
-              </Pressable>
               <Pressable
                 style={
                   isRecording ? styles.recordButtonOff : styles.recordButtonOn
@@ -228,11 +221,21 @@ const Details = () => {
               >
                 <MaterialCommunityIcons
                   name={'microphone'}
-                  size={35}
+                  size={40}
                   color={colors.primary}
                 />
               </Pressable>
             </View>
+            <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
+              <MaterialCommunityIcons
+                name="arrow-u-left-bottom"
+                size={30}
+                color={colors.fadedPrimary}
+                style={{
+                  marginLeft: 10,
+                }}
+              />
+            </Pressable>
             <LanguagePicker
               styles={styles}
               chosenLanguage={langTarget}
@@ -283,7 +286,8 @@ const styles = StyleSheet.create({
     // paddingBottom: 15,
   },
   picker: {
-    width: 200,
+    width: 160,
+    marginHorizontal: -20,
     transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
   },
   onePickerItem: {
@@ -294,7 +298,7 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     flex: 5,
-    maxHeight: '80%',
+    maxHeight: '90%',
     width: '100%',
     paddingLeft: 20,
     paddingRight: 50,
@@ -312,7 +316,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: colors.white,
-    fontSize: 38,
+    fontSize: 28,
     fontFamily: 'lora',
     height: '100%',
   },
@@ -329,10 +333,11 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   controlContainer: {
-    // height: 100,
+    height: 100,
     position: 'absolute',
-    bottom: 20,
+    bottom: 0,
     width: '100%',
+    // backgroundColor: colors.pink,
   },
   recordButtonContainer: {
     display: 'flex',
@@ -350,8 +355,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     borderRadius: 100,
     backgroundColor: colors.pink,
     justifyContent: 'center',
@@ -359,8 +364,8 @@ const styles = StyleSheet.create({
   },
   resetButtonContainer: {
     position: 'absolute',
-    top: 65,
-    right: 20,
+    top: 55,
+    right: 8,
     zIndex: '1',
   },
   resetButton: {
@@ -374,8 +379,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.gray,
-    fontSize: 18,
-    fontFamily: 'Cochin',
+    fontSize: 16,
+    fontFamily: 'lora',
     lineHeight: 24,
   },
   finalText: {
@@ -383,8 +388,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.white,
-    fontSize: 18,
-    fontFamily: 'Cochin',
+    fontSize: 16,
+    fontFamily: 'lora',
     lineHeight: 24,
   },
   teacherText: {
@@ -431,11 +436,14 @@ const styles = StyleSheet.create({
   },
   generatedTextActiveContainer: {
     backgroundColor: 'rgba(169, 169, 169, 0.2)',
+    borderBottomColor: colors.white,
+    borderBottomWidth: 1,
     flexDirection: 'column',
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
+    paddingBottom: 20,
   },
   loadingContainer: {
     flex: 1,
@@ -457,7 +465,7 @@ const styles = StyleSheet.create({
   },
   generatePressableText: {
     fontSize: 18,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
     color: colors.white,
   },
   suggestionPressable: {

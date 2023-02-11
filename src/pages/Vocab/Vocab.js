@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   notYetSubtext: {
     marginTop: 10,
     fontSize: 26,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
     color: colors.white,
     paddingHorizontal: 30,
   },
@@ -308,11 +308,11 @@ const styles = StyleSheet.create({
   },
   vocabPressableText: {
     fontSize: 18,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
     color: colors.white,
   },
   starContainer: {
-    fontFamily: 'Baskerville-SemiBold',
+    fontFamily: 'lora_semibold',
     fontSize: 22,
     color: colors.white,
     flexDirection: 'row',
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   vocabDefinition: {
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
     fontStyle: 'italic',
     letterSpacing: 1,
     fontSize: 22,
