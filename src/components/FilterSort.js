@@ -55,7 +55,7 @@ export const FilterHistory = ({
             borderWidth: 1,
           }}
           rowStyle={{ backgroundColor: '#00000055' }}
-          rowTextStyle={{ color: 'white' }}
+          rowTextStyle={{ color: 'white', fontSize: 25 }}
           dropdownStyle={{
             borderRadius: 15,
             backgroundColor: '#000000',

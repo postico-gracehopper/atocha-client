@@ -36,7 +36,10 @@ const SessionTile = (props) => {
         color: colors.white,
         borderTopWidth: 1,
         borderColor: colors.fadedPrimary,
-        padding: 15,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 5,
+        paddingBottom: 10,
         display: 'flex',
         flexDirection: 'row',
       }}
@@ -45,7 +48,7 @@ const SessionTile = (props) => {
         style={{
           position: 'absolute',
           color: colors.white,
-          marginTop: 7,
+          marginTop: 3,
           marginHorizontal: 'auto',
           left: 0,
           right: 0,
@@ -61,6 +64,7 @@ const SessionTile = (props) => {
               color={colors.brightPrimary}
               disabled={false}
               uri={uri}
+              size={30}
             />
           ) : (
             <TextTranscriber
@@ -68,21 +72,23 @@ const SessionTile = (props) => {
               language={langSource}
               color={colors.brightPrimary}
               disabled={false}
+              size={30}
             />
           )}
-          <Text style={{ fontSize: 22 }}>{langSourceFlag}</Text>
+          <Text style={{ fontSize: 30 }}>{langSourceFlag}</Text>
         </Text>
         <Text style={{ color: 'white' }}>{sourceTranscription}</Text>
       </View>
       <View style={{ flex: 1, textAlign: 'right' }}>
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           <Text>
-            <Text style={{ fontSize: 22 }}>{langTargetFlag}</Text>
+            <Text style={{ fontSize: 30 }}>{langTargetFlag}</Text>
             <TextTranscriber
               text={targetTranscription}
               language={langTarget}
               color={colors.brightPrimary}
               disabled={false}
+              size={30}
             />
           </Text>
         </View>

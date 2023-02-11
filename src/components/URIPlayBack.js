@@ -4,7 +4,7 @@ import { Audio } from 'expo-av'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-export default function URIPlayBack({ color, disabled, uri }) {
+export default function URIPlayBack({ color, disabled, uri, size }) {
   const pastRecording = new Audio.Sound()
   //state holding whether it is playing
   const [playing, setPlaying] = React.useState(false)
@@ -37,7 +37,7 @@ export default function URIPlayBack({ color, disabled, uri }) {
     <Pressable onPress={playing ? handleStop : handlePlay} disabled={disabled}>
       <MaterialCommunityIcons
         name={playing ? 'stop' : 'play'}
-        size={24}
+        size={size || 24}
         color={color}
       />
     </Pressable>
