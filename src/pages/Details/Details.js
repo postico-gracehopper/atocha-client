@@ -398,10 +398,10 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   generatedTextContainer: {
-    flex: 0.7,
+    flex: 1.8,
     width: '100%',
     // paddingTop: 50,
-    bottom: 150,
+    // bottom: 150,
   },
   textOutputContainer: {
     flex: 1,

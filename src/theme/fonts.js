@@ -21,7 +21,7 @@ export const fontAssets = [
     openSans_bold_italic: require('../../assets/fonts/OpenSans-BoldItalic.ttf'),
   },
   {
-    lora_regular: require('../../assets/fonts/Lora-Regular.ttf'),
+    lora: require('../../assets/fonts/Lora-Regular.ttf'),
   },
   {
     lora_regular_italic: require('../../assets/fonts/Lora-Italic.ttf'),
