@@ -5,6 +5,7 @@ import {
   Text,
   ImageBackground,
   Pressable,
+  SafeAreaView,
 } from 'react-native'
 import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { FlatList } from 'react-native-gesture-handler'
@@ -79,45 +80,50 @@ const History = () => {
 
   return (
     <View style={styles.root}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <View style={styles.transparentOverlay} />
-        <View
-          style={{ height: 40, width: '100%', backgroundColor: colors.primary }}
-        />
-        <View style={styles.languagePickerContainer}>
-          <FilterHistory
-            filter={fromFilter}
-            setFilter={setFromFilter}
-            target={false}
-            onlyLangs={fromLangs}
-          />
-          <SearchHistory searchBy={searchBy} setSearchBy={setSearchBy} />
-          {/* <SortHistory setSortBy={setSortBy} /> */}
-          <RecencyToggler
-            newestFirst={mostRecentFirst}
-            setNewestFirst={setMostRecentFirst}
-          />
-          <FilterHistory
-            filter={toFilter}
-            setFilter={setToFilter}
-            target={true}
-            onlyLangs={toLangs}
-          />
-        </View>
-        <View style={{ minHeight: 1000, width: '100%' }}>
-          {sessionFiltered && sessionFiltered.length ? (
-            <FlatList
-              contentContainerStyle={{ paddingBottom: 400 }}
-              style={{ marginTop: 0, width: '100%' }}
-              data={sessionFiltered}
-              renderItem={(session) => <SessionTile session={session} />}
+      <SafeAreaView
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: colors.primary,
+        }}
+      >
+        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+          <View style={styles.transparentOverlay} />
+          <View style={{}}></View>
+          <View style={styles.languagePickerContainer}>
+            <FilterHistory
+              filter={fromFilter}
+              setFilter={setFromFilter}
+              target={false}
+              onlyLangs={fromLangs}
             />
-          ) : (
-            <></>
-          )}
-        </View>
-      </ImageBackground>
-      <View></View>
+            <SearchHistory searchBy={searchBy} setSearchBy={setSearchBy} />
+            {/* <SortHistory setSortBy={setSortBy} /> */}
+            <RecencyToggler
+              newestFirst={mostRecentFirst}
+              setNewestFirst={setMostRecentFirst}
+            />
+            <FilterHistory
+              filter={toFilter}
+              setFilter={setToFilter}
+              target={true}
+              onlyLangs={toLangs}
+            />
+          </View>
+          <View style={{ minHeight: 1000, width: '100%' }}>
+            {sessionFiltered && sessionFiltered.length ? (
+              <FlatList
+                contentContainerStyle={{ paddingBottom: 400 }}
+                style={{ marginTop: 0, width: '100%' }}
+                data={sessionFiltered}
+                renderItem={(session) => <SessionTile session={session} />}
+              />
+            ) : (
+              <></>
+            )}
+          </View>
+        </ImageBackground>
+      </SafeAreaView>
     </View>
   )
 }
@@ -149,7 +155,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     backgroundColor: colors.primary,
     position: 'fixed',
-    paddingTop: 10,
+    paddingTop: 0,
     paddingBottom: 5,
   },
   picker: {
