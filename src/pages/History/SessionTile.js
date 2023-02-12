@@ -47,7 +47,7 @@ const SessionTile = (props) => {
       <Text
         style={{
           position: 'absolute',
-          color: 'grey',
+          color: colors.gray,
           marginTop: 3,
           marginHorizontal: 'auto',
           left: 0,
