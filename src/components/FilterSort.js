@@ -7,13 +7,7 @@ import languages from '../pages/SelectLanguage/languageList'
 import { SearchBar } from 'react-native-elements'
 import colors from '../theme/colors'
 
-export const FilterHistory = ({
-  styles,
-  filter,
-  setFilter,
-  onlyLangs,
-  target = true,
-}) => {
+export const FilterHistory = ({ setFilter, onlyLangs, target = true }) => {
   let availableLangs = [...languages]
   if (onlyLangs && onlyLangs.length) {
     availableLangs = availableLangs.filter((lang) =>
@@ -45,13 +39,19 @@ export const FilterHistory = ({
     <View style={{ marginLeft: 5, marginRight: 5 }}>
       <View>
         <SelectDropdown
-          buttonTextStyle={{ fontSize: 12, color: 'white' }}
+          buttonTextStyle={
+            selected === 'All'
+              ? { fontSize: 12, color: 'white' }
+              : { fontSize: 25, textAlign: 'left' }
+          }
           buttonStyle={{
-            width: target ? 48 : 64,
+            width: 64,
             height: 30,
             borderRadius: 10,
-            backgroundColor: selected === 'All' ? colors.primary : 'gray',
-            borderColor: colors.white,
+            backgroundColor:
+              selected === 'All' ? colors.primary : colors.lightPrimary,
+            borderColor:
+              selected === 'All' ? colors.fadedPrimary : colors.black,
             borderWidth: 1,
           }}
           rowStyle={{ backgroundColor: '#00000055' }}
@@ -103,7 +103,7 @@ export const RecencyToggler = (props) => {
         marginLeft: 5,
         marginRight: 0,
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: colors.fadedPrimary,
         height: 30,
         width: 60,
         borderRadius: 10,
@@ -151,7 +151,7 @@ export const SearchHistory = ({ searchBy, setSearchBy }) => {
   return (
     <View style={{ flexGrow: 1 }}>
       <SearchBar
-        placeholder="Search Conversations"
+        placeholder="Search..."
         value={searchBy}
         onChangeText={(text) => setSearchBy(text)}
         inputStyle={{

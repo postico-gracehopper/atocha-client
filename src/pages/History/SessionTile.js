@@ -57,8 +57,9 @@ const SessionTile = (props) => {
       >
         {date}
       </Text>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginRight: 4 }}>
         <Text>
+          <Text style={{ fontSize: 30 }}>{langSourceFlag}</Text>
           {uri ? (
             <URIPlayback
               color={colors.brightPrimary}
@@ -75,14 +76,12 @@ const SessionTile = (props) => {
               size={30}
             />
           )}
-          <Text style={{ fontSize: 30 }}>{langSourceFlag}</Text>
         </Text>
         <Text style={{ color: 'white' }}>{sourceTranscription}</Text>
       </View>
-      <View style={{ flex: 1, textAlign: 'right' }}>
+      <View style={{ flex: 1, textAlign: 'right', marginLeft: 4 }}>
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           <Text>
-            <Text style={{ fontSize: 30 }}>{langTargetFlag}</Text>
             <TextTranscriber
               text={targetTranscription}
               language={langTarget}
@@ -90,6 +89,7 @@ const SessionTile = (props) => {
               disabled={false}
               size={30}
             />
+            <Text style={{ fontSize: 30 }}>{langTargetFlag}</Text>
           </Text>
         </View>
         <Text style={{ color: 'white', textAlign: 'right' }}>

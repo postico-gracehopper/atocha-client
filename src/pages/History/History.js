@@ -89,7 +89,6 @@ const History = () => {
       >
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <View style={styles.transparentOverlay} />
-          <View style={{}}></View>
           <View style={styles.languagePickerContainer}>
             <FilterHistory
               filter={fromFilter}
