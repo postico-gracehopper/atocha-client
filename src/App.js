@@ -22,7 +22,7 @@ const App = () => {
   }
 
   // Use this to suppress the warnings about AsyncStorage... it is an issue with Firebase and React Native
-  // LogBox.ignoreAllLogs()
+  LogBox.ignoreAllLogs()
 
   const user = getAuth()
   const current = user.currentUser

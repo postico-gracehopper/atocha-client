@@ -37,7 +37,7 @@ const Logout = () => {
                   anonymousSignIn()
                 })
                 .then(() => {
-                  navigation.navigate('Details')
+                  navigation.navigate('Home')
                 })
                 .catch((error) => {
                   console.log('Error signing out', error)

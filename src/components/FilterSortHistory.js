@@ -5,27 +5,9 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { SelectList } from 'react-native-dropdown-select-list'
 import languages from '../pages/SelectLanguage/languageList'
 import { SearchBar } from 'react-native-elements'
-export const FilterHistory = ({ styles, filter, setFilter }) => {
+export const FilterHistory = ({ setFilter }) => {
   const data = ['All', ...languages]
   return (
-    // <View>
-    //   <View>
-    //     <Picker
-    //       selectedValue={filter}
-    //       style={styles.picker}
-    //       itemStyle={styles.onePickerItem}
-    //       onValueChange={(itemValue) => setFilter(itemValue)}
-    //     >
-    //       <Picker.Item label="All" value="All" />
-    //       {languages.map(({ languageName, languageCode }) => (
-    //         <Picker.Item
-    //           key={languageCode}
-    //           label={languageName}
-    //           value={languageCode}
-    //         />
-    //       ))}
-    //     </Picker>
-    //   </View>
     <View>
       <View>
         <SelectDropdown
@@ -45,8 +27,6 @@ export const FilterHistory = ({ styles, filter, setFilter }) => {
             return selectedItem.languageName
           }}
           rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
             if (item === 'All') {
               return 'All'
             }
@@ -58,7 +38,7 @@ export const FilterHistory = ({ styles, filter, setFilter }) => {
   )
 }
 
-export const SortHistory = ({ sortBy, setSortBy }) => {
+export const SortHistory = ({ setSortBy }) => {
   const data = ['-', 'Most Recent', 'Least Recent']
   return (
     <View>

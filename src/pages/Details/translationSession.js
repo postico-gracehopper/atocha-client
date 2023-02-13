@@ -5,6 +5,7 @@ import {
   setTranscribedText,
   setIsTranslationFinal,
   setIsTranscriptionFinal,
+  addToConversation,
 } from '../../slices/translationSlice'
 import writeToAtochaFile from '../../filesystem/writeToAtochaFile'
 import host from '../../utils/host'
@@ -57,6 +58,7 @@ const translationSession = ({
             dispatch(setTranscribedText('Please record again...'))
           else {
             dispatch(setTranscribedText(finalTranscription))
+            dispatch(addToConversation(finalTranscription))
             closureTransciption = finalTranscription
           }
           dispatch(setIsTranscriptionFinal(true))
