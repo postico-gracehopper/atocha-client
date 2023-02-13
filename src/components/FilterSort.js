@@ -1,10 +1,40 @@
 import { React } from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import SelectDropdown from 'react-native-select-dropdown'
 import { SelectList } from 'react-native-dropdown-select-list'
 import languages from '../pages/SelectLanguage/languageList'
 import { SearchBar } from 'react-native-elements'
+
+import colors from '../theme/colors'
+
+const style2 = StyleSheet.create({
+  dropdownBtnStyle: {
+    width: 200,
+    height: 40,
+    backgroundColor: colors.darkGray,
+    marginTop: 20,
+    borderColor: colors.gray,
+    borderRightWidth: 1,
+  },
+  dropdown1BtnTxtStyle: {
+    color: colors.gray,
+    fontSize: 14,
+    textAlign: 'left',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    paddingLeft: 10,
+  },
+  dropdown2BtnTxtStyle: {
+    color: colors.gray,
+    fontSize: 14,
+    textAlign: 'right',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    paddingRight: 10,
+  },
+})
+
 export const FilterHistory = ({ styles, filter, setFilter }) => {
   const data = ['All', ...languages]
   return (
@@ -29,15 +59,17 @@ export const FilterHistory = ({ styles, filter, setFilter }) => {
     <View>
       <View>
         <SelectDropdown
-          buttonTextStyle={{ fontSize: 12 }}
-          buttonStyle={{ width: 120, height: 40 }}
+          buttonStyle={style2.dropdownBtnStyle}
+          buttonTextStyle={style2.dropdown1BtnTxtStyle}
+          // buttonTextStyle={{ fontSize: 12 }}
+          // buttonStyle={{ width: 120, height: 40 }}
           data={data}
           onSelect={(selectedItem, index) => {
             if (selectedItem === 'All') {
               setFilter('All')
             } else setFilter(selectedItem.languageCode)
           }}
-          defaultButtonText={'Filter By'}
+          defaultButtonText={'Filter by'}
           buttonTextAfterSelection={(selectedItem, index) => {
             if (selectedItem === 'All') {
               return 'All'
@@ -64,13 +96,15 @@ export const SortHistory = ({ sortBy, setSortBy }) => {
     <View>
       <View>
         <SelectDropdown
-          buttonTextStyle={{ fontSize: 12 }}
-          buttonStyle={{ width: 120, height: 40 }}
+          buttonStyle={style2.dropdownBtnStyle}
+          buttonTextStyle={style2.dropdown2BtnTxtStyle}
+          // buttonTextStyle={{ fontSize: 12 }}
+          // buttonStyle={{ width: 120, height: 40 }}
           data={data}
           onSelect={(selectedItem, index) => {
             setSortBy(selectedItem)
           }}
-          defaultButtonText={'Sort By'}
+          defaultButtonText={'Sort by'}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem
           }}
@@ -86,7 +120,7 @@ export const SortHistory = ({ sortBy, setSortBy }) => {
 export const SearchHistory = ({ searchBy, setSearchBy }) => {
   return (
     <SearchBar
-      placeholder="Search Conversations"
+      placeholder="Search conversations"
       value={searchBy}
       onChangeText={(text) => setSearchBy(text)}
     />
