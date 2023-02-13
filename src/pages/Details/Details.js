@@ -207,7 +207,6 @@ const Details = () => {
                 name="arrow-u-right-top"
                 size={30}
                 color={colors.brightPrimary}
-                style={{ marginRight: 10 }}
               />
             </Pressable>
             <View style={styles.recordButtonContainer}>
@@ -231,9 +230,6 @@ const Details = () => {
                 name="arrow-u-left-bottom"
                 size={30}
                 color={colors.brightPrimary}
-                style={{
-                  marginLeft: 10,
-                }}
               />
             </Pressable>
             <LanguagePicker
@@ -346,6 +342,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+    marginHorizontal: 10,
   },
   recordButtonOn: {
     width: 70,
@@ -449,6 +446,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -80,
+    marginLeft: 20,
   },
   loadingText: {
     fontSize: 16,
