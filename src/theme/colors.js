@@ -14,6 +14,7 @@ const colors = {
   darkGray: '#272727',
   black: '#000',
   transparentPrimary: '#130006CC',
+  darkPrimary: '#621236',
 }
 
 export default colors

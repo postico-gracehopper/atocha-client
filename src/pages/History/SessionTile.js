@@ -35,8 +35,11 @@ const SessionTile = (props) => {
       style={{
         color: colors.white,
         borderTopWidth: 1,
-        borderColor: colors.fadedPrimary,
-        padding: 15,
+        borderColor: colors.darkPrimary,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 5,
+        paddingBottom: 10,
         display: 'flex',
         flexDirection: 'row',
       }}
@@ -44,8 +47,8 @@ const SessionTile = (props) => {
       <Text
         style={{
           position: 'absolute',
-          color: colors.white,
-          marginTop: 7,
+          color: colors.gray,
+          marginTop: 3,
           marginHorizontal: 'auto',
           left: 0,
           right: 0,
@@ -54,36 +57,39 @@ const SessionTile = (props) => {
       >
         {date}
       </Text>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginRight: 4 }}>
         <Text>
+          <Text style={{ fontSize: 30 }}>{langSourceFlag}</Text>
           {uri ? (
             <URIPlayback
-              color={colors.lightPurple}
+              color={colors.brightPrimary}
               disabled={false}
               uri={uri}
+              size={30}
             />
           ) : (
             <TextTranscriber
               text={sourceTranscription}
               language={langSource}
-              color={colors.lightPurple}
+              color={colors.brightPrimary}
               disabled={false}
+              size={30}
             />
           )}
-          <Text style={{ fontSize: 22 }}>{langSourceFlag}</Text>
         </Text>
         <Text style={{ color: 'white' }}>{sourceTranscription}</Text>
       </View>
-      <View style={{ flex: 1, textAlign: 'right' }}>
+      <View style={{ flex: 1, textAlign: 'right', marginLeft: 4 }}>
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           <Text>
-            <Text style={{ fontSize: 22 }}>{langTargetFlag}</Text>
             <TextTranscriber
               text={targetTranscription}
               language={langTarget}
-              color={colors.lightPurple}
+              color={colors.brightPrimary}
               disabled={false}
+              size={30}
             />
+            <Text style={{ fontSize: 30 }}>{langTargetFlag}</Text>
           </Text>
         </View>
         <Text style={{ color: 'white', textAlign: 'right' }}>
