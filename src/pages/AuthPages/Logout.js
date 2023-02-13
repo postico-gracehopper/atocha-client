@@ -23,38 +23,41 @@ const Logout = () => {
   return (
     <View style={styles.root}>
       <ImageBackground resizeMode="cover" style={styles.image} source={image}>
-        <View style={{ position: 'relative', zIndex: '1' }}>
-          <TouchableOpacity
-            style={styles.logoutBtn}
-            title="Log Out"
-            onPress={() => {
-              auth
-                .signOut()
-                .then(() => {
-                  console.log('Sign-out successful')
-                })
-                .then(() => {
-                  anonymousSignIn()
-                })
-                .then(() => {
-                  navigation.navigate('Home')
-                })
-                .catch((error) => {
-                  console.log('Error signing out', error)
-                })
-            }}
-          >
-            <Text style={{ color: 'white' }}>Logout</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.textWrapper}>
-          <Text style={styles.text}>See You Soon!</Text>
-          <Text style={styles.text}>¡Te veo pronto!</Text>
-          <Text style={styles.text}>再见！</Text>
-          <Text style={styles.text}>जल्द ही फिर मिलेंगे!</Text>
-          <Text style={styles.text}>A presto!</Text>
-          <Text style={styles.text}>vejo você em breve!</Text>
-          <Text style={styles.text}>seh dich später!</Text>
+        <View style={styles.transparentOverlay}>
+          <View style={{ position: 'relative', zIndex: '1' }}>
+            <TouchableOpacity
+              style={styles.vocabPressable}
+              title="Log Out"
+              onPress={() => {
+                auth
+                  .signOut()
+                  .then(() => {
+                    console.log('Sign-out successful')
+                  })
+                  .then(() => {
+                    anonymousSignIn()
+                  })
+                  .then(() => {
+                    navigation.navigate('Home')
+                  })
+                  .catch((error) => {
+                    console.log('Error signing out', error)
+                  })
+              }}
+            >
+              <Text style={{ color: 'white' }}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.textWrapper}>
+            <Text style={styles.text}>¡Te veo pronto!</Text>
+            <Text style={styles.text}>再见！</Text>
+            <Text style={styles.text}>जल्द ही फिर मिलेंगे!</Text>
+            <Text style={styles.text}>See You Soon!</Text>
+            <Text style={styles.text}>A presto!</Text>
+            <Text style={styles.text}>vejo você em breve!</Text>
+            <Text style={styles.text}>seh dich später!</Text>
+            <Text style={styles.text}>до скорой встречи!</Text>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -103,6 +106,30 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.lightGrayPurple,
+  },
+  vocabPressable: {
+    marginTop: 400,
+    width: 150,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: colors.brightPrimary,
+    opacity: 1.0,
+    fontSize: 18,
+    fontFamily: 'Baskerville',
+    color: colors.white,
+  },
+  transparentOverlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })
 

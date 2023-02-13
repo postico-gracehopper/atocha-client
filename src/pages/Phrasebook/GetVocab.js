@@ -7,13 +7,16 @@ import { langFlags } from './langFlags'
 import colors from '../../theme/colors'
 import { FilterPhraseBook } from '../../components/FilterSortPhraseBook'
 import { sortedAndFiltered } from '../../components/FilterSortPhraseBook'
-import { SortPhraseBook } from '../../components/FilterSortPhraseBook'
+// import { SortPhraseBook } from '../../components/FilterSortPhraseBook'
 import { SearchPhraseBook } from '../../components/FilterSortPhraseBook'
+import { RecencyToggler } from '../../components/FilterSortPhraseBook'
+
 const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
   let [filter, setFilter] = useState('All')
   let [sortBy, setSortBy] = useState('-')
   let [searchBy, setSearchBy] = useState('')
+  let [mostRecentFirst, setMostRecentFirst] = useState(true)
   const { currentUser } = useAuth()
   const userId = currentUser.uid
 
@@ -36,13 +39,20 @@ const GetVocab = () => {
     )
     return () => unsub()
   }
+
+  const availableLangs = vocabWords.reduce((acc, val) => {
+    return acc.length && acc.includes(val.originalLang)
+      ? acc
+      : [...acc, val.originalLang]
+  }, [])
+
   const vocabWordsFiltered = sortedAndFiltered(
     vocabWords,
     filter,
-    sortBy,
+    // sortBy,
     searchBy,
+    mostRecentFirst,
   )
-  console.log(vocabWordsFiltered)
 
   useEffect(() => {
     onGetVocab()
@@ -50,17 +60,23 @@ const GetVocab = () => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          marginTop: 30,
-        }}
-      >
-        <FilterPhraseBook setFilter={setFilter} />
-        <SortPhraseBook setSortBy={setSortBy} />
+      <View>
+        <SearchPhraseBook searchBy={searchBy} setSearchBy={setSearchBy} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            marginTop: 10,
+          }}
+        >
+          <FilterPhraseBook setFilter={setFilter} onlyLangs={availableLangs} />
+          <RecencyToggler
+            newestFirst={mostRecentFirst}
+            setNewestFirst={setMostRecentFirst}
+          />
+        </View>
       </View>
       <ScrollView style={styles.scrollView}>
         {vocabWordsFiltered.map((word) => (
@@ -72,10 +88,10 @@ const GetVocab = () => {
           </View>
         ))}
       </ScrollView>
-      <SearchPhraseBook searchBy={searchBy} setSearchBy={setSearchBy} />
     </View>
   )
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
