@@ -28,7 +28,7 @@ const Login = () => {
         const user = userCredential.user
       })
       .then(() => {
-        navigation.navigate('Translate')
+        navigation.navigate('Home')
       })
       .catch((error) => {
         if (error.code == 'auth/invalid-email') {

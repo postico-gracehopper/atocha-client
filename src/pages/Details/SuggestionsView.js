@@ -27,6 +27,8 @@ import {
   setIsTranslationFinal,
   setIsSuggestionLoading,
   setIsTeacherLoading,
+  addToConversation,
+  setRecordingURI,
 } from '../../slices/translationSlice'
 import { useAuth } from '../../../context/authContext'
 import textTranslationSession from './textTranslationSession'
@@ -52,6 +54,7 @@ const SuggestingsView = ({ styles }) => {
     suggestionGeneratedText,
     isSuggestionSubmitted,
     isSuggestionLoading,
+    savedConversation,
   } = useSelector((state) => state.translation)
 
   const { langSource, langSourceName, langTarget, langTargetName } =
@@ -68,7 +71,7 @@ const SuggestingsView = ({ styles }) => {
         data: {
           inputLang: sourceLanguageOutput,
           outputLang: targetLanguageOutput,
-          conversation: transcribedText,
+          conversation: savedConversation,
         },
         headers: {
           auth: await currentUser.getIdToken(),
@@ -81,19 +84,14 @@ const SuggestingsView = ({ styles }) => {
           new Error(`Request failed with status ${response.status}`)
         )
       }
-      console.log('data.result', data.result)
       const trimedResult = data.result.trim()
       const splitArray = trimedResult.split('%')
-      console.log('splitArray', splitArray)
       let resultArray = []
       splitArray.map((item) => {
         const temp = item.split(';')
-        console.log('temp', temp)
         const tempObj = { source: temp[0], target: temp[1] }
         resultArray.push(tempObj)
       })
-      console.log('resultArray', resultArray)
-      console.log('resultArray', resultArray)
       dispatch(setSuggestionGeneratedText(resultArray))
       dispatch(setIsSuggestionSubmitted(true))
       dispatch(setIsSuggestionLoading(false))
@@ -107,6 +105,7 @@ const SuggestingsView = ({ styles }) => {
     dispatch(setIsTranslationFinal(false))
     dispatch(setTranscribedText(updatedText))
     dispatch(setTranslatedText(''))
+    dispatch(addToConversation(updatedText))
     dispatch(setIsTeacherSubmitted(false))
     dispatch(setIsSuggestionSubmitted(false))
     dispatch(setSuggestionGeneratedText([]))
@@ -116,6 +115,7 @@ const SuggestingsView = ({ styles }) => {
     dispatch(setTargetLanguageOutput(langTargetName))
     dispatch(setIsTeacherLoading(false))
     dispatch(setIsSuggestionLoading(false))
+    dispatch(setRecordingURI(''))
     textTranslationSession({
       transcribedText,
       langSource,

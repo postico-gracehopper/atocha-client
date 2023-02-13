@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { colors } from 'theme'
-import { LanguagePicker, ResetButton } from '../../components/'
+import { LanguagePicker } from '../../components/'
 
 import {
   setTranslatedText,
@@ -27,6 +27,9 @@ import {
   setViewMode,
   setIsSuggestionSubmitted,
   setSuggestionGeneratedText,
+  setSavedConversation,
+  addToConversation,
+  setRecordingURI,
 } from '../../slices/translationSlice'
 import {
   setInputLanguage,
@@ -49,6 +52,7 @@ import { useAuth } from '../../../context/authContext'
 const Details = () => {
   const [recording, setRecording] = React.useState()
   const [isRecording, setIsRecording] = React.useState(false)
+
   const { currentUser } = useAuth()
 
   const { transcribedText, isTeacherLoading, isSuggestionLoading } =
@@ -70,8 +74,10 @@ const Details = () => {
     dispatch(setIsSuggestionSubmitted(false))
     dispatch(setTeacherGeneratedText(''))
     dispatch(setSuggestionGeneratedText([]))
+    dispatch(setSavedConversation(''))
     dispatch(setSourceLanguageOutput(''))
     dispatch(setTargetLanguageOutput(''))
+    dispatch(setRecordingURI(''))
     try {
       await Audio.requestPermissionsAsync()
       await Audio.setAudioModeAsync({
@@ -100,6 +106,7 @@ const Details = () => {
     })
 
     const uri = await recording.getURI()
+    dispatch(setRecordingURI(uri))
     translationSession({
       uri,
       langSource: langSource,
@@ -140,6 +147,8 @@ const Details = () => {
     dispatch(setIsTranscriptionFinal(true))
     dispatch(setSourceLanguageOutput(langSourceName))
     dispatch(setTargetLanguageOutput(langTargetName))
+    dispatch(addToConversation(transcribedText))
+    dispatch(setIsSuggestionSubmitted(false))
     textTranslationSession({
       transcribedText,
       langSource,
@@ -170,6 +179,9 @@ const Details = () => {
     dispatch(setTargetLanguageOutput(''))
     dispatch(setIsTeacherSubmitted(false))
     dispatch(setTeacherGeneratedText(''))
+    dispatch(setSavedConversation(''))
+    dispatch(setSuggestionGeneratedText([]))
+    dispatch(setRecordingURI(''))
   }
 
   return (
@@ -391,6 +403,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingLeft: 20,
+    paddingRight: 20,
     paddingTop: 85,
   },
   generatedTextHeader: {

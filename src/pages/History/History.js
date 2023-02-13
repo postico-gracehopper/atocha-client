@@ -24,10 +24,9 @@ import {
   sortedAndFiltered,
   SortHistory,
   SearchHistory,
-  RecencyToggler,
-} from '../../components/FilterSort'
+} from '../../components/FilterSortHistory'
 import { SearchBar } from 'react-native-elements'
-import { FilterHistory } from '../../components/FilterSort'
+import { FilterHistory } from '../../components/FilterSortHistory'
 import { useDispatch, useSelector } from 'react-redux'
 
 const History = () => {
@@ -77,7 +76,6 @@ const History = () => {
   const image = {
     uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
   }
-
   return (
     <View style={styles.root}>
       <SafeAreaView
