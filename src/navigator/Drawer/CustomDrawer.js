@@ -26,13 +26,18 @@ const CustomDrawer = (props) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const user = getAuth()
   const current = user.currentUser
+  let userName
+
+  if (current) {
+    userName = current.displayName
+  }
 
   useEffect(() => {
     if (current) {
       current.isAnonymous ? null : setDisplayName(current.displayName)
       current.isAnonymous ? setLoggedIn(false) : setLoggedIn(true)
     }
-  }, [current])
+  }, [current, userName])
 
   return (
     <View style={styles.root}>

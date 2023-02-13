@@ -6,7 +6,13 @@ const soundObject = new Audio.Sound()
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-export default function TextTranscriber({ text, language, color, disabled }) {
+export default function TextTranscriber({
+  text,
+  language,
+  color,
+  disabled,
+  size,
+}) {
   //state holding whether it is playing
   const [playing, setPlaying] = React.useState(false)
 
@@ -40,7 +46,7 @@ export default function TextTranscriber({ text, language, color, disabled }) {
     <Pressable onPress={playing ? handleStop : handlePlay} disabled={disabled}>
       <MaterialCommunityIcons
         name={playing ? 'stop' : 'play'}
-        size={24}
+        size={size || 24}
         color={color}
       />
     </Pressable>

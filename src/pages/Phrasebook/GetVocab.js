@@ -5,10 +5,15 @@ import { collection, onSnapshot } from 'firebase/firestore'
 import { useAuth } from '../../../context/authContext'
 import { langFlags } from './langFlags'
 import colors from '../../theme/colors'
-
+import { FilterPhraseBook } from '../../components/FilterSortPhraseBook'
+import { sortedAndFiltered } from '../../components/FilterSortPhraseBook'
+import { SortPhraseBook } from '../../components/FilterSortPhraseBook'
+import { SearchPhraseBook } from '../../components/FilterSortPhraseBook'
 const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
-
+  let [filter, setFilter] = useState('All')
+  let [sortBy, setSortBy] = useState('-')
+  let [searchBy, setSearchBy] = useState('')
   const { currentUser } = useAuth()
   const userId = currentUser.uid
 
@@ -31,6 +36,13 @@ const GetVocab = () => {
     )
     return () => unsub()
   }
+  const vocabWordsFiltered = sortedAndFiltered(
+    vocabWords,
+    filter,
+    sortBy,
+    searchBy,
+  )
+  console.log(vocabWordsFiltered)
 
   useEffect(() => {
     onGetVocab()
@@ -38,8 +50,20 @@ const GetVocab = () => {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          marginTop: 30,
+        }}
+      >
+        <FilterPhraseBook setFilter={setFilter} />
+        <SortPhraseBook setSortBy={setSortBy} />
+      </View>
       <ScrollView style={styles.scrollView}>
-        {vocabWords.map((word) => (
+        {vocabWordsFiltered.map((word) => (
           <View key={word.id} style={styles.wordContainer}>
             <View style={styles.wordBlock}>
               <Text>{langFlags[word.originalLang]}</Text>
@@ -51,6 +75,7 @@ const GetVocab = () => {
           </View>
         ))}
       </ScrollView>
+      <SearchPhraseBook searchBy={searchBy} setSearchBy={setSearchBy} />
     </View>
   )
 }

@@ -61,10 +61,12 @@ const SignUp = () => {
       .then((userCredential) => {
         const user = userCredential.user
         saveToDb(user.uid)
+        updateUserName()
         console.log('SUCCESS', user)
       })
+      .then(setEmail(''), setUserName(''), setPassword(''))
       .then(() => {
-        navigation.navigate('Details')
+        navigation.navigate('Home')
       })
       .catch((error) => {
         setError(error.code.split('/')[1].split('-').join(' '))
@@ -134,7 +136,6 @@ const SignUp = () => {
             style={styles.signOutBtn}
             onPress={async () => {
               await onSignUpPress()
-              updateUserName()
             }}
           >
             <Text style={{ color: 'white' }}>Sign Up</Text>
