@@ -222,6 +222,9 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
+    fontSize: 13,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
     marginTop: 10,
     color: colors.white,
   },
@@ -243,7 +246,7 @@ const styles = StyleSheet.create({
   },
   notYetSubtext: {
     marginTop: 10,
-    fontSize: 26,
+    fontSize: 23,
     fontFamily: 'lora',
     color: colors.white,
     paddingHorizontal: 30,
@@ -289,12 +292,13 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   vocabDefinition: {
-    fontFamily: 'lora_italic',
+    fontFamily: 'lora_regular_italic',
     letterSpacing: 1,
     fontSize: 18,
     color: colors.white,
     textAlign: 'left',
-    paddingTop: 5,
+    paddingVertical: 8,
+    paddingLeft: 10,
   },
   wordContainer: {
     paddingBottom: 30,

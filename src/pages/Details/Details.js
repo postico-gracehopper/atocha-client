@@ -206,7 +206,7 @@ const Details = () => {
               <MaterialCommunityIcons
                 name="arrow-u-right-top"
                 size={30}
-                color={colors.fadedPrimary}
+                color={colors.brightPrimary}
                 style={{ marginRight: 10 }}
               />
             </Pressable>
@@ -222,7 +222,7 @@ const Details = () => {
                 <MaterialCommunityIcons
                   name={'microphone'}
                   size={40}
-                  color={colors.primary}
+                  color={isRecording ? 'white' : colors.brightPrimary}
                 />
               </Pressable>
             </View>
@@ -230,7 +230,7 @@ const Details = () => {
               <MaterialCommunityIcons
                 name="arrow-u-left-bottom"
                 size={30}
-                color={colors.fadedPrimary}
+                color={colors.brightPrimary}
                 style={{
                   marginLeft: 10,
                 }}
@@ -330,6 +330,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     color: colors.brightPrimary,
     fontSize: 15,
+    fontWeight: '700',
     paddingRight: 10,
   },
   controlContainer: {
@@ -355,10 +356,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     borderRadius: 100,
-    backgroundColor: colors.pink,
+    backgroundColor: colors.brightPrimary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -447,23 +448,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: -80,
   },
   loadingText: {
     fontSize: 16,
+    fontSize: 13,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
     marginTop: 10,
     color: colors.white,
   },
   generatePressable: {
-    paddingVertical: 12,
+    marginTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: colors.primary,
-    borderColor: colors.gray,
-    borderWidth: 1,
+    backgroundColor: colors.brightPrimary,
   },
   generatePressableText: {
     fontSize: 18,
-    fontFamily: 'lora',
+    fontFamily: 'lora_bold',
     color: colors.white,
   },
   suggestionPressable: {

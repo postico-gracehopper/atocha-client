@@ -92,7 +92,7 @@ const TeacherView = ({ styles }) => {
       {isTeacherLoading ? (
         <Loading styles={styles} />
       ) : (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={styles}>
           <Text style={styles.teacherText}>{teacherGeneratedText}</Text>
         </ScrollView>
       )}

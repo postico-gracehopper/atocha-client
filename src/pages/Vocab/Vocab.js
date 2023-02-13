@@ -255,6 +255,9 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
+    fontSize: 13,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
     marginTop: 10,
     color: colors.white,
   },
@@ -276,7 +279,7 @@ const styles = StyleSheet.create({
   },
   notYetSubtext: {
     marginTop: 10,
-    fontSize: 26,
+    fontSize: 23,
     fontFamily: 'lora',
     color: colors.white,
     paddingHorizontal: 30,
@@ -308,7 +311,7 @@ const styles = StyleSheet.create({
   },
   vocabPressableText: {
     fontSize: 18,
-    fontFamily: 'lora',
+    fontFamily: 'lora_bold',
     color: colors.white,
   },
   starContainer: {
