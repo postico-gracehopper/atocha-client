@@ -13,13 +13,12 @@ const style2 = StyleSheet.create({
   dropdownBtnStyle: {
     width: 200,
     height: 40,
-    backgroundColor: colors.darkGray,
-    marginTop: 20,
-    borderColor: colors.gray,
+    backgroundColor: colors.primary,
+    borderColor: colors.fadedPrimary,
     borderRightWidth: 1,
   },
   dropdown1BtnTxtStyle: {
-    color: colors.gray,
+    color: colors.brightPrimary,
     fontSize: 14,
     textAlign: 'left',
     textTransform: 'uppercase',
@@ -27,7 +26,7 @@ const style2 = StyleSheet.create({
     paddingLeft: 10,
   },
   dropdown2BtnTxtStyle: {
-    color: colors.gray,
+    color: colors.brightPrimary,
     fontSize: 14,
     textAlign: 'right',
     textTransform: 'uppercase',
@@ -104,9 +103,33 @@ export const SortPhraseBook = ({ setSortBy }) => {
 export const SearchPhraseBook = ({ searchBy, setSearchBy }) => {
   return (
     <SearchBar
-      placeholder="Search Phrases"
+      placeholder="Search..."
       value={searchBy}
       onChangeText={(text) => setSearchBy(text)}
+      inputStyle={{
+        fontSize: 14,
+        borderWidth: 0,
+        borderColor: '#00000000',
+        color: 'white',
+        backgroundColor: '#00000000',
+      }}
+      inputContainerStyle={{
+        backgroundColor: colors.primary,
+        borderRadius: 10,
+        borderColor: 'white',
+        borderWidth: 0,
+        height: 30,
+      }}
+      containerStyle={{
+        backgroundColor: '#00000055',
+        padding: 0,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 10,
+      }}
+      searchIcon={{ color: 'white' }}
+      clearIcon={{ color: 'white' }}
+      placeholderTextColor={'#CCC'}
     />
   )
 }

@@ -56,7 +56,9 @@ const GetVocab = () => {
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
-          marginTop: 30,
+          marginTop: -30,
+          // borderTopColor: colors.gray,
+          // borderTopWidth: 2,
         }}
       >
         <FilterPhraseBook setFilter={setFilter} />

@@ -80,11 +80,12 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 30,
     paddingTop: 40,
-    paddingLeft: 10,
+    alignSelf: 'center',
     fontSize: 80,
     lineHeight: 70,
     fontFamily: 'arsilon',
     color: colors.white,
+    backgroundColor: colors.primary,
     zIndex: 1,
   },
   notYetContainer: {
