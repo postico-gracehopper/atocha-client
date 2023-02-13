@@ -24,9 +24,10 @@ import {
   sortedAndFiltered,
   SortHistory,
   SearchHistory,
+  FilterHistory,
+  RecencyToggler,
 } from '../../components/FilterSortHistory'
 import { SearchBar } from 'react-native-elements'
-import { FilterHistory } from '../../components/FilterSortHistory'
 import { useDispatch, useSelector } from 'react-redux'
 
 const History = () => {
