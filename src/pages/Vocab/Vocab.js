@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
   vocabContainer: {
     alignContent: 'flex-start',
     flexWrap: 'wrap',
-    paddingTop: 60,
+    paddingTop: 40,
     maxWidth: '100%',
   },
   vocabDefinition: {
