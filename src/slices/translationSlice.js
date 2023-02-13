@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   translatedText: '',
   transcribedText: '',
+  recordingURI: '',
   isTranslationFinal: false,
   isTranscriptionFinal: false,
   sourceLanguageOutput: '',
@@ -12,6 +13,7 @@ const initialState = {
   isTeacherSubmitted: false,
   isTeacherLoading: false,
   suggestionGeneratedText: [],
+  savedConversation: '',
   isSuggestionSubmitted: false,
   isSuggestionLoading: false,
   viewMode: 'text-input',
@@ -26,6 +28,9 @@ const translationSlice = createSlice({
     },
     setTranscribedText: (state, action) => {
       state.transcribedText = action.payload
+    },
+    setRecordingURI: (state, action) => {
+      state.recordingURI = action.payload
     },
     setIsTranslationFinal: (state, action) => {
       state.isTranslationFinal = action.payload
@@ -51,6 +56,16 @@ const translationSlice = createSlice({
     setSuggestionGeneratedText: (state, action) => {
       state.suggestionGeneratedText = action.payload
     },
+    setSavedConversation: (state, action) => {
+      state.savedConversation = action.payload
+    },
+    addToConversation: (state, action) => {
+      if (state.savedConversation === '')
+        state.savedConversation = action.payload
+      else
+        state.savedConversation =
+          state.savedConversation + '; ' + action.payload
+    },
     setIsSuggestionSubmitted: (state, action) => {
       state.isSuggestionSubmitted = action.payload
     },
@@ -73,6 +88,7 @@ export const selectSessionObject = (state) => {
 export const {
   setTranslatedText,
   setTranscribedText,
+  setRecordingURI,
   setIsTranslationFinal,
   setIsTranscriptionFinal,
   setSourceLanguageOutput,
@@ -84,6 +100,8 @@ export const {
   setIsSuggestionLoading,
   setIsTeacherLoading,
   setViewMode,
+  addToConversation,
+  setSavedConversation,
 } = translationSlice.actions
 
 export default translationSlice.reducer

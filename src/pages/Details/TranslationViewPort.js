@@ -66,6 +66,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
               langName={sourceLanguageOutput}
               text={transcribedText}
               isFinal={isTranscriptionFinal}
+              isSource={true}
             />
             <View
               style={{
@@ -81,6 +82,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
               langName={targetLanguageOutput}
               text={translatedText}
               isFinal={isTranslationFinal}
+              isSource={false}
             />
           </View>
           {isTranslationFinal ? (
