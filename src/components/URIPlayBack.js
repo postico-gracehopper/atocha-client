@@ -29,6 +29,7 @@ export default function URIPlayBack({ color, disabled, uri }) {
   }
 
   const handleStop = async () => {
+    await pastRecording.stopAsync()
     await pastRecording.unloadAsync()
     setPlaying(false)
   }
