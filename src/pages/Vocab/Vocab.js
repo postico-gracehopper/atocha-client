@@ -17,7 +17,7 @@ import host from '../../utils/host'
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={colors.brightPrimary} />
       <Text style={styles.loadingText}>Loading...</Text>
     </View>
   )

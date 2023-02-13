@@ -14,7 +14,7 @@ import GetVocab from './GetVocab'
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={colors.brightPrimary} />
       <Text style={styles.loadingText}>Loading...</Text>
     </View>
   )
