@@ -16,14 +16,13 @@ export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
     )
   }
   const data = ['All', ...availableLangs]
-  //const data = ['All', ...languages]
+
   return (
     <View>
       <View>
         <SelectDropdown
           data={data}
           onSelect={(selectedItem, index) => {
-            console.log(data)
             if (selectedItem === 'All') {
               setFilter('All')
             } else setFilter(selectedItem.languageName)
