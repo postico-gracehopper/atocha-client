@@ -45,7 +45,15 @@ const Logout = () => {
                   })
               }}
             >
-              <Text style={{ color: 'white' }}>Logout</Text>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 16,
+                  fontFamily: 'lora',
+                }}
+              >
+                Logout
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.textWrapper}>
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
   vocabPressable: {
     marginTop: 400,
     width: 150,
-
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,

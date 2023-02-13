@@ -27,7 +27,7 @@ export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
               setFilter('All')
             } else setFilter(selectedItem.languageName)
           }}
-          defaultButtonText={'Filter By'}
+          defaultButtonText={'All'}
           buttonTextAfterSelection={(selectedItem, index) => {
             if (selectedItem === 'All') {
               return 'All'
@@ -41,11 +41,11 @@ export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
             return item.flag
           }}
           buttonStyle={{
-            width: 150,
+            width: 64,
             height: 30,
             borderRadius: 10,
             backgroundColor: colors.primary,
-            borderColor: colors.white,
+            borderColor: colors.fadedPrimary,
             borderWidth: 1,
           }}
           buttonTextStyle={{ fontSize: 12, color: 'white' }}
@@ -114,7 +114,7 @@ export const RecencyToggler = (props) => {
         marginLeft: 5,
         marginRight: 0,
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: colors.fadedPrimary,
         height: 30,
         width: 60,
         borderRadius: 10,
@@ -135,35 +135,37 @@ export const RecencyToggler = (props) => {
 
 export const SearchPhraseBook = ({ searchBy, setSearchBy }) => {
   return (
-    <SearchBar
-      placeholder="Search Phrases"
-      value={searchBy}
-      onChangeText={(text) => setSearchBy(text)}
-      inputStyle={{
-        fontSize: 14,
-        borderWidth: 0,
-        borderColor: '#00000000',
-        color: 'white',
-        backgroundColor: '#00000000',
-      }}
-      inputContainerStyle={{
-        backgroundColor: '#00000000',
-        borderRadius: 10,
-        borderColor: 'white',
-        borderWidth: 0,
-        height: 30,
-      }}
-      containerStyle={{
-        backgroundColor: '#00000055',
-        padding: 0,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-      }}
-      searchIcon={{ color: 'white' }}
-      clearIcon={{ color: 'white' }}
-      placeholderTextColor={'#CCC'}
-    />
+    <View style={{ flexGrow: 1 }}>
+      <SearchBar
+        placeholder="Search Phrases"
+        value={searchBy}
+        onChangeText={(text) => setSearchBy(text)}
+        inputStyle={{
+          fontSize: 14,
+          borderWidth: 0,
+          borderColor: '#00000000',
+          color: 'white',
+          backgroundColor: '#00000000',
+        }}
+        inputContainerStyle={{
+          backgroundColor: '#00000000',
+          borderRadius: 10,
+          borderColor: 'white',
+          borderWidth: 0,
+          height: 30,
+        }}
+        containerStyle={{
+          backgroundColor: '#00000055',
+          padding: 0,
+          borderWidth: 1,
+          borderColor: 'black',
+          borderRadius: 10,
+        }}
+        searchIcon={{ color: 'white' }}
+        clearIcon={{ color: 'white' }}
+        placeholderTextColor={'#CCC'}
+      />
+    </View>
   )
 }
 

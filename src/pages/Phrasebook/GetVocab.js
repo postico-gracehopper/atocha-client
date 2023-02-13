@@ -10,11 +10,12 @@ import { sortedAndFiltered } from '../../components/FilterSortPhraseBook'
 // import { SortPhraseBook } from '../../components/FilterSortPhraseBook'
 import { SearchPhraseBook } from '../../components/FilterSortPhraseBook'
 import { RecencyToggler } from '../../components/FilterSortPhraseBook'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const GetVocab = () => {
   const [vocabWords, setVocabWords] = useState([])
   let [filter, setFilter] = useState('All')
-  let [sortBy, setSortBy] = useState('-')
+  // let [sortBy, setSortBy] = useState('-')
   let [searchBy, setSearchBy] = useState('')
   let [mostRecentFirst, setMostRecentFirst] = useState(true)
   const { currentUser } = useAuth()
@@ -60,24 +61,15 @@ const GetVocab = () => {
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.searchSortFilterContainer}>
+        <FilterPhraseBook setFilter={setFilter} onlyLangs={availableLangs} />
         <SearchPhraseBook searchBy={searchBy} setSearchBy={setSearchBy} />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            marginTop: 10,
-          }}
-        >
-          <FilterPhraseBook setFilter={setFilter} onlyLangs={availableLangs} />
-          <RecencyToggler
-            newestFirst={mostRecentFirst}
-            setNewestFirst={setMostRecentFirst}
-          />
-        </View>
+        <RecencyToggler
+          newestFirst={mostRecentFirst}
+          setNewestFirst={setMostRecentFirst}
+        />
       </View>
+      <Text style={styles.notYet}>Phrasebook</Text>
       <ScrollView style={styles.scrollView}>
         {vocabWordsFiltered.map((word) => (
           <View key={word.id} style={styles.wordContainer}>
@@ -123,6 +115,29 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     maxWidth: '50%',
     textAlign: 'right',
+  },
+  searchSortFilterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    marginTop: 0,
+    backgroundColor: colors.primary,
+    position: 'fixed',
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  notYet: {
+    marginTop: 30,
+    marginBottom: 30,
+    paddingTop: 40,
+    paddingLeft: 10,
+    width: '100%',
+    fontSize: 80,
+    lineHeight: 70,
+    fontFamily: 'arsilon',
+    color: colors.white,
+    zIndex: 1,
   },
 })
 
