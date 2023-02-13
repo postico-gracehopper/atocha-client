@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   starContainer: {
-    fontFamily: 'lora_semibold',
+    fontFamily: 'lora_bold',
     fontSize: 22,
     color: colors.white,
     flexDirection: 'row',
@@ -325,14 +325,13 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   vocabDefinition: {
-    fontFamily: 'lora',
-    fontStyle: 'italic',
+    fontFamily: 'lora_regular_italic',
     letterSpacing: 1,
     fontSize: 22,
     color: colors.white,
     textAlign: 'left',
     paddingVertical: 8,
-    paddingLeft: 40,
+    paddingLeft: 30,
   },
   wordContainer: {
     marginBottom: 6,
