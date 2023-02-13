@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     maxWidth: '50%',
     textAlign: 'left',
-    fontFamily: 'lora',
+    textTransform: 'uppercase',
+    // fontFamily: 'lora',
   },
   definition: {
     fontSize: 20,

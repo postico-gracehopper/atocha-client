@@ -436,8 +436,6 @@ const styles = StyleSheet.create({
   },
   generatedTextActiveContainer: {
     backgroundColor: 'rgba(169, 169, 169, 0.2)',
-    borderBottomColor: colors.white,
-    borderBottomWidth: 1,
     flexDirection: 'column',
     flex: 1,
     paddingLeft: 20,
