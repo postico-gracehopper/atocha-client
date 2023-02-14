@@ -24,9 +24,9 @@ const GetVocab = () => {
         const vocabWords = querySnapshot.docs.map((doc) => {
           return {
             id: doc.id,
-            vocabWord: doc.data().vocabWord,
+            vocabWord: doc.data().vocabWord.trim(''),
             originalLang: doc.data().originalLang,
-            definition: doc.data().definition,
+            definition: doc.data().definition.trim(''),
             dateAdded: doc.data().dateAdded,
           }
         })
@@ -56,7 +56,9 @@ const GetVocab = () => {
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
-          marginTop: 30,
+          marginTop: -30,
+          // borderTopColor: colors.gray,
+          // borderTopWidth: 2,
         }}
       >
         <FilterPhraseBook setFilter={setFilter} />
@@ -65,10 +67,13 @@ const GetVocab = () => {
       <ScrollView style={styles.scrollView}>
         {vocabWordsFiltered.map((word) => (
           <View key={word.id} style={styles.wordContainer}>
-            <Text style={styles.vocabWord}>
-              {langFlags[word.originalLang]} {word.vocabWord}
-            </Text>
-            <Text style={styles.definition}>{word.definition}</Text>
+            <View style={styles.wordBlock}>
+              <Text>{langFlags[word.originalLang]}</Text>
+              <Text style={styles.vocabWord}>{word.vocabWord}</Text>
+            </View>
+            <View>
+              <Text style={styles.definition}>{word.definition}</Text>
+            </View>
           </View>
         ))}
       </ScrollView>
@@ -81,32 +86,42 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollView: {
-    flex: 1,
-    alignSelf: 'center',
-    justifySelf: 'center',
+    // flex: 1,
+    // alignSelf: 'center',
+    // justifySelf: 'center',
   },
   wordContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     margin: 4,
-    maxWidth: '95%',
+    maxWidth: '90%',
   },
   vocabWord: {
-    fontSize: 22,
-    color: 'white',
+    fontSize: 13,
+    lineHeight: 16,
+    textTransform: 'uppercase',
+    letterSpacing: 1.2,
+    // fontStyle: 'italic',
+    // fontWeight: 'bold',
+    color: colors.white,
     flexWrap: 'wrap',
-    maxWidth: '50%',
+    maxWidth: '70%',
     textAlign: 'left',
-    fontFamily: 'Cochin',
+    marginBottom: 16,
+    marginLeft: 5,
   },
   definition: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.lightPrimary,
-    fontFamily: 'Cochin',
+    fontSize: 16,
+    lineHeight: 16,
+    color: colors.white,
+    fontFamily: 'lora_regular_italic',
+    // fontStyle: 'italic',
     flexWrap: 'wrap',
-    maxWidth: '50%',
-    textAlign: 'right',
+    maxWidth: 120,
+    marginBottom: 16,
+  },
+  wordBlock: {
+    width: '70%',
+    flexDirection: 'row',
   },
 })
 

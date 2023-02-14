@@ -199,26 +199,28 @@ const Details = () => {
         />
 
         <View style={styles.controlContainer}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'column', top: 0 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View>
               <LanguagePicker
                 styles={styles}
                 chosenLanguage={langSource}
                 onValueChange={onInputValueChange}
               />
             </View>
+            <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
+              <MaterialCommunityIcons
+                name="arrow-u-right-top"
+                size={30}
+                color={colors.brightPrimary}
+              />
+            </Pressable>
             <View style={styles.recordButtonContainer}>
-              <Pressable
-                title="SWAP LANGUAGES"
-                onPress={handleLanguageSwap}
-                style={{ paddingBottom: 10 }}
-              >
-                <MaterialCommunityIcons
-                  name="swap-horizontal"
-                  size={35}
-                  color={colors.white}
-                />
-              </Pressable>
               <Pressable
                 style={
                   isRecording ? styles.recordButtonOff : styles.recordButtonOn
@@ -229,11 +231,18 @@ const Details = () => {
               >
                 <MaterialCommunityIcons
                   name={'microphone'}
-                  size={45}
-                  color={colors.primary}
+                  size={40}
+                  color={isRecording ? 'white' : colors.brightPrimary}
                 />
               </Pressable>
             </View>
+            <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
+              <MaterialCommunityIcons
+                name="arrow-u-left-bottom"
+                size={30}
+                color={colors.brightPrimary}
+              />
+            </Pressable>
             <LanguagePicker
               styles={styles}
               chosenLanguage={langTarget}
@@ -263,16 +272,12 @@ Details.defaultProps = {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: colors.lightGrayPurple,
   },
   image: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   transparentOverlay: {
-    backgroundColor: 'rgba(47,00,24,0.8)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -280,28 +285,30 @@ const styles = StyleSheet.create({
     right: 0,
   },
   languagePickerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingTop: 35,
-    paddingBottom: 15,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+    // width: '100%',
+    // paddingTop: 35,
+    // paddingBottom: 15,
   },
   picker: {
-    width: 170,
+    width: 160,
+    marginHorizontal: -20,
+    transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
   },
   onePickerItem: {
-    height: 130,
+    height: 100,
     color: colors.white,
     fontSize: 18,
     fontStyle: 'bold',
   },
   textInputContainer: {
     flex: 5,
+    maxHeight: '90%',
     width: '100%',
     paddingLeft: 20,
     paddingRight: 50,
-    fontFamily: 'Cochin',
     paddingTop: 85,
   },
   listeningViewContainer: {
@@ -316,7 +323,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: colors.white,
-    fontSize: 25,
+    fontSize: 28,
+    fontFamily: 'lora',
     height: '100%',
   },
   headerContainer: {
@@ -326,16 +334,18 @@ const styles = StyleSheet.create({
   },
   textOutputTag: {
     textTransform: 'uppercase',
-    color: colors.white,
+    letterSpacing: 1.5,
+    color: colors.brightPrimary,
     fontSize: 15,
+    fontWeight: '700',
     paddingRight: 10,
-    fontFamily: 'Cochin',
   },
   controlContainer: {
-    height: 135,
+    height: 100,
     position: 'absolute',
-    bottom: 15,
+    bottom: 0,
     width: '100%',
+    // backgroundColor: colors.pink,
   },
   recordButtonContainer: {
     display: 'flex',
@@ -343,27 +353,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+    marginHorizontal: 10,
   },
   recordButtonOn: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 100,
     backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   recordButtonOff: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 100,
-    backgroundColor: colors.pink,
+    backgroundColor: colors.brightPrimary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   resetButtonContainer: {
     position: 'absolute',
-    top: 65,
-    right: 20,
+    top: 55,
+    right: 8,
     zIndex: '1',
   },
   resetButton: {
@@ -373,38 +384,40 @@ const styles = StyleSheet.create({
     paddingRight: 70,
   },
   partialText: {
-    marginTop: 5,
+    marginTop: 8,
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.gray,
-    fontSize: 20,
-    fontFamily: 'Cochin',
+    fontSize: 16,
+    fontFamily: 'lora',
+    lineHeight: 24,
   },
   finalText: {
-    marginTop: 5,
+    marginTop: 8,
     paddingLeft: 10,
     paddingRight: 10,
     color: colors.white,
-    fontSize: 20,
-    fontFamily: 'Cochin',
+    fontSize: 16,
+    fontFamily: 'lora',
+    lineHeight: 24,
   },
   teacherText: {
     color: colors.white,
-    fontSize: 20,
-    fontFamily: 'Cochin',
+    fontSize: 15,
+    lineHeight: 24,
   },
   generatedTextContainer: {
-    flex: 1,
+    flex: 1.8,
     width: '100%',
-    paddingTop: 50,
-    bottom: 150,
+    // paddingTop: 50,
+    // bottom: 150,
   },
   textOutputContainer: {
     flex: 1,
     width: '100%',
     paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 85,
+    paddingTop: 55,
+    paddingBottom: 30,
   },
   generatedTextHeader: {
     flexDirection: 'row',
@@ -425,8 +438,10 @@ const styles = StyleSheet.create({
   },
   generatedTextHeaderText: {
     color: colors.white,
-    fontSize: 18,
-    fontFamily: 'Cochin',
+    fontSize: 11,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    padding: 12,
   },
   generatedTextActiveContainer: {
     backgroundColor: 'rgba(169, 169, 169, 0.2)',
@@ -434,46 +449,54 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 20,
     paddingRight: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     paddingTop: 20,
+    paddingBottom: 20,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: -80,
+    marginLeft: 20,
   },
   loadingText: {
     fontSize: 16,
+    fontSize: 13,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
     marginTop: 10,
     color: colors.white,
   },
   generatePressable: {
-    paddingVertical: 12,
+    marginTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: colors.primary,
-    borderColor: colors.gray,
-    borderWidth: 1,
+    backgroundColor: colors.brightPrimary,
   },
   generatePressableText: {
     fontSize: 18,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora_bold',
     color: colors.white,
   },
   suggestionPressable: {
     borderRadius: 20,
-    borderColor: colors.gray,
-    borderWidth: 1,
-    paddingLeft: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 18,
     width: '100%',
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 12,
   },
   suggestionsText: {
     color: colors.white,
-    fontSize: 20,
-    fontFamily: 'Cochin',
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  suggestionsTextTarget: {
+    color: colors.white,
+    fontSize: 10,
+    fontStyle: 'italic',
   },
   scrollView: {
     flex: 1,

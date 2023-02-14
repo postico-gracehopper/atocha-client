@@ -91,6 +91,6 @@ const styles = StyleSheet.create({
   chooseText: {
     color: colors.white,
     fontSize: 32,
-    fontFamily: 'Cochin',
+    fontFamily: 'lora',
   },
 })

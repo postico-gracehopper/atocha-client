@@ -17,7 +17,7 @@ import host from '../../utils/host'
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={colors.brightPrimary} />
       <Text style={styles.loadingText}>Loading...</Text>
     </View>
   )
@@ -255,6 +255,9 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
+    fontSize: 13,
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
     marginTop: 10,
     color: colors.white,
   },
@@ -276,8 +279,8 @@ const styles = StyleSheet.create({
   },
   notYetSubtext: {
     marginTop: 10,
-    fontSize: 26,
-    fontFamily: 'Baskerville',
+    fontSize: 23,
+    fontFamily: 'lora',
     color: colors.white,
     paddingHorizontal: 30,
   },
@@ -308,11 +311,11 @@ const styles = StyleSheet.create({
   },
   vocabPressableText: {
     fontSize: 18,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora_bold',
     color: colors.white,
   },
   starContainer: {
-    fontFamily: 'Baskerville-SemiBold',
+    fontFamily: 'lora_bold',
     fontSize: 22,
     color: colors.white,
     flexDirection: 'row',
@@ -321,18 +324,17 @@ const styles = StyleSheet.create({
   vocabContainer: {
     alignContent: 'flex-start',
     flexWrap: 'wrap',
-    paddingTop: 60,
+    paddingTop: 40,
     maxWidth: '100%',
   },
   vocabDefinition: {
-    fontFamily: 'Baskerville',
-    fontStyle: 'italic',
+    fontFamily: 'lora_regular_italic',
     letterSpacing: 1,
     fontSize: 22,
     color: colors.white,
     textAlign: 'left',
     paddingVertical: 8,
-    paddingLeft: 40,
+    paddingLeft: 30,
   },
   wordContainer: {
     marginBottom: 6,

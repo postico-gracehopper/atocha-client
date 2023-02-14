@@ -35,11 +35,17 @@ const TextOutput = ({
           />
         )}
       </View>
-      {isFinal ? (
-        <Text style={styles.finalText}>{text}</Text>
-      ) : (
-        <Text style={styles.partialText}>{text}</Text>
-      )}
+      {/* The below controls how much text to show before scrolling. */}
+      <ScrollView
+        style={{ maxHeight: 80 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {isFinal ? (
+          <Text style={styles.finalText}>{text}</Text>
+        ) : (
+          <Text style={styles.partialText}>{text}</Text>
+        )}
+      </ScrollView>
     </>
   )
 }
