@@ -1,5 +1,5 @@
 import { React } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text, Pressable } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import SelectDropdown from 'react-native-select-dropdown'
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -7,7 +7,6 @@ import languages from '../pages/SelectLanguage/languageList'
 import { SearchBar } from 'react-native-elements'
 import { langFlags } from '../pages/Phrasebook/langFlags'
 import colors from '../theme/colors'
-import { Pressable, Text, View } from 'react-native'
 
 export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
   let availableLangs = [...languages]
@@ -18,47 +17,45 @@ export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
   }
   const data = ['All', ...availableLangs]
 
-import colors from '../theme/colors'
+  const style2 = StyleSheet.create({
+    dropdownBtnStyle: {
+      width: 200,
+      height: 40,
+      backgroundColor: colors.primary,
+      borderColor: colors.fadedPrimary,
+      borderRightWidth: 1,
+    },
+    dropdown1BtnTxtStyle: {
+      color: colors.brightPrimary,
+      fontSize: 14,
+      textAlign: 'left',
+      textTransform: 'uppercase',
+      letterSpacing: 1.5,
+      paddingLeft: 10,
+    },
+    dropdown2BtnTxtStyle: {
+      color: colors.brightPrimary,
+      fontSize: 14,
+      textAlign: 'right',
+      textTransform: 'uppercase',
+      letterSpacing: 1.5,
+      paddingRight: 10,
+    },
+  })
 
-const style2 = StyleSheet.create({
-  dropdownBtnStyle: {
-    width: 200,
-    height: 40,
-    backgroundColor: colors.primary,
-    borderColor: colors.fadedPrimary,
-    borderRightWidth: 1,
-  },
-  dropdown1BtnTxtStyle: {
-    color: colors.brightPrimary,
-    fontSize: 14,
-    textAlign: 'left',
-    textTransform: 'uppercase',
-    letterSpacing: 1.5,
-    paddingLeft: 10,
-  },
-  dropdown2BtnTxtStyle: {
-    color: colors.brightPrimary,
-    fontSize: 14,
-    textAlign: 'right',
-    textTransform: 'uppercase',
-    letterSpacing: 1.5,
-    paddingRight: 10,
-  },
-})
-
-export const FilterPhraseBook = ({ setFilter }) => {
-  const data = [
-    'All',
-    'English',
-    'Spanish',
-    'French',
-    'German',
-    'Portuguese',
-    'Italian',
-    'Russian',
-    'Hindi',
-    'Thai',
-  ]
+  // export const FilterPhraseBook = ({ setFilter }) => {
+  //   const data = [
+  //     'All',
+  //     'English',
+  //     'Spanish',
+  //     'French',
+  //     'German',
+  //     'Portuguese',
+  //     'Italian',
+  //     'Russian',
+  //     'Hindi',
+  //     'Thai',
+  //   ]
 
   return (
     <View>
@@ -75,7 +72,6 @@ export const FilterPhraseBook = ({ setFilter }) => {
             } else setFilter(selectedItem.languageName)
           }}
           defaultButtonText={'All'}
-
           buttonTextAfterSelection={(selectedItem, index) => {
             if (selectedItem === 'All') {
               return 'All'
@@ -214,7 +210,6 @@ export const SearchPhraseBook = ({ searchBy, setSearchBy }) => {
         placeholderTextColor={'#CCC'}
       />
     </View>
-
   )
 }
 
