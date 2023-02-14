@@ -1,4 +1,5 @@
 import { React } from 'react'
+import { View, StyleSheet } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import SelectDropdown from 'react-native-select-dropdown'
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -17,10 +18,56 @@ export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
   }
   const data = ['All', ...availableLangs]
 
+import colors from '../theme/colors'
+
+const style2 = StyleSheet.create({
+  dropdownBtnStyle: {
+    width: 200,
+    height: 40,
+    backgroundColor: colors.primary,
+    borderColor: colors.fadedPrimary,
+    borderRightWidth: 1,
+  },
+  dropdown1BtnTxtStyle: {
+    color: colors.brightPrimary,
+    fontSize: 14,
+    textAlign: 'left',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    paddingLeft: 10,
+  },
+  dropdown2BtnTxtStyle: {
+    color: colors.brightPrimary,
+    fontSize: 14,
+    textAlign: 'right',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    paddingRight: 10,
+  },
+})
+
+export const FilterPhraseBook = ({ setFilter }) => {
+  const data = [
+    'All',
+    'English',
+    'Spanish',
+    'French',
+    'German',
+    'Portuguese',
+    'Italian',
+    'Russian',
+    'Hindi',
+    'Thai',
+  ]
+
   return (
     <View>
       <View>
         <SelectDropdown
+          buttonStyle={style2.dropdownBtnStyle}
+          buttonTextStyle={style2.dropdown1BtnTxtStyle}
+          // buttonTextStyle={{ fontSize: 12 }}
+          // buttonStyle={{ width: 120, height: 40 }}
           data={data}
           onSelect={(selectedItem, index) => {
             if (selectedItem === 'All') {
@@ -28,6 +75,7 @@ export const FilterPhraseBook = ({ setFilter, onlyLangs }) => {
             } else setFilter(selectedItem.languageName)
           }}
           defaultButtonText={'All'}
+
           buttonTextAfterSelection={(selectedItem, index) => {
             if (selectedItem === 'All') {
               return 'All'
@@ -166,6 +214,7 @@ export const SearchPhraseBook = ({ searchBy, setSearchBy }) => {
         placeholderTextColor={'#CCC'}
       />
     </View>
+
   )
 }
 

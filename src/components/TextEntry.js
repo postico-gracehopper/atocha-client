@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { TextInput, View } from 'react-native'
+import { ScrollView, TextInput, View } from 'react-native'
 
 import colors from '../theme/colors'
 import languages from '../pages/SelectLanguage/languageList'
@@ -30,16 +30,18 @@ const TextEntry = ({ styles, onSubmitEditing, langCode, handleReset }) => {
           disabled={isSuggestionLoading || isTeacherLoading}
         />
       </View>
-      <TextInput
-        value={transcribedText}
-        style={styles.textInput}
-        placeholderTextColor={colors.gray}
-        placeholder={promptString}
-        multiline={true}
-        returnKeyType="done"
-        onChangeText={handleChangeText}
-        onSubmitEditing={onSubmitEditing}
-      />
+      <ScrollView>
+        <TextInput
+          value={transcribedText}
+          style={styles.textInput}
+          placeholderTextColor={colors.gray}
+          placeholder={promptString}
+          multiline={true}
+          returnKeyType="done"
+          onChangeText={handleChangeText}
+          onSubmitEditing={onSubmitEditing}
+        />
+      </ScrollView>
     </View>
   )
 }

@@ -114,7 +114,9 @@ const SignUp = () => {
             value={email}
             secureTextEntry={false}
           />
-          {emailError ? null : <Text>Valid email required</Text>}
+          {emailError ? null : (
+            <Text style={styles.error}>Valid email required</Text>
+          )}
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     fontSize: 100,
   },
   signOutBtn: {
-    width: '90%',
+    width: 200,
     borderRadius: 25,
     height: 40,
     alignItems: 'center',
@@ -186,14 +188,8 @@ const styles = StyleSheet.create({
     height: 400,
     alignItems: 'center',
     marginTop: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    // backgroundColor: 'rgba(255, 255, 255, 0.75)',
     borderRadius: 25,
-  },
-  error: {
-    marginTop: 10,
-    borderRadius: 20,
-    color: colors.primary,
-    fontSize: 16,
   },
   image: {
     flex: 1,
@@ -215,7 +211,7 @@ const styles = StyleSheet.create({
   error: {
     marginTop: 10,
     borderRadius: 20,
-    color: colors.primary,
+    color: colors.white,
     fontSize: 16,
   },
 })

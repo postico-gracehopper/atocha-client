@@ -18,11 +18,11 @@ const SingleSuggestion = ({ styles, onPress, sourceText, targetText }) => {
       >
         <View>
           <Text style={[styles.suggestionsText, { paddingBottom: 7 }]}>
-            {sourceText}
+            >&nbsp;&nbsp;{sourceText}
           </Text>
         </View>
         <View>
-          <Text style={styles.suggestionsText}>{targetText}</Text>
+          <Text style={styles.suggestionsTextTarget}>{targetText}</Text>
         </View>
       </Pressable>
     </View>

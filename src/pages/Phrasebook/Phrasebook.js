@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const Loading = () => {
   return (
     <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={colors.brightPrimary} />
       <Text style={styles.loadingText}>Loading...</Text>
     </View>
   )
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     lineHeight: 70,
     fontFamily: 'arsilon',
     color: colors.white,
+    backgroundColor: colors.primary,
     zIndex: 1,
   },
   notYetContainer: {
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   notYetSubtext: {
     marginTop: 10,
     fontSize: 26,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
     color: colors.white,
     paddingHorizontal: 30,
   },

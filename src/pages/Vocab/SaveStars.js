@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   vocabPressableText: {
     fontSize: 18,
-    fontFamily: 'Baskerville',
+    fontFamily: 'lora',
   },
 })
 
