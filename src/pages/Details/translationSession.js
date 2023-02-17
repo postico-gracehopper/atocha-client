@@ -54,13 +54,9 @@ const translationSession = ({
           dispatch(setTranscribedText(partialTranscription))
         })
         socket.on('final-transcription', (finalTranscription) => {
-          if (finalTranscription === '')
-            dispatch(setTranscribedText('Please record again...'))
-          else {
-            dispatch(setTranscribedText(finalTranscription))
-            dispatch(addToConversation(finalTranscription))
-            closureTransciption = finalTranscription
-          }
+          dispatch(setTranscribedText(finalTranscription))
+          dispatch(addToConversation(finalTranscription))
+          closureTransciption = finalTranscription
           dispatch(setIsTranscriptionFinal(true))
         })
         socket.on('session-complete', () => {

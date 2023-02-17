@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { View, Dimensions, Pressable, Text } from 'react-native'
+import { View } from 'react-native'
 import {
   TextEntry,
   TextOutput,
@@ -9,12 +9,9 @@ import {
 } from '../../components/'
 
 import { colors } from 'theme'
-import TeacherView from './TeacherView'
-import SuggestingsView from './SuggestionsView'
+import GenerateTextView from './GeneratedTextView'
 
 const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
-  const [generatedTextView, setGeneratedTextView] = React.useState('teacher')
-
   const {
     translatedText,
     transcribedText,
@@ -88,44 +85,7 @@ const TranslationViewPort = ({ styles, handleReset, handleTextSubmit }) => {
               isSource={false}
             />
           </View>
-          {isTranslationFinal ? (
-            <View style={styles.generatedTextContainer}>
-              <View style={styles.generatedTextHeader}>
-                <Pressable
-                  style={
-                    generatedTextView === 'teacher'
-                      ? styles.generatedTextHeaderActive
-                      : styles.generatedTextHeaderInactive
-                  }
-                  disabled={generatedTextView === 'teacher'}
-                  onPress={() => {
-                    setGeneratedTextView('teacher')
-                  }}
-                >
-                  <Text style={styles.generatedTextHeaderText}>Teach me</Text>
-                </Pressable>
-                <Pressable
-                  style={
-                    generatedTextView === 'recommendations'
-                      ? styles.generatedTextHeaderActive
-                      : styles.generatedTextHeaderInactive
-                  }
-                  disabled={generatedTextView === 'recommendations'}
-                  onPress={() => {
-                    setGeneratedTextView('recommendations')
-                  }}
-                >
-                  <Text style={styles.generatedTextHeaderText}>Respond</Text>
-                </Pressable>
-              </View>
-              {generatedTextView === 'teacher' ? (
-                <TeacherView styles={styles} />
-              ) : null}
-              {generatedTextView === 'recommendations' ? (
-                <SuggestingsView styles={styles} />
-              ) : null}
-            </View>
-          ) : null}
+          {isTranslationFinal ? <GenerateTextView styles={styles} /> : null}
         </>
       ) : null}
     </>
