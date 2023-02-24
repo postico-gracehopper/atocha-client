@@ -4,7 +4,6 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   translatedText: '',
   transcribedText: '',
-  recordingURI: '',
   isTranslationFinal: false,
   isTranscriptionFinal: false,
   sourceLanguageOutput: '',
@@ -17,6 +16,7 @@ const initialState = {
   isSuggestionSubmitted: false,
   isSuggestionLoading: false,
   viewMode: 'text-input',
+  recordingURI: '',
 }
 
 const translationSlice = createSlice({
@@ -75,6 +75,22 @@ const translationSlice = createSlice({
     setViewMode: (state, action) => {
       state.viewMode = action.payload
     },
+    resetTranslationSession: (state, action) => {
+      state.translatedText = ''
+      state.transcribedText = ''
+      state.recordingURI = ''
+      state.isTranslationFinal = false
+      state.isTranscriptionFinal = false
+      state.sourceLanguageOutput = ''
+      state.targetLanguageOutput = ''
+      state.teacherGeneratedText = ''
+      state.isTeacherSubmitted = false
+      state.isTeacherLoading = false
+      state.suggestionGeneratedText = []
+      state.savedConversation = ''
+      state.isSuggestionSubmitted = false
+      state.isSuggestionLoading = false
+    },
   },
 })
 
@@ -102,6 +118,7 @@ export const {
   setViewMode,
   addToConversation,
   setSavedConversation,
+  resetTranslationSession,
 } = translationSlice.actions
 
 export default translationSlice.reducer

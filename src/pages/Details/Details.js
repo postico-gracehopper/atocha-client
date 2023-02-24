@@ -1,36 +1,23 @@
 /* eslint-disable no-use-before-define */
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  StyleSheet,
-  ImageBackground,
-  View,
-  StatusBar,
-  Pressable,
-} from 'react-native'
+import { StyleSheet, ImageBackground, View, StatusBar } from 'react-native'
 import { Audio } from 'expo-av'
 import PropTypes from 'prop-types'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { colors } from 'theme'
-import { LanguagePicker } from '../../components/'
 
 import {
-  setTranslatedText,
-  setTranscribedText,
-  setIsTranslationFinal,
   setIsTranscriptionFinal,
   setSourceLanguageOutput,
   setTargetLanguageOutput,
-  setIsTeacherSubmitted,
-  setTeacherGeneratedText,
   setViewMode,
   setIsSuggestionSubmitted,
-  setSuggestionGeneratedText,
-  setSavedConversation,
   addToConversation,
   setRecordingURI,
+  resetTranslationSession,
 } from '../../slices/translationSlice'
+
 import {
   setInputLanguage,
   setOutputLanguage,
@@ -38,16 +25,18 @@ import {
   setInputLanguageString,
   setOutputLanguageString,
 } from '../../slices/languagePickerSlice'
-import languages from '../SelectLanguage/languageList'
 
+import languages from '../SelectLanguage/languageList'
 import translationSession from './translationSession'
 import textTranslationSession from './textTranslationSession'
 import TranslationViewPort from './TranslationViewPort'
+import ControlPanelView from './ControlPanelView'
+
+import { useAuth } from '../../../context/authContext'
 
 const image = {
   uri: 'https://i.pinimg.com/564x/d9/42/60/d942607c490f0b816e5e8379b57eb91e.jpg',
 }
-import { useAuth } from '../../../context/authContext'
 
 const Details = () => {
   const [recording, setRecording] = React.useState()
@@ -55,8 +44,7 @@ const Details = () => {
 
   const { currentUser } = useAuth()
 
-  const { transcribedText, isTeacherLoading, isSuggestionLoading } =
-    useSelector((state) => state.translation)
+  const { transcribedText } = useSelector((state) => state.translation)
   const { langSource, langTarget, langSourceName, langTargetName } =
     useSelector((state) => state.languagePicker)
 
@@ -66,18 +54,8 @@ const Details = () => {
     console.log('Starting recording..')
     setIsRecording(true)
     dispatch(setViewMode('audio-input'))
-    dispatch(setTranscribedText(''))
-    dispatch(setTranslatedText(''))
-    dispatch(setIsTranscriptionFinal(false))
-    dispatch(setIsTranslationFinal(false))
-    dispatch(setIsTeacherSubmitted(false))
-    dispatch(setIsSuggestionSubmitted(false))
-    dispatch(setTeacherGeneratedText(''))
-    dispatch(setSuggestionGeneratedText([]))
-    dispatch(setSavedConversation(''))
-    dispatch(setSourceLanguageOutput(''))
-    dispatch(setTargetLanguageOutput(''))
-    dispatch(setRecordingURI(''))
+    dispatch(resetTranslationSession())
+
     try {
       await Audio.requestPermissionsAsync()
       await Audio.setAudioModeAsync({
@@ -95,9 +73,9 @@ const Details = () => {
 
   async function stopRecording() {
     console.log('Stopping recording..')
-    dispatch(setViewMode('translation-output'))
     setIsRecording(false)
     setRecording(undefined)
+    dispatch(setViewMode('translation-output'))
     dispatch(setSourceLanguageOutput(langSourceName))
     dispatch(setTargetLanguageOutput(langTargetName))
     await recording.stopAndUnloadAsync()
@@ -171,17 +149,8 @@ const Details = () => {
     if (recording) {
       await recording.stopAndUnloadAsync()
     }
-    dispatch(setTranscribedText(''))
-    dispatch(setTranslatedText(''))
-    dispatch(setIsTranscriptionFinal(false))
-    dispatch(setIsTranslationFinal(false))
-    dispatch(setSourceLanguageOutput(''))
-    dispatch(setTargetLanguageOutput(''))
-    dispatch(setIsTeacherSubmitted(false))
-    dispatch(setTeacherGeneratedText(''))
-    dispatch(setSavedConversation(''))
-    dispatch(setSuggestionGeneratedText([]))
-    dispatch(setRecordingURI(''))
+
+    dispatch(resetTranslationSession())
   }
 
   return (
@@ -198,58 +167,16 @@ const Details = () => {
           handleTextSubmit={handleTextSubmit}
         />
 
-        <View style={styles.controlContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <View>
-              <LanguagePicker
-                styles={styles}
-                chosenLanguage={langSource}
-                onValueChange={onInputValueChange}
-              />
-            </View>
-            <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
-              <MaterialCommunityIcons
-                name="arrow-u-right-top"
-                size={30}
-                color={colors.brightPrimary}
-              />
-            </Pressable>
-            <View style={styles.recordButtonContainer}>
-              <Pressable
-                style={
-                  isRecording ? styles.recordButtonOff : styles.recordButtonOn
-                }
-                title={isRecording ? 'STOP' : 'RECORD'}
-                onPress={recording ? stopRecording : startRecording}
-                disabled={isTeacherLoading || isSuggestionLoading}
-              >
-                <MaterialCommunityIcons
-                  name={'microphone'}
-                  size={40}
-                  color={isRecording ? 'white' : colors.brightPrimary}
-                />
-              </Pressable>
-            </View>
-            <Pressable title="SWAP LANGUAGES" onPress={handleLanguageSwap}>
-              <MaterialCommunityIcons
-                name="arrow-u-left-bottom"
-                size={30}
-                color={colors.brightPrimary}
-              />
-            </Pressable>
-            <LanguagePicker
-              styles={styles}
-              chosenLanguage={langTarget}
-              onValueChange={onOutputValueChange}
-            />
-          </View>
-        </View>
+        <ControlPanelView
+          styles={styles}
+          startRecording={startRecording}
+          stopRecording={stopRecording}
+          onInputValueChange={onInputValueChange}
+          onOutputValueChange={onOutputValueChange}
+          handleLanguageSwap={handleLanguageSwap}
+          isRecording={isRecording}
+          recording={recording}
+        />
       </ImageBackground>
     </View>
   )
@@ -284,14 +211,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  languagePickerContainer: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'space-between',
-    // width: '100%',
-    // paddingTop: 35,
-    // paddingBottom: 15,
-  },
+  languagePickerContainer: {},
   picker: {
     width: 160,
     marginHorizontal: -20,
@@ -345,7 +265,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    // backgroundColor: colors.pink,
   },
   recordButtonContainer: {
     display: 'flex',
@@ -409,8 +328,6 @@ const styles = StyleSheet.create({
   generatedTextContainer: {
     flex: 1.8,
     width: '100%',
-    // paddingTop: 50,
-    // bottom: 150,
   },
   textOutputContainer: {
     flex: 1,
@@ -456,7 +373,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -80,
+    paddingBottom: 80,
     marginLeft: 20,
   },
   loadingText: {
