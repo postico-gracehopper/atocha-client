@@ -43,17 +43,21 @@ const translationSession = ({
           })
         })
         socket.on('partial-translation', (partialTranslation) => {
+          console.log('partial translation: ', partialTranslation)
           dispatch(setTranslatedText(partialTranslation.translation))
         })
         socket.on('final-translation', (finalTranslation) => {
+          console.log('final translation: ', finalTranslation)
           dispatch(setTranslatedText(finalTranslation.translation))
           dispatch(setIsTranslationFinal(true))
           closureTranslation = finalTranslation.translation
         })
         socket.on('partial-transcription', (partialTranscription) => {
+          console.log('partial transcription: ', partialTranscription)
           dispatch(setTranscribedText(partialTranscription))
         })
         socket.on('final-transcription', (finalTranscription) => {
+          console.log('final transcription: ', finalTranscription)
           dispatch(setTranscribedText(finalTranscription))
           dispatch(addToConversation(finalTranscription))
           closureTransciption = finalTranscription
