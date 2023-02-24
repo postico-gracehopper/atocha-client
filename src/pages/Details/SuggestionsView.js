@@ -101,21 +101,21 @@ const SuggestingsView = ({ styles }) => {
   }
 
   const onPress = async (updatedText) => {
-    dispatch(setIsTranscriptionFinal(true))
-    dispatch(setIsTranslationFinal(false))
-    dispatch(setTranscribedText(updatedText))
+    dispatch(setViewMode('translation-output'))
     dispatch(setTranslatedText(''))
+    dispatch(setRecordingURI(''))
+    dispatch(setIsTranslationFinal(false))
+    dispatch(setIsTranscriptionFinal(true))
+    dispatch(setTranscribedText(updatedText))
     dispatch(addToConversation(updatedText))
     dispatch(setIsTeacherSubmitted(false))
     dispatch(setIsSuggestionSubmitted(false))
     dispatch(setSuggestionGeneratedText([]))
     dispatch(setTeacherGeneratedText(''))
-    dispatch(setViewMode('translation-output'))
     dispatch(setSourceLanguageOutput(langSourceName))
     dispatch(setTargetLanguageOutput(langTargetName))
     dispatch(setIsTeacherLoading(false))
     dispatch(setIsSuggestionLoading(false))
-    dispatch(setRecordingURI(''))
     textTranslationSession({
       transcribedText,
       langSource,
