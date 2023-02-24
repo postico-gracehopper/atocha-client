@@ -22,7 +22,7 @@ const TextOutput = ({
     const timeout = setTimeout(() => {
       if (isSource && text.length === 0) setIsTextEmpty(true)
       else setIsTextEmpty(false)
-    }, 1500)
+    }, 3000)
     return () => clearTimeout(timeout)
   }, [text])
 
